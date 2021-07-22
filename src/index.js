@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Pokedex from "../src/components/Pokedex"
+import Pokedex from "./components/Pokedex/Pokedex";
+import './index.css';
 
 ReactDOM.render(
-  <Pokedex />,
-  document.getElementById('root')
+    <Pokedex />,
+    document.getElementById('root')
 );

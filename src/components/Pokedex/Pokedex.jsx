@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import PokedexScreen from './PokedexScreen';
-import PokemonForm from './PokemonForm';
-import '../styles/pokedex.sass';
+import PokedexScreen from '../PokedexScreen/PokedexScreen';
+import PokemonForm from '../PokemonForm/PokemonForm';
+import './Pokedex.css';
 
 
 
@@ -10,9 +10,10 @@ function Pokedex(){
   const [ error, setError ] = useState(false)
   const [ loading, setLoading ] = useState(true)
   const [ pokemon, setPokemon ] = useState(null)
-  const RandomId = Math.floor(Math.random() * 806 + 1)
-  const [ pokemonID, setPokemonId ] = useState(RandomId) // Inicamos con ID random para siempre tener un pokemón
+  // const RandomId = Math.floor(Math.random() * 151 + 1)
+  // const RandomId = Math.floor(Math.random() * 806 + 1)
 
+  const [ pokemonID, setPokemonId ] = useState(0);
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
       .then(res => res.json())

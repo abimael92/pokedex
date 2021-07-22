@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import './PokemonForm.css'
+
 
 function PokemonForm({ setPokemonId, setLoading, setError }){
   const [ pokemon, setPokemon ] = useState('')
@@ -13,8 +15,9 @@ function PokemonForm({ setPokemonId, setLoading, setError }){
         setPokemonId(pokemonID)
         setPokemon('')
         return
+      } else {
+        setError(true);
       }
-      setError(true) //Si manda el formulario vacío, hay un error
     }
 
   return (
@@ -24,7 +27,7 @@ function PokemonForm({ setPokemonId, setLoading, setError }){
         type="text"
         name="pokemon"
         value={pokemon}
-        placeholder="Busca tu pokemon"
+        placeholder="Search..."
         //Actualizas el valor del input cuando el usuario teclea
         onChange={e => setPokemon(e.target.value)}
         autoComplete="off"/>

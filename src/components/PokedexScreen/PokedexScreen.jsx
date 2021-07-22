@@ -1,7 +1,8 @@
 import React from 'react';
-import ErrorPokemon from '../img/error.gif'
-import LoadingPokemon from '../img/loading.gif'
-import Stat from './Stat'
+import ErrorPokemon from '../../img/error.gif';
+import LoadingPokemon from '../../img/loading.gif';
+import Stat from '../Stat/Stat';
+import './PokedexScreen.css';
 
 function PokedexScreen({ pokemon, loading, error }){
 
