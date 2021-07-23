@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PokedexScreen from '../PokedexScreen/PokedexScreen';
+import FrontScreen from '../PokedexScreen/PokedexScreenFront';
+import BackScreen from '../PokedexScreen copy/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
 import './Pokedex.css';
 
@@ -13,7 +14,7 @@ function Pokedex(){
   // const RandomId = Math.floor(Math.random() * 151 + 1)
   // const RandomId = Math.floor(Math.random() * 806 + 1)
 
-  const [ pokemonID, setPokemonId ] = useState(0);
+  const [ pokemonID, setPokemonId ] = useState(25);
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
       .then(res => res.json())
@@ -29,6 +30,11 @@ function Pokedex(){
       })
   }, [pokemonID])
 
+  function flipCard(cardID) {
+    const card = document.getElementById(`${cardID}`);
+    card.classList.toggle("flipped");
+  }
+
     return (
       <div className="pokedex">
         <div className="pokedex-left">
@@ -38,12 +44,9 @@ function Pokedex(){
             <div className="light is-yellow" />
             <div className="light is-green" />
           </div>
-          <div className="pokedex-screen-container">
-          <PokedexScreen
-    pokemon={pokemon}
-    loading={loading}
-    error={error}
-  />
+          <div className="pokedex-screen-container" id={pokemonID} onClick={() => flipCard(pokemonID)}>
+          <FrontScreen pokemon={pokemon} loading={loading} error={error}/>
+          <BackScreen pokemon={pokemon} loading={loading} error={error} stats={pokemon}/>
           </div>
           <div className="pokedex-left-bottom">
             <div className="pokedex-left-bottom-lights">
@@ -58,8 +61,8 @@ function Pokedex(){
 />
           </div>
         </div>
-        <div className="pokedex-right-front" />
-        <div className="pokedex-right-back" />
+        {/* <div className="pokedex-right-front" /> */}
+        {/* <div className="pokedex-right-back" /> */}
       </div>
     )
   }

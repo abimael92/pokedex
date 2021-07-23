@@ -1,14 +1,15 @@
 import React from 'react';
+// import React, { useState, useEffect } from 'react';
 import ErrorPokemon from '../../img/error.gif';
 import LoadingPokemon from '../../img/loading.gif';
 import Stat from '../Stat/Stat';
 import './PokedexScreen.css';
 
-function PokedexScreen({ pokemon, loading, error }){
+function PokedexScreen({ pokemon, loading, error, stats }){
 
     if(error){
         return (
-          <div className="pokedex-screen">
+          <div className="pokedex-screen-back">
             <img
               src={ErrorPokemon}
               alt="Hubo un error buscando tu pokemon"
@@ -19,7 +20,7 @@ function PokedexScreen({ pokemon, loading, error }){
       }
 
   return (
-    <div className="pokedex-screen">
+    <div className="pokedex-screen-back">
         { !pokemon || loading ? // Si no hay pokemon o si esta cargando
         <img
           src={LoadingPokemon}
@@ -33,9 +34,10 @@ function PokedexScreen({ pokemon, loading, error }){
           src={pokemon.sprites.front_default}
           alt={pokemon.name}
         />
-        <ul className="pokemon-stats">
+
+        <ul className="pokemon-stats"> 
         {pokemon.stats.map(item => <Stat key={item.stat.name} item={item}/>)}
-</ul>
+        </ul>
       </div>
 }
     </div>
