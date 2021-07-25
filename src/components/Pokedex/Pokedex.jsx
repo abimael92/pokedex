@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import FrontScreen from '../PokedexScreen/PokedexScreenFront';
-import BackScreen from '../PokedexScreen copy/PokedexScreenBack';
+import FrontScreen from '../PokedexScreenFront/PokedexScreenFront';
+import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
 import './Pokedex.css';
 
@@ -14,7 +14,7 @@ function Pokedex(){
   // const RandomId = Math.floor(Math.random() * 151 + 1)
   // const RandomId = Math.floor(Math.random() * 806 + 1)
 
-  const [ pokemonID, setPokemonId ] = useState(25);
+  const [ pokemonID, setPokemonId ] = useState(4);
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
       .then(res => res.json())
@@ -39,7 +39,7 @@ function Pokedex(){
       <div className="pokedex">
         <div className="pokedex-left">
           <div className="pokedex-left-top">
-          <div className={`light is-sky is-big ${loading && 'is-animated'}`}  />
+          <div className={`light is-sky is-big pulseBox ${loading && 'is-animated'}`}  />
             <div className="light is-red" />
             <div className="light is-yellow" />
             <div className="light is-green" />
@@ -54,11 +54,7 @@ function Pokedex(){
               <div className="light is-green is-large" />
               <div className="light is-orange is-large" />
             </div>
-            <PokemonForm
-  setPokemonId={setPokemonId}
-  setLoading={setLoading}
-  setError={setError}
-/>
+            <PokemonForm setPokemonId={setPokemonId} setLoading={setLoading} setError={setError}/>
           </div>
         </div>
         {/* <div className="pokedex-right-front" /> */}

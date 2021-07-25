@@ -40,10 +40,7 @@
 	width: 40px;
 	height: 40px;
 	position: relative;
-	background: radial-gradient(
-		hsl(0, 100%, 70%),
-		hsl(0, 97%, 25%)
-	); /* Standard syntax */
+	background: radial-gradient(hsl(0, 100%, 70%), hsl(0, 97%, 25%));
 	text-shadow: 0 -1px 0 #c30707;
 	color: white;
 	border: solid 1px hsl(0, 100%, 20%);
@@ -61,14 +58,14 @@
 
 .pokemon-btn:hover {
 	background: radial-gradient(
-		hsl(0, 100%, 70%),
-		hsl(0, 97%, 35%)
+		hsl(0, 97%, 35%),
+		hsl(0, 100%, 70%)
 	); /* Standard syntax */
 }
 
 .pokemon-btn:active {
 	background: radial-gradient(
-		hsl(0, 100%, 80%),
+		hsl(0, 100%, 20%),
 		hsl(0, 100%, 45%)
 	); /* Standard syntax */
 

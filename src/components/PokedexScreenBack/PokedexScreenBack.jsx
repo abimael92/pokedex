@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorPokemon from '../../img/error.gif';
 import LoadingPokemon from '../../img/loading.gif';
 import Stat from '../Stat/Stat';
-import './PokedexScreen.css';
+import './PokedexScreenBack.css';
 
 function PokedexScreen({ pokemon, loading, error, stats }){
 
@@ -27,8 +27,9 @@ function PokedexScreen({ pokemon, loading, error, stats }){
           alt="Aun no hay ningun pokemon"
           className="pokedex-no-screen"
         /> :
-      <div className="pokemon-info">
+        <div>
         <h2 className="pokemon-name">{pokemon.name}</h2>
+      <div className="pokemon-info">
         <img
           className="pokemon-img"
           src={pokemon.sprites.front_default}
@@ -38,6 +39,7 @@ function PokedexScreen({ pokemon, loading, error, stats }){
         <ul className="pokemon-stats"> 
         {pokemon.stats.map(item => <Stat key={item.stat.name} item={item}/>)}
         </ul>
+      </div>
       </div>
 }
     </div>

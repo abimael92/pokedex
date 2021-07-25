@@ -1,5 +1,8 @@
 :root {
 	--red: #dd082f;
+	/* --mRed: repeating-linear-gradient(rgba(59, 2, 13, 1), rgba(221, 8, 47, 1)); */
+	--mRed: repeating-linear-gradient(to right, maroon, crimson, maroon);
+
 	--dark-red: #3b020d;
 	--green: #2ff901;
 	--yellow: #ffcc02;
@@ -13,8 +16,8 @@
 	text-align: center;
 }
 body {
-	background-image: url("https://mocah.org/thumbs/4534233-pokemon-crystal-cgi-3d-colorful-digital-art-pokballs.png");
-	background-size: 100%;
+	background-image: url("https://wallpaperchat.com/walls/full/0/2/a/477922.jpg");
+	background-size: 180%;
 
 	margin: 0;
 	background-color: var(--dark-red);
