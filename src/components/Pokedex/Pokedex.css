@@ -120,6 +120,16 @@
 	border-radius: 50%;
 }
 
+.btn {
+	border: 1px solid black;
+	box-shadow: -2px 2px 0 rgba(255, 255, 255, 0.5);
+	width: 20px;
+	height: 20px;
+	background: gray;
+	border-radius: 10%;
+	text-align: center;
+}
+
 .light.is-animated {
 	animation: 0.3s light linear infinite;
 }
@@ -191,7 +201,7 @@
 	background-color: var(--green);
 }
 .light.is-sky {
-	background: radial-gradient(#000080 0.25%, #00ffff 90%, #000080);
+	background: radial-gradient(#000080 2%, #00ffff);
 }
 .light.is-orange {
 	background-color: var(--orange);
@@ -232,8 +242,8 @@
 }
 
 .pokedex-left-bottom-lights > * {
-	margin-right: 0.9em;
-	margin-left: 0.9em;
+	margin-right: 0.1em;
+	margin-left: 0.1em;
 }
 
 .pokedex-screen {
