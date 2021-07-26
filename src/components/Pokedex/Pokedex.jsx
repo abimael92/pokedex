@@ -4,8 +4,7 @@ import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
 import './Pokedex.css';
 import PokemonEvolveUp from '../PokemonEvolution/PokemonEvolveUp';
-
-
+import PokemonUp from '../PokedexIndex/PokemonUp'
 
 function Pokedex(){
   
@@ -53,10 +52,10 @@ function Pokedex(){
           <PokemonForm setPokemonId={setPokemonId} setLoading={setLoading} setError={setError}/>
           </div>
             <div className="pokedex-left-bottom-lights">
-              <div className="light is-blue is-medium" />
-              <PokemonEvolveUp pokemonID={pokemonID}/>
-              <div className="btn is-medium" onClick={() => setPokemonId(pokemonID - 1)}>-</div>
-              <div className="btn is-medium" onClick={() => setPokemonId(pokemonID + 1)}>+</div>
+              <PokemonUp pokemonID={pokemonID}/>
+              <PokemonEvolveUp pokemon={pokemon} pokemonID={pokemonID}/>
+              {/* <div className="btn is-medium" onClick={() => setPokemonId(pokemonID - 1)}>-</div>
+              <div className="btn is-medium" onClick={() => setPokemonId(pokemonID + 1)}>+</div> */}
             </div>
             
         </div>
