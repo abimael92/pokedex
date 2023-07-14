@@ -5,22 +5,6 @@ import './PokedexScreenFront.css';
 
 function PokedexScreen({ pokemon, loading, error }){
 
-  // const [ evolution, setEvolution ] = useState(null)
-
-  // if(pokemon){
-  //   useEffect(() => {
-  //     fetch(`https://pokeapi.co/api/v2/evolution-trigger${pokemon.id}`)
-  //       .then(res => res.json())
-  //       .then(data => {
-  //         setEvolution(data)
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       })
-  //   }, [evolution])
-
-  // }
-
     if(error){
         return (
           <div className="pokedex-screen">

@@ -8,7 +8,6 @@ function Pokedex() {
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [pokemon, setPokemon] = useState(null);
-	const [prevPokemonId, setPrevPokemonId] = useState(null);
 	const [nextPokemonId, setNextPokemonId] = useState(null);
 	const RandomId = Math.floor(Math.random() * 151 + 1);
 	// const RandomId = Math.floor(Math.random() * 806 + 1)
@@ -35,13 +34,6 @@ function Pokedex() {
 			setNextPokemonId(null);
 		}
 	}, [nextPokemonId]);
-
-	useEffect(() => {
-		if (prevPokemonId !== null) {
-			setPokemonId(prevPokemonId);
-			setPrevPokemonId(null);
-		}
-	}, [prevPokemonId]);
 
 	function flipCard(cardID) {
 		const card = document.getElementById(`${cardID}`);
@@ -92,10 +84,8 @@ function Pokedex() {
 
 			const evolutionDataLog = JSON.stringify(evolutionData, null, 4);
 			console.log(evolutionDataLog);
-
 			const currentSpeciesName = evolutionData.chain.species.name;
 			const evolutionChain = await collectSpeciesNames(evolutionData.chain);
-
 			console.log(evolutionChain);
 
 			const currentIndex = evolutionChain.indexOf(currentSpeciesName);
@@ -119,6 +109,33 @@ function Pokedex() {
 		}
 	};
 
+	/* 	const evolutions = evolutionData.chain.evolves_to;
+
+			// Assuming that the evolution chain has a simple structure of only one evolution
+			if (evolutions.length === 1) {
+				const evolutionId = evolutions[0].species.url.split("/").reverse()[1];
+				console.log("Evolution ID:", evolutionId);
+				setPokemonId(parseInt(evolutionId));
+			} else if (evolutions.length > 1) {
+				const evolutionIds = evolutions.map((evolution) =>
+					parseInt(evolution.species.url.split("/").reverse()[1])
+				);
+				const evolutionNames = evolutions.map(
+					(evolution) => evolution.species.name
+				);
+				console.log("Evolution IDs:", evolutionIds);
+				console.log("Evolution Names:", evolutionNames);
+				// Handle the scenario with multiple evolutions as per your requirement
+				// For example, you can prompt the user to choose which evolution to proceed with
+				// and then call setPokemonId with the selected evolution ID
+				const selectedEvolutionId = evolutionIds[0]; // Change this to handle user selection
+				console.log("Evolution ID:", selectedEvolutionId);
+				setPokemonId(selectedEvolutionId);
+			} else {
+				console.log("No evolution found.");
+				alert("No evolution found.");
+			} */
+
 	const setPokemonPreEvolution = async (pokemonID) => {
 		try {
 			const response = await fetch(
@@ -128,31 +145,41 @@ function Pokedex() {
 			const evolutionChainURL = data.evolution_chain.url;
 			const evolutionResponse = await fetch(evolutionChainURL);
 			const evolutionData = await evolutionResponse.json();
+			const preEvolutions = evolutionData.chain.evolves_to;
 
-			const evolutionDataLog = JSON.stringify(evolutionData, null, 4);
-			console.log(evolutionDataLog);
+			// const evolutionDataLog = JSON.stringify(evolutionData, null, 4);
+			// console.log(evolutionDataLog);
 
-			const currentSpeciesName = evolutionData.chain.species.name;
-			const evolutionChain = await collectSpeciesNames(evolutionData.chain);
-			console.log(evolutionChain);
+			// console.log(
+			// 	`setPokemonPreEvolution ${}`
+			// );
 
-			const currentIndex = evolutionChain.indexOf(currentSpeciesName);
-
-			if (evolutionChain && evolutionChain.length > 0) {
-				const preEvolutionSpeciesName = evolutionChain[currentIndex + 1];
-				const preEvolutionResponse = await fetch(
-					`https://pokeapi.co/api/v2/pokemon/${preEvolutionSpeciesName}`
+			if (preEvolutions.length === 1) {
+				// Assuming that the evolution chain has a simple structure of only one pre-evolution
+				const preEvolutionId = preEvolutions[0].species.url
+					.split("/")
+					.reverse()[1];
+				setPokemonId(parseInt(preEvolutionId));
+			} else if (preEvolutions.length > 1) {
+				const preEvolutionIds = preEvolutions.map((preEvolution) =>
+					parseInt(preEvolution.species.url.split("/").reverse()[1])
 				);
-				const preEvolutionData = await preEvolutionResponse.json();
-				const preEvolutionID = preEvolutionData.id;
+				const preEvolutionNames = preEvolutions.map(
+					(preEvolution) => preEvolution.species.name
+				);
+				console.log("Pre-evolution IDs:", preEvolutionIds);
+				console.log("Pre-evolution Names:", preEvolutionNames);
+				// Handle the scenario with multiple pre-evolutions as per your requirement
 
-				setPrevPokemonId(preEvolutionID);
+				const selectedPreEvolutionId = preEvolutionIds[0]; // Change this to handle user selection
+				console.log("Evolution ID:", selectedPreEvolutionId);
+				setPokemonId(selectedPreEvolutionId);
 			} else {
 				console.log("No pre-evolution found.");
 				alert("No pre-evolution found.");
 			}
 		} catch (error) {
-			alert("An error occurred");
+			alert("An error ocurred");
 			console.log(error);
 		}
 	};
@@ -198,39 +225,45 @@ function Pokedex() {
 								className=" btn movements_control"
 								onClick={() => {
 									console.log("Pokemon ID:", pokemonID + 1);
-									setPokemonId((prevId) => prevId + 1);
+									setPokemonId(pokemonID + 1);
 								}}
 							>
-								▲
+								{" "}
+								▲ Next
 							</button>
 							<button
 								id="keyboard_key_left"
 								className=" btn movements_control"
 								onClick={() => setPokemonPreEvolution(pokemonID)}
 							>
-								◄
+								◄ Pre-Evol
 							</button>
 							<button
 								id="keyboard_key_right"
 								className=" btn movements_control"
 								onClick={() => setPokemonEvolution(pokemonID)}
 							>
-								►
+								{" "}
+								► Evol
 							</button>
 							<button
 								id="keyboard_key_down"
 								className=" btn  movements_control"
 								onClick={() => {
 									console.log("Pokemon ID:", pokemonID - 1);
-									setPokemonId((prevId) => prevId - 1);
+									setPokemonId(pokemonID - 1);
 								}}
 							>
-								▼
+								▼ Prev
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			{/* </div> */}
+			{/* <div className="pokedex-right-front" /> */}
+			{/* <div className="pokedex-right-back" /> */}
 		</div>
 	);
 }

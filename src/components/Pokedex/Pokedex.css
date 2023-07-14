@@ -5,7 +5,7 @@
 	perspective: 1000px;
 	position: relative;
 	overflow: hidden;
-	height: 35rem;
+	height: 40rem;
 	width: 26rem;
 	margin: 0 auto;
 	overflow: initial;
@@ -121,6 +121,7 @@
 }
 
 .btn {
+	cursor: pointer;
 	border: 1px solid black;
 	box-shadow: -2px 2px 0 rgba(255, 255, 255, 0.5);
 	width: 20px;
@@ -128,6 +129,8 @@
 	background: gray;
 	border-radius: 10%;
 	text-align: center;
+	margin: 5px;
+	position: relative;
 }
 
 .light.is-animated {
@@ -222,6 +225,10 @@
 	padding: 9px 9px;
 }
 
+.pokedex-bottom {
+	width: 100%;
+}
+
 .pokedex-left-top {
 	display: flex;
 	align-items: flex-start;
@@ -256,4 +263,64 @@
 	perspective: 1000px;
 	position: relative;
 	top: 0;
+}
+.btn-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 200px;
+}
+
+#wrapper {
+	/* display: flex; */
+	margin: 25px;
+	justify-content: center;
+	align-items: center;
+	width: fit-content;
+}
+
+#controls {
+	display: inline-grid;
+	grid-column-gap: 15px;
+	align-self: end;
+}
+
+.movements_control {
+	border: solid 1px black;
+	margin: 0;
+	padding: 0;
+}
+
+.movements_control img {
+	width: inherit;
+	height: inherit;
+}
+
+#keyboard_key_up {
+	grid-column-start: 2;
+}
+
+#keyboard_key_left {
+	grid-column-start: 1;
+}
+
+#keyboard_key_right {
+	grid-column-start: 3;
+}
+#keyboard_key_down {
+	grid-column-start: 2;
+}
+
+@media (min-width: 721px) {
+	.movements_control {
+		width: 30px;
+		height: 30px;
+	}
+}
+
+@media (max-width: 720px) {
+	.movements_control {
+		width: 20px;
+		height: 20px;
+	}
 }
