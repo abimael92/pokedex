@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# Pokedex App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Pokedex App is a Single Page Application (SPA) that allows users to enter any Pokemon name and display its image along with general stats from the Pokedex. It's built using React and leverages the PokeAPI to fetch Pokemon data and images.
 
-## Available Scripts
+![Pokedex App Preview](images/pokedex-preview.png)
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+-   [Tech Stack](#tech-stack)
+-   [Installation and Setup](#installation-and-setup)
+-   [Usage](#usage)
+-   [Features](#features)
+-   [Documentation](#documentation)
+-   [FAQs](#faqs)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Tech Stack
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+-   **Frontend**: The frontend of the project is built using React to manage UI components and handle user interactions efficiently.
 
-### `npm test`
+-   **Data Fetching**: The app utilizes the PokeAPI to retrieve Pokemon data, including images and general stats.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   **Styling**: Custom styling is applied using CSS to create a visually appealing and user-friendly interface.
 
-### `npm run build`
+## Installation and Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/your-username/pokedex-app.git
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Navigate to the project directory:
 
-### `npm run eject`
+```bash
+cd pokedex
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+3. Install the dependencies:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+4. Run the app:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+npm start
+```
 
-## Learn More
+## Usage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The Pokedex App allows users to search for a specific Pokemon by entering its name. The app fetches data from the PokeAPI and displays the Pokemon's image along with its general stats. Users can easily find information about their favorite Pokemon using this user-friendly interface.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Features
 
-### Code Splitting
+-   **Pokemon Search:** Users can search for any Pokemon by entering its name in the search bar.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+-   **Pokemon Image:** The app displays the image of the searched Pokemon.
 
-### Analyzing the Bundle Size
+-   **General Stats:** General stats of the Pokemon, such as height, weight, and types, are displayed.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+-   **User-Friendly Interface:** The app offers a clean and intuitive interface for easy navigation and information retrieval.
 
-### Making a Progressive Web App
+-   **Responsive Design:** The app is designed to work seamlessly across various screen sizes and devices.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Documentation
 
-### Advanced Configuration
+-   PokeAPI Documentation: https://pokeapi.co/docs/v2
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## FAQs
 
-### Deployment
+-   Q1: How do I search for a Pokemon?
+-   A1: On the Pokedex App homepage, you'll find a search bar. Simply enter the name of the Pokemon you want to search for and press Enter. The app will fetch the data and display the Pokemon's image and general stats.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+-   Q2: How accurate is the information displayed?
+-   A2: The app fetches data from the PokeAPI, which provides accurate and up-to-date information about Pokemon.
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   Q3: Can I search for Pokemon using their Pokedex numbers?
+-   A3: Yes, in addition to searching by Pokemon names, the app also supports searching by the Pokedex ID numbers of Pokemon. Simply enter either the name or the ID number in the search bar to retrieve information about the desired Pokemon.

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import "./PokemonForm.css";
+import React, { useState } from 'react';
+import './PokemonForm.css';
 
 function PokemonForm({ setPokemonId, setLoading, setError }) {
-	const [pokemon, setPokemon] = useState("");
+	const [pokemon, setPokemon] = useState('');
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		if (pokemon !== "") {
+		if (pokemon !== '') {
 			setError(true);
 			setLoading(true);
 			try {
@@ -16,29 +16,44 @@ function PokemonForm({ setPokemonId, setLoading, setError }) {
 				const data = await response.json();
 				const pokemonID = data.id;
 				setPokemonId(pokemonID);
-				setPokemon("");
+				setPokemon('');
 			} catch (error) {
 				console.log(error);
 				setError(true);
 				setLoading(false);
 			}
 		} else {
-			setError(true);
+			setLoading(true);
+			try {
+				// Send a request for a random Pokémon
+				const randomPokemonID = Math.floor(Math.random() * 151) + 1;
+				const response = await fetch(
+					`https://pokeapi.co/api/v2/pokemon/${randomPokemonID}`
+				);
+				const data = await response.json();
+				setPokemonId(randomPokemonID);
+				setPokemon('');
+				setError(false);
+				setLoading(false);
+			} catch (error) {
+				console.log(error);
+				setError(true);
+				setLoading(false);
+			}
 		}
 	};
 	return (
-		<form className="pokemon-form" onSubmit={handleSubmit}>
+		<form className='pokemon-form' onSubmit={handleSubmit}>
 			<input
-				className="pokemon-input"
-				type="text"
-				name="pokemon"
+				className='pokemon-input'
+				type='text'
+				name='pokemon'
 				value={pokemon}
-				placeholder="Search..."
-				//Actualizas el valor del input cuando el usuario teclea
+				placeholder='Search...'
 				onChange={(e) => setPokemon(e.target.value)}
-				autoComplete="off"
+				autoComplete='off'
 			/>
-			<input type="submit" className="pokemon-btn" value="" />
+			<input type='submit' className='pokemon-btn' value='' />
 		</form>
 	);
 }

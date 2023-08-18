@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import FrontScreen from "../PokedexScreenFront/PokedexScreenFront";
-import BackScreen from "../PokedexScreenBack/PokedexScreenBack";
-import PokemonForm from "../PokemonForm/PokemonForm";
-import "./Pokedex.css";
+import React, { useState, useEffect } from 'react';
+import FrontScreen from '../PokedexScreenFront/PokedexScreenFront';
+import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
+import PokemonForm from '../PokemonForm/PokemonForm';
+import './Pokedex.css';
 
-function Pokedex() {
+const Pokedex = () => {
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [pokemon, setPokemon] = useState(null);
@@ -45,7 +45,7 @@ function Pokedex() {
 
 	function flipCard(cardID) {
 		const card = document.getElementById(`${cardID}`);
-		card.classList.toggle("flipped");
+		card.classList.toggle('flipped');
 	}
 
 	async function collectSpeciesNames(chain) {
@@ -94,13 +94,18 @@ function Pokedex() {
 			console.log(evolutionDataLog);
 
 			const currentSpeciesName = evolutionData.chain.species.name;
-			const evolutionChain = await collectSpeciesNames(evolutionData.chain);
+			const evolutionChain = await collectSpeciesNames(
+				evolutionData.chain
+			);
 
 			console.log(evolutionChain);
 
 			const currentIndex = evolutionChain.indexOf(currentSpeciesName);
 
-			if (currentIndex !== -1 && currentIndex < evolutionChain.length - 1) {
+			if (
+				currentIndex !== -1 &&
+				currentIndex < evolutionChain.length - 1
+			) {
 				const nextSpeciesName = evolutionChain[currentIndex + 1];
 				const nextSpeciesResponse = await fetch(
 					`https://pokeapi.co/api/v2/pokemon/${nextSpeciesName}`
@@ -110,11 +115,11 @@ function Pokedex() {
 
 				setNextPokemonId(nextSpeciesID); // Use the separate state variable
 			} else {
-				console.log("No evolution found.");
-				alert("No evolution found.");
+				console.log('No evolution found.');
+				alert('No evolution found.');
 			}
 		} catch (error) {
-			alert("An error occurred");
+			alert('An error occurred');
 			console.log(error);
 		}
 	};
@@ -133,13 +138,16 @@ function Pokedex() {
 			console.log(evolutionDataLog);
 
 			const currentSpeciesName = evolutionData.chain.species.name;
-			const evolutionChain = await collectSpeciesNames(evolutionData.chain);
+			const evolutionChain = await collectSpeciesNames(
+				evolutionData.chain
+			);
 			console.log(evolutionChain);
 
 			const currentIndex = evolutionChain.indexOf(currentSpeciesName);
 
 			if (evolutionChain && evolutionChain.length > 0) {
-				const preEvolutionSpeciesName = evolutionChain[currentIndex + 1];
+				const preEvolutionSpeciesName =
+					evolutionChain[currentIndex + 1];
 				const preEvolutionResponse = await fetch(
 					`https://pokeapi.co/api/v2/pokemon/${preEvolutionSpeciesName}`
 				);
@@ -148,34 +156,45 @@ function Pokedex() {
 
 				setPrevPokemonId(preEvolutionID);
 			} else {
-				console.log("No pre-evolution found.");
-				alert("No pre-evolution found.");
+				console.log('No pre-evolution found.');
+				alert('No pre-evolution found.');
 			}
 		} catch (error) {
-			alert("An error occurred");
+			alert('An error occurred');
 			console.log(error);
 		}
 	};
 
+	const [isActive, setIsActive] = useState(false);
+
+	const handlePokedexClick = () => {
+		setIsActive(true);
+	};
+
 	return (
-		<div className="pokedex">
-			<div className="pokedex-left">
-				<div className="pokedex-left-top">
+		<div
+			className={`pokedex ${isActive ? 'is-active' : ''}`}
+			onClick={handlePokedexClick}>
+			<div className='pokedex-left'>
+				<div className='pokedex-left-top'>
 					<div
 						className={`light is-sky is-big pulseBox ${
-							loading && "is-animated"
+							loading && 'is-animated'
 						}`}
 					/>
-					<div className="light is-red" />
-					<div className="light is-yellow" />
-					<div className="light is-green" />
+					<div className='light is-red' />
+					<div className='light is-yellow' />
+					<div className='light is-green' />
 				</div>
 				<div
-					className="pokedex-screen-container"
+					className='pokedex-screen-container'
 					id={pokemonID}
-					onClick={() => flipCard(pokemonID)}
-				>
-					<FrontScreen pokemon={pokemon} loading={loading} error={error} />
+					onClick={() => flipCard(pokemonID)}>
+					<FrontScreen
+						pokemon={pokemon}
+						loading={loading}
+						error={error}
+					/>
 					<BackScreen
 						pokemon={pokemon}
 						loading={loading}
@@ -183,56 +202,56 @@ function Pokedex() {
 						stats={pokemon}
 					/>
 				</div>
-				<div className="pokedex-left-bottom">
+				<div className='pokedex-left-bottom'>
 					<PokemonForm
 						setPokemonId={setPokemonId}
 						setLoading={setLoading}
 						setError={setError}
 					/>
 				</div>
-				<div className="pokedex-bottom">
-					<div id="wrapper">
-						<div id="controls">
+				<div className='pokedex-bottom'>
+					<div id='wrapper'>
+						<div id='controls'>
 							<button
-								id="keyboard_key_up"
-								className=" btn movements_control"
+								id='keyboard_key_up'
+								className=' btn movements_control'
 								onClick={() => {
-									console.log("Pokemon ID:", pokemonID + 1);
+									console.log('Pokemon ID:', pokemonID + 1);
 									setPokemonId((prevId) => prevId + 1);
-								}}
-							>
+								}}>
 								▲
 							</button>
 							<button
-								id="keyboard_key_left"
-								className=" btn movements_control"
-								onClick={() => setPokemonPreEvolution(pokemonID)}
-							>
+								id='keyboard_key_left'
+								className=' btn movements_control'
+								onClick={() =>
+									setPokemonPreEvolution(pokemonID)
+								}>
 								◄
 							</button>
 							<button
-								id="keyboard_key_right"
-								className=" btn movements_control"
-								onClick={() => setPokemonEvolution(pokemonID)}
-							>
+								id='keyboard_key_right'
+								className=' btn movements_control'
+								onClick={() => setPokemonEvolution(pokemonID)}>
 								►
 							</button>
 							<button
-								id="keyboard_key_down"
-								className=" btn  movements_control"
+								id='keyboard_key_down'
+								className=' btn  movements_control'
 								onClick={() => {
-									console.log("Pokemon ID:", pokemonID - 1);
+									console.log('Pokemon ID:', pokemonID - 1);
 									setPokemonId((prevId) => prevId - 1);
-								}}
-							>
+								}}>
 								▼
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div className='pokedex-right-front' />
+			<div className='pokedex-right-back' />
 		</div>
 	);
-}
+};
 
 export default Pokedex;
