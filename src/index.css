@@ -16,13 +16,14 @@
 	text-align: center;
 }
 body {
-	background-image: url("https://wallpaperchat.com/walls/full/0/2/a/477922.jpg");
-	background-size: 180%;
-
+	background-image: url('/images/gengarnidorino1.jpg'); /* Adjust the image path */
+	background-size: cover;
+	background-position: center;
+	width: 100vw;
+	height: 100vh;
 	margin: 0;
-	background-color: var(--dark-red);
-
-	padding-top: 40px;
+	padding-top: 80px;
+	/* background-size: 180%; */
 }
 
 h1,

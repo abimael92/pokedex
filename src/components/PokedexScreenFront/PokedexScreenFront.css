@@ -43,8 +43,8 @@
 	grid-column-gap: 0.8rem;
 	/* grid-row-gap: 0.8rem; */
 	grid-template-areas:
-		"title title"
-		"img   stats";
+		'title title'
+		'img   stats';
 }
 .pokemon-name {
 	margin-top: 1em;
@@ -65,7 +65,7 @@
 	width: 100%;
 	height: 100%;
 }
-/* DivTable.com */
+/* DivTable */
 .divTable {
 	display: table;
 	max-width: 20em;
@@ -102,4 +102,18 @@
 .divTableCell:nth-child(odd) {
 	background-color: gainsboro;
 	font-weight: bold;
+}
+
+/*  New table styles*/
+
+.divTableCellRow {
+	display: flex; /* Display type cells in a row */
+	flex-wrap: wrap; /* Allow wrapping of type cells */
+}
+
+.divTableCellType {
+	border: 1px solid #999999;
+	padding: 0px 10px;
+	text-transform: capitalize;
+	margin-right: 5px; /* Add some spacing between type cells */
 }
