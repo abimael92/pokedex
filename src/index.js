@@ -4,6 +4,8 @@ import Pokedex from "./components/Pokedex/Pokedex";
 import './index.css';
 
 ReactDOM.render(
-    <Pokedex />,
+    <div className="overlay">
+        <Pokedex />
+    </div>,
     document.getElementById('root')
 );
