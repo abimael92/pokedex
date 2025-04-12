@@ -1,78 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaVolumeUp } from 'react-icons/fa';
 import FrontScreen from '../PokedexScreenFront/PokedexScreenFront';
 import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
-import {
-	getRandomPokemonId,
-	getGenerationPokemonList,
-} from '../../utils/pokemonGenerations';
-import {
-	fetchPokemonById,
-	fetchPokemonByName,
-} from '../../services/pokemonApi';
+import { usePokemon } from '../../hooks/usePokemon';
 import './Pokedex.css';
 
 const Pokedex = () => {
-	const [error, setError] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const [pokemon, setPokemon] = useState(null);
 	const [isActive, setIsActive] = useState(false);
-	const [pokemonID, setPokemonId] = useState(null);
-
-	const [generation, setGeneration] = useState('1');
-	const [genPokemonList, setGenPokemonList] = useState([]);
-	const [genIndex, setGenIndex] = useState(0);
-
-	useEffect(() => {
-		const randomId = getRandomPokemonId(generation);
-		setPokemonId(randomId);
-	}, [generation]);
-
-	// Fetch the Pokemon name in generation list
-	useEffect(() => {
-		if (!pokemonID) return;
-
-		const fetchData = async () => {
-			try {
-				setLoading(true);
-				setError(false);
-				const data = await fetchPokemonById(pokemonID);
-				setTimeout(() => {
-					setPokemon(data);
-					setLoading(false);
-				}, 500);
-			} catch (err) {
-				setLoading(false);
-				setError(true);
-				console.log(err);
-			}
-		};
-
-		fetchData();
-	}, [pokemonID]);
-
-	// Fetch Pokemon data based on generation list
-	useEffect(() => {
-		const fetchPokemonData = async () => {
-			if (!genPokemonList.length || pokemonID !== null) return;
-
-			try {
-				setLoading(true);
-				const name = genPokemonList[genIndex];
-				const data = await fetchPokemonByName(name);
-				setPokemon(data);
-				setPokemonId(data.id);
-				setError(false);
-			} catch (err) {
-				console.error(err);
-				setError(true);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchPokemonData();
-	}, [genIndex, genPokemonList, pokemonID]);
+	const {
+		pokemon,
+		loading,
+		error,
+		pokemonID,
+		generation,
+		setPokemonId,
+		setGeneration,
+	} = usePokemon();
 
 	const flipCard = (cardID) => {
 		const card = document.getElementById(`${cardID}`);
@@ -83,26 +27,17 @@ const Pokedex = () => {
 		setIsActive(true);
 	};
 
-	const handleGenerationChange = (e) => {
-		const selectedGen = e.target.value;
-		setGeneration(selectedGen);
-		setGenPokemonList(getGenerationPokemonList(selectedGen));
-		setGenIndex(0);
-	};
-
 	const playCry = () => {
-		if (pokemon && pokemon.cries && pokemon.cries.latest) {
+		if (pokemon?.cries?.latest) {
 			const cryAudio = new Audio(pokemon.cries.latest);
 			cryAudio.play();
 		}
 	};
 
 	const playMonologue = () => {
-		if (pokemon) {
-			if (pokemon.name.toLowerCase() === 'mewtwo') {
-				const mewtwoAudio = new Audio('/images/monologo.mp4');
-				mewtwoAudio.play();
-			}
+		if (pokemon?.name?.toLowerCase() === 'mewtwo') {
+			const mewtwoAudio = new Audio('/images/monologo.mp4');
+			mewtwoAudio.play();
 		}
 	};
 
@@ -131,7 +66,7 @@ const Pokedex = () => {
 							<select
 								id='generation'
 								value={generation}
-								onChange={handleGenerationChange}
+								onChange={(e) => setGeneration(e.target.value)}
 								className='generation-select'
 							>
 								<option value='1'>Gen 1</option>
@@ -161,12 +96,7 @@ const Pokedex = () => {
 					/>
 				</div>
 				<div className='pokedex-left-bottom'>
-					<PokemonForm
-						setPokemonId={setPokemonId}
-						generation={generation}
-						setLoading={setLoading}
-						setError={setError}
-					/>
+					<PokemonForm setPokemonId={setPokemonId} generation={generation} />
 				</div>
 
 				<div className='pokedex-bottom'>
