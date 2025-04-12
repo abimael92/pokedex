@@ -327,6 +327,7 @@
 	align-items: center;
 	padding: 10px;
 	position: relative;
+	gap: 3rem;
 }
 
 /* Position and style the cry button */
@@ -334,6 +335,7 @@
 	flex-grow: 1;
 	display: flex;
 	justify-content: flex-start;
+	margin: 2rem;
 }
 
 .cry-button {
@@ -341,8 +343,8 @@
 	border: 2px solid #ff9900;
 	border-radius: 30px;
 	color: white;
-	padding: 12px 25px;
-	font-size: 16px;
+	padding: 12px ;
+	font-size: 15px;
 	cursor: pointer;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	transition: transform 0.3s ease, background-color 0.3s ease;
@@ -353,73 +355,72 @@
 	transform: scale(1.1);
 }
 
-/* Center the arrow control buttons in a T or cross shape */
-#keyboard_controls {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	gap: 5px; /* Space between the vertical buttons */
-}
-
-/* Styling for the movement buttons */
-.movements_control {
-	border: solid 1px black;
-	width: 30px;
-	height: 30px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.cry-button2 {
+	background-color: #b497d6;
+	border: 2px solid #8e7cc3;
+	border-radius: 30px;
+	color: white;
+	padding: 12px ;
+	margin-left: 1rem;
+	font-size: 15px;
 	cursor: pointer;
-	position: relative;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-/* Arrow images inside the buttons */
-.movements_control img {
-	width: 100%;
-	height: 100%;
-	cursor: pointer;
+.cry-button2:hover {
+	background-color: #8e7cc3;
+	transform: scale(1.1);
 }
 
-/* Horizontal button spacing (left and right) */
-#keyboard_key_left,
-#keyboard_key_right {
-	width: 35px;
-	height: 35px;
-	margin: 0 10px; /* Space between left and right buttons */
-}
 
-/* Arrange up and down buttons */
-#keyboard_key_up {
-	order: 1; /* Up button will be at the top */
-}
 
-#keyboard_key_down {
-	order: 3; /* Down button will be at the bottom */
-}
 
-/* Adjust the up-down and left-right layout */
-#keyboard_controls > div {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+.controller-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+  }
 
-/* Styling for the up and down buttons */
-#keyboard_key_up, #keyboard_key_down {
-	width: 35px;
-	height: 35px;
-}
+  .d-pad {
+    display: grid;
+    grid-template-areas:
+      ". up ."
+      "left center right"
+      ". down .";
+    gap: 2px;
+    position: relative;
+  }
 
-/* Adjust responsiveness for smaller screens */
-@media (max-width: 720px) {
-	.movements_control {
-		width: 25px;
-		height: 25px;
-	}
-}
+  .d-pad-button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid white;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    user-select: none;
+  }
 
+  .d-pad-button:hover {
+    background: #444;
+  }
+
+  .d-pad-button:active {
+    transform: scale(0.95);
+    background: #555;
+  }
+
+  /* Position each button in the grid */
+  .up { grid-area: up; }
+  .left { grid-area: left; }
+  .center { grid-area: center; visibility: hidden; }
+  .right { grid-area: right; }
+  .down { grid-area: down; }

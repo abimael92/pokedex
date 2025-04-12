@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaVolumeUp } from 'react-icons/fa';
 import FrontScreen from '../PokedexScreenFront/PokedexScreenFront';
 import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
@@ -130,6 +131,15 @@ const Pokedex = () => {
 		}
 	};
 
+	const playMonologue = () => {
+		if (pokemon) {
+			if (pokemon.name.toLowerCase() === 'mewtwo') {
+				const mewtwoAudio = new Audio('/images/monologo.mp4');
+				mewtwoAudio.play();
+			}
+		}
+	};
+
 	console.log('this is the pokemon data: ', pokemon);
 
 	return (
@@ -194,41 +204,52 @@ const Pokedex = () => {
 				</div>
 
 				<div className='pokedex-bottom'>
-					<div className='arrow-buttons-container'>
-						<button
-							id='keyboard_key_up'
-							className='btn movements_control'
-							onClick={() => setPokemonId((prevId) => prevId + 1)}
-						>
-							▲
-						</button>
-						<button
-							id='keyboard_key_left'
-							className='btn movements_control'
-							onClick={() => flipCard(pokemonID)}
-						>
-							◄
-						</button>
-						<button
-							id='keyboard_key_right'
-							className='btn movements_control'
-							onClick={() => flipCard(pokemonID)}
-						>
-							►
-						</button>
-						<button
-							id='keyboard_key_down'
-							className='btn movements_control'
-							onClick={() => setPokemonId((prevId) => prevId - 1)}
-						>
-							▼
-						</button>
+					<div class='controller-wrapper'>
+						<div class='d-pad'>
+							<button
+								class='d-pad-button up'
+								onClick={() => {
+									setPokemonId((prevId) => prevId + 1);
+								}}
+							>
+								▲
+							</button>
+							<button
+								class='d-pad-button left'
+								onClick={() => flipCard(pokemonID)}
+							>
+								◄
+							</button>
+							<button class='d-pad-button center'></button>
+							<button
+								class='d-pad-button right'
+								onClick={() => flipCard(pokemonID)}
+							>
+								►
+							</button>
+							<button
+								class='d-pad-button down'
+								onClick={() => {
+									setPokemonId((prevId) => prevId - 1);
+								}}
+							>
+								▼
+							</button>
+						</div>
 					</div>
 
 					<div className='cry-button-container'>
 						<button className='cry-button' onClick={playCry}>
-							Play Cry
+							<FaVolumeUp color='black' />
 						</button>
+
+						{(pokemon?.id === 150 ||
+							pokemon?.name?.toLowerCase() === 'mewtwo') && (
+							<button className='cry-button2' onClick={playMonologue}>
+								<FaVolumeUp color='black' />
+							</button>
+						)}
+						{/* easter egg */}
 					</div>
 				</div>
 			</div>
