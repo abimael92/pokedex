@@ -15,22 +15,36 @@ const Pokedex = () => {
 	const [genPokemonList, setGenPokemonList] = useState([]);
 	const [genIndex, setGenIndex] = useState(0);
 
-	// Generate a random Pokemon ID based on the selected generation
 	useEffect(() => {
 		const generateAndFetchRandomId = async () => {
 			let randomId;
 			switch (generation) {
 				case '1':
-					randomId = Math.floor(Math.random() * 151) + 1; // Gen 1: 1-151
+					randomId = Math.floor(Math.random() * 151) + 1; // Gen 1: 1–151
 					break;
 				case '2':
-					randomId = Math.floor(Math.random() * 100) + 152; // Gen 2: 152-251
+					randomId = Math.floor(Math.random() * 100) + 152; // Gen 2: 152–251
 					break;
 				case '3':
-					randomId = Math.floor(Math.random() * 135) + 252; // Gen 3: 252-386
+					randomId = Math.floor(Math.random() * 135) + 252; // Gen 3: 252–386
+					break;
+				case '4':
+					randomId = Math.floor(Math.random() * 107) + 387; // Gen 4: 387–493
+					break;
+				case '5':
+					randomId = Math.floor(Math.random() * 156) + 494; // Gen 5: 494–649
+					break;
+				case '6':
+					randomId = Math.floor(Math.random() * 72) + 650; // Gen 6: 650–721
+					break;
+				case '7':
+					randomId = Math.floor(Math.random() * 88) + 722; // Gen 7: 722–809
+					break;
+				case '8':
+					randomId = Math.floor(Math.random() * 96) + 810; // Gen 8: 810–905
 					break;
 				default:
-					randomId = Math.floor(Math.random() * 151) + 1; // Default to Gen 1 if generation is invalid
+					randomId = Math.floor(Math.random() * 151) + 1;
 			}
 			setPokemonId(randomId);
 		};
@@ -39,14 +53,17 @@ const Pokedex = () => {
 
 	// Fetch the Pokemon data based on the generated Pokemon ID
 	useEffect(() => {
-		if (!pokemonID) return; // Prevent fetching if Pokemon ID is not set
+		if (!pokemonID) return;
 
 		fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
 			.then((res) => res.json())
 			.then((data) => {
-				setPokemon(data);
-				setLoading(false);
+				setLoading(true);
 				setError(false);
+				setTimeout(() => {
+					setPokemon(data);
+					setLoading(false);
+				}, 500);
 			})
 			.catch((err) => {
 				setLoading(false);
@@ -58,7 +75,7 @@ const Pokedex = () => {
 	// Fetch Pokemon data based on generation list
 	useEffect(() => {
 		const fetchPokemon = async () => {
-			if (!genPokemonList.length) return;
+			if (!genPokemonList.length || pokemonID !== null) return;
 
 			try {
 				setLoading(true);
@@ -76,30 +93,32 @@ const Pokedex = () => {
 			}
 		};
 		fetchPokemon();
-	}, [genIndex, genPokemonList]);
+	}, [genIndex, genPokemonList, pokemonID]);
 
-	// Flip card function
 	const flipCard = (cardID) => {
 		const card = document.getElementById(`${cardID}`);
 		if (card) card.classList.toggle('flipped');
 	};
 
-	// Handle pokedex click
 	const handlePokedexClick = () => {
 		setIsActive(true);
 	};
 
-	// Handle generation change and update the Pokemon list accordingly
 	const handleGenerationChange = (e) => {
 		const selectedGen = e.target.value;
 		setGeneration(selectedGen);
 
-		// Example generation list mapping
 		const genMapping = {
 			1: Array.from({ length: 151 }, (_, i) => (i + 1).toString()),
 			2: Array.from({ length: 100 }, (_, i) => (i + 152).toString()),
 			3: Array.from({ length: 135 }, (_, i) => (i + 252).toString()),
+			4: Array.from({ length: 107 }, (_, i) => (i + 387).toString()),
+			5: Array.from({ length: 156 }, (_, i) => (i + 494).toString()),
+			6: Array.from({ length: 72 }, (_, i) => (i + 650).toString()),
+			7: Array.from({ length: 88 }, (_, i) => (i + 722).toString()),
+			8: Array.from({ length: 96 }, (_, i) => (i + 810).toString()),
 		};
+
 		setGenPokemonList(genMapping[selectedGen] || []);
 		setGenIndex(0); // Reset to the first Pokemon
 	};
@@ -158,13 +177,8 @@ const Pokedex = () => {
 				</div>
 				<div className='pokedex-left-bottom'>
 					<PokemonForm
-						setPokemonId={(id) => {
-							const index = genPokemonList.findIndex(
-								(name) => name === id.toLowerCase()
-							);
-							if (index !== -1) setGenIndex(index);
-							else alert('Pokémon not found in this generation!');
-						}}
+						setPokemonId={setPokemonId}
+						generation={generation}
 						setLoading={setLoading}
 						setError={setError}
 					/>
