@@ -1,11 +1,23 @@
 import React from 'react';
-// import React, { useState, useEffect } from 'react';
 import ErrorPokemon from '../../img/error.gif';
 import LoadingPokemon from '../../img/loading.gif';
 import Stat from '../Stat/Stat';
 import './PokedexScreenBack.css';
+import { Pokemon } from '../../types/pokemon';
 
-function PokedexScreen({ pokemon, loading, error, stats }){
+interface PokedexScreenProps {
+  pokemon: Pokemon | null;
+  loading: boolean;
+  error: boolean;
+  stats: Pokemon['stats']; // or define a separate Stats type if needed
+}
+
+const PokedexScreenBack: React.FC<PokedexScreenProps> = ({ 
+  pokemon, 
+  loading, 
+  error, 
+  stats 
+}) => {
 
     if(error){
         return (
@@ -45,4 +57,4 @@ function PokedexScreen({ pokemon, loading, error, stats }){
     </div>
   )
 }
-export default PokedexScreen;
+export default PokedexScreenBack;
