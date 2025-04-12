@@ -135,18 +135,7 @@
 	border-radius: 50%;
 }
 
-.btn {
-	cursor: pointer;
-	border: 1px solid black;
-	box-shadow: -2px 2px 0 rgba(255, 255, 255, 0.5);
-	width: 20px;
-	height: 20px;
-	background: gray;
-	border-radius: 10%;
-	text-align: center;
-	margin: 5px;
-	position: relative;
-}
+
 
 .light.is-animated {
 	animation: 0.3s light linear infinite;
@@ -240,9 +229,7 @@
 	padding: 9px 9px;
 }
 
-.pokedex-bottom {
-	width: 100%;
-}
+
 
 .pokedex-left-top-row {
 	display: flex;
@@ -324,63 +311,115 @@
 	position: relative;
 	top: 0;
 }
-.btn-container {
+
+
+
+
+
+
+
+
+
+/* Pokedex bottom container */
+.pokedex-bottom {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	position: relative;
+}
+
+/* Position and style the cry button */
+.cry-button-container {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.cry-button {
+	background-color: #ffcc00;
+	border: 2px solid #ff9900;
+	border-radius: 30px;
+	color: white;
+	padding: 12px 25px;
+	font-size: 16px;
+	cursor: pointer;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.cry-button:hover {
+	background-color: #ff9900;
+	transform: scale(1.1);
+}
+
+/* Center the arrow control buttons in a T or cross shape */
+#keyboard_controls {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	gap: 5px; /* Space between the vertical buttons */
+}
+
+/* Styling for the movement buttons */
+.movements_control {
+	border: solid 1px black;
+	width: 30px;
+	height: 30px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 200px;
+	cursor: pointer;
+	position: relative;
 }
 
-#wrapper {
-	/* display: flex; */
-	margin: 1rem;
+/* Arrow images inside the buttons */
+.movements_control img {
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+
+/* Horizontal button spacing (left and right) */
+#keyboard_key_left,
+#keyboard_key_right {
+	width: 35px;
+	height: 35px;
+	margin: 0 10px; /* Space between left and right buttons */
+}
+
+/* Arrange up and down buttons */
+#keyboard_key_up {
+	order: 1; /* Up button will be at the top */
+}
+
+#keyboard_key_down {
+	order: 3; /* Down button will be at the bottom */
+}
+
+/* Adjust the up-down and left-right layout */
+#keyboard_controls > div {
+	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: fit-content;
 }
 
-#controls {
-	display: inline-grid;
-	grid-column-gap: 15px;
-	align-self: end;
+/* Styling for the up and down buttons */
+#keyboard_key_up, #keyboard_key_down {
+	width: 35px;
+	height: 35px;
 }
 
-.movements_control {
-	border: solid 1px black;
-	margin: 0;
-	padding: 0;
-}
-
-.movements_control img {
-	width: inherit;
-	height: inherit;
-}
-
-#keyboard_key_up {
-	grid-column-start: 2;
-}
-
-#keyboard_key_left {
-	grid-column-start: 1;
-}
-
-#keyboard_key_right {
-	grid-column-start: 3;
-}
-#keyboard_key_down {
-	grid-column-start: 2;
-}
-
-@media (min-width: 721px) {
-	.movements_control {
-		width: 30px;
-		height: 30px;
-	}
-}
-
+/* Adjust responsiveness for smaller screens */
 @media (max-width: 720px) {
 	.movements_control {
-		width: 20px;
-		height: 20px;
+		width: 25px;
+		height: 25px;
 	}
 }
+

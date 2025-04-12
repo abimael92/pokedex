@@ -120,8 +120,17 @@ const Pokedex = () => {
 		};
 
 		setGenPokemonList(genMapping[selectedGen] || []);
-		setGenIndex(0); // Reset to the first Pokemon
+		setGenIndex(0);
 	};
+
+	const playCry = () => {
+		if (pokemon && pokemon.cries && pokemon.cries.latest) {
+			const cryAudio = new Audio(pokemon.cries.latest);
+			cryAudio.play();
+		}
+	};
+
+	console.log('this is the pokemon data: ', pokemon);
 
 	return (
 		<div
@@ -183,42 +192,43 @@ const Pokedex = () => {
 						setError={setError}
 					/>
 				</div>
+
 				<div className='pokedex-bottom'>
-					<div id='wrapper'>
-						<div id='controls'>
-							<button
-								id='keyboard_key_up'
-								className='btn movements_control'
-								onClick={() => {
-									setPokemonId((prevId) => prevId + 1);
-								}}
-							>
-								▲
-							</button>
-							<button
-								id='keyboard_key_left'
-								className='btn movements_control'
-								onClick={() => flipCard(pokemonID)}
-							>
-								◄
-							</button>
-							<button
-								id='keyboard_key_right'
-								className='btn movements_control'
-								onClick={() => flipCard(pokemonID)}
-							>
-								►
-							</button>
-							<button
-								id='keyboard_key_down'
-								className='btn movements_control'
-								onClick={() => {
-									setPokemonId((prevId) => prevId - 1);
-								}}
-							>
-								▼
-							</button>
-						</div>
+					<div className='arrow-buttons-container'>
+						<button
+							id='keyboard_key_up'
+							className='btn movements_control'
+							onClick={() => setPokemonId((prevId) => prevId + 1)}
+						>
+							▲
+						</button>
+						<button
+							id='keyboard_key_left'
+							className='btn movements_control'
+							onClick={() => flipCard(pokemonID)}
+						>
+							◄
+						</button>
+						<button
+							id='keyboard_key_right'
+							className='btn movements_control'
+							onClick={() => flipCard(pokemonID)}
+						>
+							►
+						</button>
+						<button
+							id='keyboard_key_down'
+							className='btn movements_control'
+							onClick={() => setPokemonId((prevId) => prevId - 1)}
+						>
+							▼
+						</button>
+					</div>
+
+					<div className='cry-button-container'>
+						<button className='cry-button' onClick={playCry}>
+							Play Cry
+						</button>
 					</div>
 				</div>
 			</div>
