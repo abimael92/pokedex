@@ -3,6 +3,10 @@ import { FaVolumeUp } from 'react-icons/fa';
 import FrontScreen from '../PokedexScreenFront/PokedexScreenFront';
 import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
+import {
+	getRandomPokemonId,
+	getGenerationPokemonList,
+} from '../../utils/pokemonGenerations';
 import './Pokedex.css';
 
 const Pokedex = () => {
@@ -17,39 +21,8 @@ const Pokedex = () => {
 	const [genIndex, setGenIndex] = useState(0);
 
 	useEffect(() => {
-		const generateAndFetchRandomId = async () => {
-			let randomId;
-			switch (generation) {
-				case '1':
-					randomId = Math.floor(Math.random() * 151) + 1; // Gen 1: 1–151
-					break;
-				case '2':
-					randomId = Math.floor(Math.random() * 100) + 152; // Gen 2: 152–251
-					break;
-				case '3':
-					randomId = Math.floor(Math.random() * 135) + 252; // Gen 3: 252–386
-					break;
-				case '4':
-					randomId = Math.floor(Math.random() * 107) + 387; // Gen 4: 387–493
-					break;
-				case '5':
-					randomId = Math.floor(Math.random() * 156) + 494; // Gen 5: 494–649
-					break;
-				case '6':
-					randomId = Math.floor(Math.random() * 72) + 650; // Gen 6: 650–721
-					break;
-				case '7':
-					randomId = Math.floor(Math.random() * 88) + 722; // Gen 7: 722–809
-					break;
-				case '8':
-					randomId = Math.floor(Math.random() * 96) + 810; // Gen 8: 810–905
-					break;
-				default:
-					randomId = Math.floor(Math.random() * 151) + 1;
-			}
-			setPokemonId(randomId);
-		};
-		generateAndFetchRandomId();
+		const randomId = getRandomPokemonId(generation);
+		setPokemonId(randomId);
 	}, [generation]);
 
 	// Fetch the Pokemon data based on the generated Pokemon ID
@@ -108,19 +81,7 @@ const Pokedex = () => {
 	const handleGenerationChange = (e) => {
 		const selectedGen = e.target.value;
 		setGeneration(selectedGen);
-
-		const genMapping = {
-			1: Array.from({ length: 151 }, (_, i) => (i + 1).toString()),
-			2: Array.from({ length: 100 }, (_, i) => (i + 152).toString()),
-			3: Array.from({ length: 135 }, (_, i) => (i + 252).toString()),
-			4: Array.from({ length: 107 }, (_, i) => (i + 387).toString()),
-			5: Array.from({ length: 156 }, (_, i) => (i + 494).toString()),
-			6: Array.from({ length: 72 }, (_, i) => (i + 650).toString()),
-			7: Array.from({ length: 88 }, (_, i) => (i + 722).toString()),
-			8: Array.from({ length: 96 }, (_, i) => (i + 810).toString()),
-		};
-
-		setGenPokemonList(genMapping[selectedGen] || []);
+		setGenPokemonList(getGenerationPokemonList(selectedGen));
 		setGenIndex(0);
 	};
 
