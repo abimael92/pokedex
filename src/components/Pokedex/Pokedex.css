@@ -247,12 +247,41 @@
 .pokedex-left-top {
 	display: flex;
 	align-items: flex-start;
+
 }
 
 .pokedex-left-top > * {
 	/* margin-right: 1.7em; */
 	margin-right: 0.7em;
 }
+
+.generation-select-container {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	/* z-index: 10; */
+}
+
+
+.generation-select {
+	background: #d32f2f;
+	color: #fff;
+	border: 2px solid #fff;
+	border-radius: 8px;
+	padding: 5px 10px;
+	font-weight: bold;
+	cursor: pointer;
+	outline: none;
+	transition: all 0.3s ease;
+	box-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+}
+
+.generation-select:hover {
+	background: #f44336;
+	/* transform: scale(1.05); */
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+}
+
 
 .pokedex-left-bottom-lights {
 	display: flex;

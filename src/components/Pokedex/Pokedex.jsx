@@ -8,164 +8,62 @@ const Pokedex = () => {
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [pokemon, setPokemon] = useState(null);
-	const [prevPokemonId, setPrevPokemonId] = useState(null);
-	const [nextPokemonId, setNextPokemonId] = useState(null);
-	const RandomId = Math.floor(Math.random() * 151 + 1);
-	// const RandomId = Math.floor(Math.random() * 806 + 1)
+	const [isActive, setIsActive] = useState(false);
+	const [pokemonID, setPokemonId] = useState(null);
 
-	const [pokemonID, setPokemonId] = useState(RandomId);
+	const [generation, setGeneration] = useState('1');
+	const [genPokemonList, setGenPokemonList] = useState([]);
+	const [genIndex, setGenIndex] = useState(0);
+
+	// Fetch generation list
 	useEffect(() => {
-		fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
-			.then((res) => res.json())
-			.then((data) => {
-				setPokemon(data);
-				setLoading(false);
-				setError(false);
-			})
-			.catch((err) => {
-				setLoading(false);
+		const fetchGenPokemon = async () => {
+			try {
+				setLoading(true);
+				const res = await fetch(
+					`https://pokeapi.co/api/v2/generation/${generation}`
+				);
+				const data = await res.json();
+				const sortedList = data.pokemon_species.map((s) => s.name).sort(); // Sort for consistent next/prev
+
+				setGenPokemonList(sortedList);
+				setGenIndex(0); // Start at first of list
+			} catch (err) {
+				console.error(err);
 				setError(true);
-				console.log(err);
-			});
-	}, [pokemonID]);
+				setLoading(false);
+			}
+		};
+		fetchGenPokemon();
+	}, [generation]);
 
+	// Fetch specific pokemon from generation list
 	useEffect(() => {
-		if (nextPokemonId !== null) {
-			setPokemonId(nextPokemonId);
-			setNextPokemonId(null);
-		}
-	}, [nextPokemonId]);
+		const fetchPokemon = async () => {
+			if (!genPokemonList.length) return;
 
-	useEffect(() => {
-		if (prevPokemonId !== null) {
-			setPokemonId(prevPokemonId);
-			setPrevPokemonId(null);
-		}
-	}, [prevPokemonId]);
+			try {
+				setLoading(true);
+				const name = genPokemonList[genIndex];
+				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+				const data = await res.json();
+				setPokemon(data);
+				setPokemonId(data.id);
+				setError(false);
+			} catch (err) {
+				console.error(err);
+				setError(true);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchPokemon();
+	}, [genPokemonList, genIndex]);
 
-	function flipCard(cardID) {
+	const flipCard = (cardID) => {
 		const card = document.getElementById(`${cardID}`);
 		card.classList.toggle('flipped');
-	}
-
-	async function collectSpeciesNames(chain) {
-		let speciesNames = [];
-
-		// Helper function to extract the species name from an evolution chain
-		function extractSpeciesName(evolution) {
-			if (evolution.species && evolution.species.name) {
-				const speciesName = evolution.species.name;
-				if (!speciesNames.includes(speciesName)) {
-					speciesNames.push(speciesName);
-				}
-			}
-		}
-
-		// Recursive function to iterate through the evolution chain
-		function iterateEvolutionChain(chain) {
-			if (chain) {
-				extractSpeciesName(chain);
-
-				if (chain.evolves_to && chain.evolves_to.length > 0) {
-					chain.evolves_to.forEach((evolution) => {
-						extractSpeciesName(evolution);
-						iterateEvolutionChain(evolution);
-					});
-				}
-			}
-		}
-
-		iterateEvolutionChain(chain);
-
-		return speciesNames;
-	}
-
-	const setPokemonEvolution = async (pokemonID) => {
-		try {
-			const response = await fetch(
-				`https://pokeapi.co/api/v2/pokemon-species/${pokemonID}`
-			);
-			const data = await response.json();
-			const evolutionChainURL = data.evolution_chain.url;
-			const evolutionResponse = await fetch(evolutionChainURL);
-			const evolutionData = await evolutionResponse.json();
-
-			const evolutionDataLog = JSON.stringify(evolutionData, null, 4);
-			console.log(evolutionDataLog);
-
-			const currentSpeciesName = evolutionData.chain.species.name;
-			const evolutionChain = await collectSpeciesNames(
-				evolutionData.chain
-			);
-
-			console.log(evolutionChain);
-
-			const currentIndex = evolutionChain.indexOf(currentSpeciesName);
-
-			if (
-				currentIndex !== -1 &&
-				currentIndex < evolutionChain.length - 1
-			) {
-				const nextSpeciesName = evolutionChain[currentIndex + 1];
-				const nextSpeciesResponse = await fetch(
-					`https://pokeapi.co/api/v2/pokemon/${nextSpeciesName}`
-				);
-				const nextSpeciesData = await nextSpeciesResponse.json();
-				const nextSpeciesID = nextSpeciesData.id;
-
-				setNextPokemonId(nextSpeciesID); // Use the separate state variable
-			} else {
-				console.log('No evolution found.');
-				alert('No evolution found.');
-			}
-		} catch (error) {
-			alert('An error occurred');
-			console.log(error);
-		}
 	};
-
-	const setPokemonPreEvolution = async (pokemonID) => {
-		try {
-			const response = await fetch(
-				`https://pokeapi.co/api/v2/pokemon-species/${pokemonID}`
-			);
-			const data = await response.json();
-			const evolutionChainURL = data.evolution_chain.url;
-			const evolutionResponse = await fetch(evolutionChainURL);
-			const evolutionData = await evolutionResponse.json();
-
-			const evolutionDataLog = JSON.stringify(evolutionData, null, 4);
-			console.log(evolutionDataLog);
-
-			const currentSpeciesName = evolutionData.chain.species.name;
-			const evolutionChain = await collectSpeciesNames(
-				evolutionData.chain
-			);
-			console.log(evolutionChain);
-
-			const currentIndex = evolutionChain.indexOf(currentSpeciesName);
-
-			if (evolutionChain && evolutionChain.length > 0) {
-				const preEvolutionSpeciesName =
-					evolutionChain[currentIndex + 1];
-				const preEvolutionResponse = await fetch(
-					`https://pokeapi.co/api/v2/pokemon/${preEvolutionSpeciesName}`
-				);
-				const preEvolutionData = await preEvolutionResponse.json();
-				const preEvolutionID = preEvolutionData.id;
-
-				setPrevPokemonId(preEvolutionID);
-			} else {
-				console.log('No pre-evolution found.');
-				alert('No pre-evolution found.');
-			}
-		} catch (error) {
-			alert('An error occurred');
-			console.log(error);
-		}
-	};
-
-	const [isActive, setIsActive] = useState(false);
 
 	const handlePokedexClick = () => {
 		setIsActive(true);
@@ -174,9 +72,13 @@ const Pokedex = () => {
 	return (
 		<div
 			className={`pokedex ${isActive ? 'is-active' : ''}`}
-			onClick={handlePokedexClick}>
+			onClick={handlePokedexClick}
+		>
 			<div className='pokedex-left'>
-				<div className='pokedex-left-top'>
+				<div
+					className='pokedex-left-top'
+					style={isActive ? { position: 'relative' } : {}}
+				>
 					<div
 						className={`light is-sky is-big pulseBox ${
 							loading && 'is-animated'
@@ -185,16 +87,34 @@ const Pokedex = () => {
 					<div className='light is-red' />
 					<div className='light is-yellow' />
 					<div className='light is-green' />
+
+					{isActive && (
+						<div className='generation-select-container'>
+							<select
+								id='generation'
+								value={generation}
+								onChange={(e) => setGeneration(e.target.value)}
+								className='generation-select'
+							>
+								<option value='1'>Gen 1</option>
+								<option value='2'>Gen 2</option>
+								<option value='3'>Gen 3</option>
+								<option value='4'>Gen 4</option>
+								<option value='5'>Gen 5</option>
+								<option value='6'>Gen 6</option>
+								<option value='7'>Gen 7</option>
+								<option value='8'>Gen 8</option>
+							</select>
+						</div>
+					)}
 				</div>
+
 				<div
 					className='pokedex-screen-container'
 					id={pokemonID}
-					onClick={() => flipCard(pokemonID)}>
-					<FrontScreen
-						pokemon={pokemon}
-						loading={loading}
-						error={error}
-					/>
+					onClick={() => flipCard(pokemonID)}
+				>
+					<FrontScreen pokemon={pokemon} loading={loading} error={error} />
 					<BackScreen
 						pokemon={pokemon}
 						loading={loading}
@@ -202,52 +122,65 @@ const Pokedex = () => {
 						stats={pokemon}
 					/>
 				</div>
+
 				<div className='pokedex-left-bottom'>
 					<PokemonForm
-						setPokemonId={setPokemonId}
+						setPokemonId={(id) => {
+							const index = genPokemonList.findIndex(
+								(name) => name === id.toLowerCase()
+							);
+							if (index !== -1) setGenIndex(index);
+							else alert('Pokémon not found in this generation!');
+						}}
 						setLoading={setLoading}
 						setError={setError}
 					/>
 				</div>
+
 				<div className='pokedex-bottom'>
 					<div id='wrapper'>
 						<div id='controls'>
 							<button
 								id='keyboard_key_up'
-								className=' btn movements_control'
+								className='btn movements_control'
 								onClick={() => {
-									console.log('Pokemon ID:', pokemonID + 1);
-									setPokemonId((prevId) => prevId + 1);
-								}}>
+									setGenIndex((prev) =>
+										prev + 1 >= genPokemonList.length ? 0 : prev + 1
+									);
+								}}
+							>
 								▲
 							</button>
 							<button
 								id='keyboard_key_left'
-								className=' btn movements_control'
-								onClick={() =>
-									setPokemonPreEvolution(pokemonID)
-								}>
+								className='btn movements_control'
+								onClick={() => flipCard(pokemonID)}
+							>
 								◄
 							</button>
 							<button
 								id='keyboard_key_right'
-								className=' btn movements_control'
-								onClick={() => setPokemonEvolution(pokemonID)}>
+								className='btn movements_control'
+								onClick={() => flipCard(pokemonID)}
+							>
 								►
 							</button>
 							<button
 								id='keyboard_key_down'
-								className=' btn  movements_control'
+								className='btn movements_control'
 								onClick={() => {
-									console.log('Pokemon ID:', pokemonID - 1);
-									setPokemonId((prevId) => prevId - 1);
-								}}>
+									setGenIndex((prev) =>
+										prev - 1 < 0 ? genPokemonList.length - 1 : prev - 1
+									);
+								}}
+							>
 								▼
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
+
 			<div className='pokedex-right-front' />
 			<div className='pokedex-right-back' />
 		</div>
