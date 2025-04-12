@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PokemonForm.css';
 
 function PokemonForm({ setPokemonId, setLoading, setError, generation }) {
@@ -27,12 +27,28 @@ function PokemonForm({ setPokemonId, setLoading, setError, generation }) {
 		}
 	};
 
+	useEffect(() => {
+		const fetchRandomByGeneration = async () => {
+			setLoading(true);
+			try {
+				const id = getRandomIdByGen(generation);
+				setPokemonId(id);
+				setError(false);
+			} catch (error) {
+				setError(true);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchRandomByGeneration();
+	}, [generation]);
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		setLoading(true);
 		try {
 			let id;
-			if (pokemon !== '') {
+			if (pokemon.trim() !== '') {
 				const response = await fetch(
 					`https://pokeapi.co/api/v2/pokemon/${pokemon.toLowerCase()}`
 				);
