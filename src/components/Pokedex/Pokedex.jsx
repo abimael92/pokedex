@@ -89,6 +89,21 @@ const Pokedex = () => {
 		setIsActive(true);
 	};
 
+	// Handle generation change and update the Pokemon list accordingly
+	const handleGenerationChange = (e) => {
+		const selectedGen = e.target.value;
+		setGeneration(selectedGen);
+
+		// Example generation list mapping
+		const genMapping = {
+			1: Array.from({ length: 151 }, (_, i) => (i + 1).toString()),
+			2: Array.from({ length: 100 }, (_, i) => (i + 152).toString()),
+			3: Array.from({ length: 135 }, (_, i) => (i + 252).toString()),
+		};
+		setGenPokemonList(genMapping[selectedGen] || []);
+		setGenIndex(0); // Reset to the first Pokemon
+	};
+
 	return (
 		<div
 			className={`pokedex ${isActive ? 'is-active' : ''}`}
@@ -112,7 +127,7 @@ const Pokedex = () => {
 							<select
 								id='generation'
 								value={generation}
-								onChange={(e) => setGeneration(e.target.value)}
+								onChange={handleGenerationChange}
 								className='generation-select'
 							>
 								<option value='1'>Gen 1</option>
