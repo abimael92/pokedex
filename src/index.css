@@ -15,16 +15,33 @@
 .App {
 	text-align: center;
 }
+
+.overlay {
+	animation: fadeIn 1s ease-in-out;
+	z-index: 2;
+	position: relative;
+  }
+  
+  @keyframes fadeIn {
+	from { opacity: 0; transform: scale(0.95); }
+	to { opacity: 1; transform: scale(1); }
+  }
+
 body {
-	background-image: url('/images/gengarnidorino1.jpg'); /* Adjust the image path */
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	width: 100vw;
+	background-image: url('/public/images/Gengar_vs_Nidorino.jpg');
 	background-size: cover;
 	background-position: center;
-	width: 100vw;
-	height: 100vh;
-	margin: 0;
-	padding-top: 80px;
-	/* background-size: 180%; */
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
+
 
 h1,
 h2 {
