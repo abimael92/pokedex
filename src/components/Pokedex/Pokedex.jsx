@@ -7,6 +7,10 @@ import {
 	getRandomPokemonId,
 	getGenerationPokemonList,
 } from '../../utils/pokemonGenerations';
+import {
+	fetchPokemonById,
+	fetchPokemonByName,
+} from '../../services/pokemonApi';
 import './Pokedex.css';
 
 const Pokedex = () => {
@@ -25,37 +29,38 @@ const Pokedex = () => {
 		setPokemonId(randomId);
 	}, [generation]);
 
-	// Fetch the Pokemon data based on the generated Pokemon ID
+	// Fetch the Pokemon name in generation list
 	useEffect(() => {
 		if (!pokemonID) return;
 
-		fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
-			.then((res) => res.json())
-			.then((data) => {
+		const fetchData = async () => {
+			try {
 				setLoading(true);
 				setError(false);
+				const data = await fetchPokemonById(pokemonID);
 				setTimeout(() => {
 					setPokemon(data);
 					setLoading(false);
 				}, 500);
-			})
-			.catch((err) => {
+			} catch (err) {
 				setLoading(false);
 				setError(true);
 				console.log(err);
-			});
+			}
+		};
+
+		fetchData();
 	}, [pokemonID]);
 
 	// Fetch Pokemon data based on generation list
 	useEffect(() => {
-		const fetchPokemon = async () => {
+		const fetchPokemonData = async () => {
 			if (!genPokemonList.length || pokemonID !== null) return;
 
 			try {
 				setLoading(true);
 				const name = genPokemonList[genIndex];
-				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-				const data = await res.json();
+				const data = await fetchPokemonByName(name);
 				setPokemon(data);
 				setPokemonId(data.id);
 				setError(false);
@@ -66,7 +71,7 @@ const Pokedex = () => {
 				setLoading(false);
 			}
 		};
-		fetchPokemon();
+		fetchPokemonData();
 	}, [genIndex, genPokemonList, pokemonID]);
 
 	const flipCard = (cardID) => {
