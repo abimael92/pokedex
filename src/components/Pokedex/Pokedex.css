@@ -135,18 +135,7 @@
 	border-radius: 50%;
 }
 
-.btn {
-	cursor: pointer;
-	border: 1px solid black;
-	box-shadow: -2px 2px 0 rgba(255, 255, 255, 0.5);
-	width: 20px;
-	height: 20px;
-	background: gray;
-	border-radius: 10%;
-	text-align: center;
-	margin: 5px;
-	position: relative;
-}
+
 
 .light.is-animated {
 	animation: 0.3s light linear infinite;
@@ -240,9 +229,7 @@
 	padding: 9px 9px;
 }
 
-.pokedex-bottom {
-	width: 100%;
-}
+
 
 .pokedex-left-top-row {
 	display: flex;
@@ -324,63 +311,116 @@
 	position: relative;
 	top: 0;
 }
-.btn-container {
+
+
+
+
+
+
+
+
+
+/* Pokedex bottom container */
+.pokedex-bottom {
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
-	height: 200px;
+	padding: 10px;
+	position: relative;
+	gap: 3rem;
 }
 
-#wrapper {
-	/* display: flex; */
-	margin: 1rem;
-	justify-content: center;
-	align-items: center;
-	width: fit-content;
+/* Position and style the cry button */
+.cry-button-container {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-start;
+	margin: 2rem;
 }
 
-#controls {
-	display: inline-grid;
-	grid-column-gap: 15px;
-	align-self: end;
+.cry-button {
+	background-color: #ffcc00;
+	border: 2px solid #ff9900;
+	border-radius: 30px;
+	color: white;
+	padding: 12px ;
+	font-size: 15px;
+	cursor: pointer;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.movements_control {
-	border: solid 1px black;
-	margin: 0;
-	padding: 0;
+.cry-button:hover {
+	background-color: #ff9900;
+	transform: scale(1.1);
 }
 
-.movements_control img {
-	width: inherit;
-	height: inherit;
+.cry-button2 {
+	background-color: #b497d6;
+	border: 2px solid #8e7cc3;
+	border-radius: 30px;
+	color: white;
+	padding: 12px ;
+	margin-left: 1rem;
+	font-size: 15px;
+	cursor: pointer;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-#keyboard_key_up {
-	grid-column-start: 2;
+.cry-button2:hover {
+	background-color: #8e7cc3;
+	transform: scale(1.1);
 }
 
-#keyboard_key_left {
-	grid-column-start: 1;
-}
 
-#keyboard_key_right {
-	grid-column-start: 3;
-}
-#keyboard_key_down {
-	grid-column-start: 2;
-}
 
-@media (min-width: 721px) {
-	.movements_control {
-		width: 30px;
-		height: 30px;
-	}
-}
 
-@media (max-width: 720px) {
-	.movements_control {
-		width: 20px;
-		height: 20px;
-	}
-}
+.controller-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+  }
+
+  .d-pad {
+    display: grid;
+    grid-template-areas:
+      ". up ."
+      "left center right"
+      ". down .";
+    gap: 2px;
+    position: relative;
+  }
+
+  .d-pad-button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid white;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    user-select: none;
+  }
+
+  .d-pad-button:hover {
+    background: #444;
+  }
+
+  .d-pad-button:active {
+    transform: scale(0.95);
+    background: #555;
+  }
+
+  /* Position each button in the grid */
+  .up { grid-area: up; }
+  .left { grid-area: left; }
+  .center { grid-area: center; visibility: hidden; }
+  .right { grid-area: right; }
+  .down { grid-area: down; }
