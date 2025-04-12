@@ -3,13 +3,14 @@ import { fetchPokemonById, fetchPokemonByName } from '../services/pokemonApi';
 import { getRandomPokemonId, getGenerationPokemonList } from '../utils/pokemonGenerations';
 import { Pokemon, Generation } from '../types/pokemon';
 
-export const usePokemon = (initialGeneration = '1') => {
+
+export const usePokemon = (initialGeneration: Generation = '1') => {
     const [error, setError] = useState < boolean > (false);
     const [loading, setLoading] = useState < boolean > (true);
     const [pokemon, setPokemon] = useState < Pokemon | null > (null);
     const [pokemonID, setPokemonId] = useState < number | null > (null);
-    const [generation, setGeneration] = useState < Generation > (initialGeneration);
-    const [genPokemonList, setGenPokemonList] = useState < string[] > ([]);
+    const [generation, setGeneration] = useState<Generation>(initialGeneration);
+    const [genPokemonList, setGenPokemonList] = useState < string[] > (getGenerationPokemonList(initialGeneration));
     const [genIndex, setGenIndex] = useState < number > (0);
 
     // Initialize with random Pokemon from selected generation
@@ -63,33 +64,24 @@ export const usePokemon = (initialGeneration = '1') => {
         fetchPokemonData();
     }, [genIndex, genPokemonList, pokemonID]);
 
-    const fetchPokemon = async (identifier) => {
-        try {
-            setLoading(true);
-            setError(false);
-            const data = isNaN(identifier)
-                ? await fetchPokemonByName(identifier)
-                : await fetchPokemonById(identifier);
-            setPokemon(data);
-            setPokemonId(data.id);
-        } catch (err) {
-            setError(true);
-            console.error('Failed to fetch Pokemon:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
 
-    const setPokemonIdentifier = (identifier) => {
-        if (!identifier) {
+
+    const setPokemonIdentifier = ( identifier: string | number | null | ((prev: number | null) => number | null)) => {
+        if (typeof identifier === 'function') {
+            setPokemonId(identifier);
+        } else if (identifier === null) {
             const randomId = getRandomPokemonId(generation);
             setPokemonId(randomId);
+        } else if (typeof identifier === 'string') {
+            fetchPokemonByName(identifier)
+            .then(data => setPokemonId(data.id))
+            .catch(err => console.error('Failed to fetch Pokemon:', err));
         } else {
-            fetchPokemon(identifier);
+            setPokemonId(identifier);
         }
     };
 
-    const handleGenerationChange = (selectedGen) => {
+    const handleGenerationChange = (selectedGen: Generation) => {
         setGeneration(selectedGen);
         setGenPokemonList(getGenerationPokemonList(selectedGen));
         setGenIndex(0);
@@ -104,7 +96,5 @@ export const usePokemon = (initialGeneration = '1') => {
         setPokemonId: setPokemonIdentifier,
         setGeneration: handleGenerationChange,
         setGenIndex,
-        setLoading,
-        setError,
     };
 };
