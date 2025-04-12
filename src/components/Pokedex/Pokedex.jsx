@@ -158,13 +158,8 @@ const Pokedex = () => {
 				</div>
 				<div className='pokedex-left-bottom'>
 					<PokemonForm
-						setPokemonId={(id) => {
-							const index = genPokemonList.findIndex(
-								(name) => name === id.toLowerCase()
-							);
-							if (index !== -1) setGenIndex(index);
-							else alert('Pokémon not found in this generation!');
-						}}
+						setPokemonId={setPokemonId}
+						generation={generation}
 						setLoading={setLoading}
 						setError={setError}
 					/>
