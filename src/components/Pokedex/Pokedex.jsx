@@ -15,29 +15,47 @@ const Pokedex = () => {
 	const [genPokemonList, setGenPokemonList] = useState([]);
 	const [genIndex, setGenIndex] = useState(0);
 
-	// Fetch generation list
+	// Generate a random Pokemon ID based on the selected generation
 	useEffect(() => {
-		const fetchGenPokemon = async () => {
-			try {
-				setLoading(true);
-				const res = await fetch(
-					`https://pokeapi.co/api/v2/generation/${generation}`
-				);
-				const data = await res.json();
-				const sortedList = data.pokemon_species.map((s) => s.name).sort(); // Sort for consistent next/prev
-
-				setGenPokemonList(sortedList);
-				setGenIndex(0); // Start at first of list
-			} catch (err) {
-				console.error(err);
-				setError(true);
-				setLoading(false);
+		const generateAndFetchRandomId = async () => {
+			let randomId;
+			switch (generation) {
+				case '1':
+					randomId = Math.floor(Math.random() * 151) + 1; // Gen 1: 1-151
+					break;
+				case '2':
+					randomId = Math.floor(Math.random() * 100) + 152; // Gen 2: 152-251
+					break;
+				case '3':
+					randomId = Math.floor(Math.random() * 135) + 252; // Gen 3: 252-386
+					break;
+				default:
+					randomId = Math.floor(Math.random() * 151) + 1; // Default to Gen 1 if generation is invalid
 			}
+			setPokemonId(randomId);
 		};
-		fetchGenPokemon();
+		generateAndFetchRandomId();
 	}, [generation]);
 
-	// Fetch specific pokemon from generation list
+	// Fetch the Pokemon data based on the generated Pokemon ID
+	useEffect(() => {
+		if (!pokemonID) return; // Prevent fetching if Pokemon ID is not set
+
+		fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
+			.then((res) => res.json())
+			.then((data) => {
+				setPokemon(data);
+				setLoading(false);
+				setError(false);
+			})
+			.catch((err) => {
+				setLoading(false);
+				setError(true);
+				console.log(err);
+			});
+	}, [pokemonID]);
+
+	// Fetch Pokemon data based on generation list
 	useEffect(() => {
 		const fetchPokemon = async () => {
 			if (!genPokemonList.length) return;
@@ -58,13 +76,15 @@ const Pokedex = () => {
 			}
 		};
 		fetchPokemon();
-	}, [genPokemonList, genIndex]);
+	}, [genIndex, genPokemonList]);
 
+	// Flip card function
 	const flipCard = (cardID) => {
 		const card = document.getElementById(`${cardID}`);
-		card.classList.toggle('flipped');
+		if (card) card.classList.toggle('flipped');
 	};
 
+	// Handle pokedex click
 	const handlePokedexClick = () => {
 		setIsActive(true);
 	};
@@ -75,21 +95,20 @@ const Pokedex = () => {
 			onClick={handlePokedexClick}
 		>
 			<div className='pokedex-left'>
-				<div
-					className='pokedex-left-top'
-					style={isActive ? { position: 'relative' } : {}}
-				>
-					<div
-						className={`light is-sky is-big pulseBox ${
-							loading && 'is-animated'
-						}`}
-					/>
-					<div className='light is-red' />
-					<div className='light is-yellow' />
-					<div className='light is-green' />
+				<div className='pokedex-left-top-row'>
+					<div className='pokedex-left-top-lights'>
+						<div
+							className={`light is-sky is-big pulseBox ${
+								loading ? 'is-animated' : ''
+							}`}
+						/>
+						<div className='light is-red' />
+						<div className='light is-yellow' />
+						<div className='light is-green' />
+					</div>
 
 					{isActive && (
-						<div className='generation-select-container'>
+						<div className='generation-select-wrapper'>
 							<select
 								id='generation'
 								value={generation}
@@ -122,7 +141,6 @@ const Pokedex = () => {
 						stats={pokemon}
 					/>
 				</div>
-
 				<div className='pokedex-left-bottom'>
 					<PokemonForm
 						setPokemonId={(id) => {
@@ -136,7 +154,6 @@ const Pokedex = () => {
 						setError={setError}
 					/>
 				</div>
-
 				<div className='pokedex-bottom'>
 					<div id='wrapper'>
 						<div id='controls'>
@@ -144,9 +161,7 @@ const Pokedex = () => {
 								id='keyboard_key_up'
 								className='btn movements_control'
 								onClick={() => {
-									setGenIndex((prev) =>
-										prev + 1 >= genPokemonList.length ? 0 : prev + 1
-									);
+									setPokemonId((prevId) => prevId + 1);
 								}}
 							>
 								▲
@@ -169,9 +184,7 @@ const Pokedex = () => {
 								id='keyboard_key_down'
 								className='btn movements_control'
 								onClick={() => {
-									setGenIndex((prev) =>
-										prev - 1 < 0 ? genPokemonList.length - 1 : prev - 1
-									);
+									setPokemonId((prevId) => prevId - 1);
 								}}
 							>
 								▼
@@ -180,7 +193,6 @@ const Pokedex = () => {
 					</div>
 				</div>
 			</div>
-
 			<div className='pokedex-right-front' />
 			<div className='pokedex-right-back' />
 		</div>
