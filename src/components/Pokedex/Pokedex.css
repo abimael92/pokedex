@@ -200,12 +200,16 @@
 
 .light.is-red {
 	background-color: var(--red);
+	position: relative;
+    margin-top: -4rem;
 }
 .light.is-blue {
 	background-color: var(--blue);
 }
 .light.is-green {
 	background-color: var(--green);
+	position: relative;
+    margin-top: -4rem;
 }
 .light.is-sky {
 	background: radial-gradient(#000080 2%, #00ffff);
@@ -216,6 +220,8 @@
 
 .light.is-yellow {
 	background-color: var(--yellow);
+	position: relative;
+    margin-top: -4rem;
 }
 
 .pokedex-left {
