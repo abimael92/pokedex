@@ -5,6 +5,7 @@ import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
 import { usePokemon } from '../../hooks/usePokemon';
 import {  Generation } from '../../types/pokemon';
+import { usePokemonAudio } from '../../hooks/usePokemonAudio';
 import './Pokedex.css';
 
 const Pokedex: React.FC = () => {
@@ -19,6 +20,8 @@ const Pokedex: React.FC = () => {
         setGeneration,
     } = usePokemon();
 
+	const { audioError, playCry, playMonologue } = usePokemonAudio();
+
     const flipCard = (cardID: number | null): void => {
         if (!cardID) return;
         const card = document.getElementById(cardID.toString());
@@ -29,19 +32,7 @@ const Pokedex: React.FC = () => {
         setIsActive(true);
     };
 
-    const playCry = (): void => {
-        if (pokemon?.cries?.latest) {
-            const cryAudio = new Audio(pokemon.cries.latest);
-            cryAudio.play().catch(e => console.error('Error playing cry:', e));
-        }
-    };
 
-    const playMonologue = (): void => {
-        if (pokemon?.name?.toLowerCase() === 'mewtwo') {
-            const mewtwoAudio = new Audio('/images/monologo.mp4');
-            mewtwoAudio.play().catch(e => console.error('Error playing monologue:', e));
-        }
-    };
 
     return (
         <div
@@ -143,7 +134,7 @@ const Pokedex: React.FC = () => {
                     <div className='cry-button-container'>
                         <button 
                             className='cry-button' 
-                            onClick={playCry}
+							onClick={() => playCry(pokemon)}
                             aria-label="Play Pokemon cry"
                             disabled={!pokemon?.cries?.latest}
                         >
@@ -153,7 +144,7 @@ const Pokedex: React.FC = () => {
                         {(pokemon?.id === 150 || pokemon?.name?.toLowerCase() === 'mewtwo') && (
                             <button 
                                 className='cry-button2' 
-                                onClick={playMonologue}
+								onClick={() => playMonologue(pokemon)}
                                 aria-label="Play Mewtwo monologue"
                             >
                                 <FaVolumeUp color='black' />
