@@ -109,6 +109,24 @@
 	filter: drop-shadow(0 -1px 0 black);
 }
 
+/* Add to your Pokedex.css */
+.pokedex-right-front,
+.pokedex-right-back {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  /* Add other existing styles */
+}
+
+/* Ensure the right side is clickable */
+.pokedex-right-front {
+  z-index: 2;
+}
+
+.pokedex-right-back {
+  z-index: 1;
+}
+
 .pokedex-right {
 	transform-style: preserve-3d;
 	transition: all 1.8s ease;
