@@ -6,6 +6,8 @@ import PokemonForm from '../PokemonForm/PokemonForm';
 import { usePokemon } from '../../hooks/usePokemon';
 import GenerationSelect from '../GenerationSelect/GenerationSelect';
 import PokemonNavigation from '../PokemonNavigation/PokemonNavigation';
+import StatusLights from '../StatusLights/StatusLights';
+
 import { usePokemonAudio } from '../../hooks/usePokemonAudio';
 import './Pokedex.css';
 
@@ -44,18 +46,7 @@ const Pokedex: React.FC = () => {
         >
             <div className='pokedex-left'>
                 <div className='pokedex-left-top-row'>
-                    <div className='pokedex-left-top-lights'>
-                        <div
-                            className={`light is-sky is-big pulseBox ${
-                                loading ? 'is-animated' : ''
-                            }`}
-                            aria-busy={loading}
-                        />
-                        <div className='light is-red' />
-                        <div className='light is-yellow' />
-                        <div className='light is-green' />
-                    </div>
-
+				<StatusLights loading={loading} />
 
 					{isActive && (
 						<GenerationSelect 
@@ -63,7 +54,6 @@ const Pokedex: React.FC = () => {
 							setGeneration={setGeneration} 
 						/>
 					)}
-
                 </div>
 
                 <div
