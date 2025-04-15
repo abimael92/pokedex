@@ -7,6 +7,7 @@ import { usePokemon } from '../../hooks/usePokemon';
 import GenerationSelect from '../GenerationSelect/GenerationSelect';
 import PokemonNavigation from '../PokemonNavigation/PokemonNavigation';
 import StatusLights from '../StatusLights/StatusLights';
+import CryButtons from '../CryButtons/CryButtons';
 import { usePokemonAudio } from '../../hooks/usePokemonAudio';
 import useFlipCard from '../../hooks/useFlipCard';
 import './Pokedex.css';
@@ -79,26 +80,11 @@ const Pokedex: React.FC = () => {
                         onFlip={() => flipCard(pokemonID)}
                     />
 
-                    <div className='cry-button-container'>
-                        <button 
-                            className='cry-button' 
-                            onClick={() => playCry(pokemon)}
-                            aria-label="Play Pokemon cry"
-                            disabled={!pokemon?.cries?.latest}
-                        >
-                            <FaVolumeUp color='black' />
-                        </button>
-
-                        {(pokemon?.id === 150 || pokemon?.name?.toLowerCase() === 'mewtwo') && (
-                            <button 
-                                className='cry-button2' 
-                                onClick={() => playMonologue(pokemon)}
-                                aria-label="Play Mewtwo monologue"
-                            >
-                                <FaVolumeUp color='black' />
-                            </button>
-                        )}
-                    </div>
+				<CryButtons 
+					pokemon={pokemon}
+					onPlayCry={playCry}
+					onPlayMonologue={playMonologue}
+				/>
                 </div>
             </div>
 				<div className='pokedex-right-front' >
