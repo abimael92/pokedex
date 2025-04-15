@@ -1,0 +1,80 @@
+/* components/StatusLights/StatusLights.css */
+.light {
+    border: 1px solid black;
+    box-shadow: -2px 2px 0 rgba(255, 255, 255, 0.5);
+    width: 20px;
+    height: 20px;
+    background: gray;
+    border-radius: 50%;
+}
+
+.light.is-animated {
+    animation: 0.3s light linear infinite;
+}
+
+@keyframes light {
+    0% { background-color: var(--blue); }
+    50% { background-color: var(--sky); }
+    100% { background-color: var(--blue); }
+}
+
+.light.is-big {
+    width: 50px;
+    height: 50px;
+    border-color: white;
+    border-width: 2px;
+}
+
+.light.is-medium {
+    width: 40px;
+    height: 40px;
+}
+
+.light.is-large {
+    width: 80px;
+    border-radius: 20px;
+}
+
+.light.is-red {
+    background-color: var(--red);
+    position: relative;
+    margin-top: -4rem;
+}
+
+.light.is-blue {
+    background-color: var(--blue);
+}
+
+.light.is-green {
+    background-color: var(--green);
+    position: relative;
+    margin-top: -4rem;
+}
+
+.light.is-sky {
+    background: radial-gradient(#000080 2%, #00ffff);
+}
+
+.light.is-orange {
+    background-color: var(--orange);
+}
+
+.light.is-yellow {
+    background-color: var(--yellow);
+    position: relative;
+    margin-top: -4rem;
+}
+
+.pulseBox {
+    background: black;
+    border-radius: 50%;
+    margin: 10px;
+    transform: scale(1);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); }
+    70% { transform: scale(1); }
+    100% { transform: scale(0.95); }
+}

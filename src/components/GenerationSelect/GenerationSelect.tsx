@@ -1,5 +1,6 @@
 import React from 'react';
 import { Generation } from '../../types/pokemon';
+import './GenerationSelect.css';
 
 interface GenerationSelectProps {
     generation: Generation;
