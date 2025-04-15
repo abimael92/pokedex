@@ -3,6 +3,7 @@ import ErrorPokemon from '../../img/error.gif';
 import LoadingPokemon from '../../img/loading.gif';
 import './PokedexScreenFront.css';
 import { Pokemon } from '../../types/pokemon';
+import useAbilityEffects from '../../hooks/useAbilityEffects';  
 
 interface TypeColors {
   [key: string]: string;
@@ -58,6 +59,8 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
   loading, 
   error 
 }) => {
+  const abilityEffects = useAbilityEffects(pokemon?.abilities || []);
+
   if (error) {
     return (
       <div className='pokedex-screen'>
@@ -94,6 +97,7 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
     );
   }
 
+
   return (
     <div className='pokedex-screen'>
       <h2 className='pokemon-name'>{pokemon.name}</h2>
@@ -109,23 +113,19 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
             <div className='divTableBody'>
               <div className='divTableRow'>
                 <div className='divTableCell'>Type</div>
-<div className='divTableCellData'>
-
-                {pokemon.types.map((types) => (
-
-
-<div
-                    className='divTableCellType'
-                    key={types.type.name}
-                    style={{
-                      backgroundColor: colours[types.type.name.toLowerCase()] || 'white'
-                    }}
-                  >
-                    {types.type.name}
-</div>
-
-                ))}
-              </div>
+                <div className='divTableCellData'>
+                  {pokemon.types.map((types) => (
+                    <div
+                      className='divTableCellType'
+                      key={types.type.name}
+                      style={{
+                        backgroundColor: colours[types.type.name.toLowerCase()] || 'white'
+                      }}
+                    >
+                      {types.type.name}
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className='divTableRow'>
@@ -143,6 +143,27 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
             </div>
           </div>
         </ul>
+      </div>
+
+      {/* Abilities Section - Displayed below with gap */}
+      <div className='abilities-container'>
+        <h3 className='abilities-title'>Abilities</h3>
+        <div className='abilities-list'>
+          {pokemon.abilities.map((ability, index) => (
+            <div
+              key={index}
+              className={`ability-item ${ability.is_hidden ? 'hidden' : ''}`}
+              title={ability.ability.name}
+            >
+              <div className='ability-name'>{ability.ability.name}</div>
+              {ability.is_hidden && <span className='hidden-tag'>Hidden</span>}
+              <div className='ability-tooltip'>
+                {/* Display the EN effect text if available */}
+                {abilityEffects[ability.ability.name] || 'Loading...'}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
