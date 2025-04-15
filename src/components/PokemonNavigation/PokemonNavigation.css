@@ -1,0 +1,49 @@
+/* components/PokemonNavigation/PokemonNavigation.css */
+.controller-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+}
+
+.d-pad {
+    display: grid;
+    grid-template-areas:
+        ". up ."
+        "left center right"
+        ". down .";
+    gap: 2px;
+    position: relative;
+}
+
+.d-pad-button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid white;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    user-select: none;
+}
+
+.d-pad-button:hover {
+    background: #444;
+}
+
+.d-pad-button:active {
+    transform: scale(0.95);
+    background: #555;
+}
+
+/* Position each button in the grid */
+.up { grid-area: up; }
+.left { grid-area: left; }
+.center { grid-area: center; visibility: hidden; }
+.right { grid-area: right; }
+.down { grid-area: down; }

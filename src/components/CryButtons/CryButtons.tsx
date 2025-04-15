@@ -1,4 +1,5 @@
 import React from 'react';
+import "./CryButtons.css"
 import { FaVolumeUp } from 'react-icons/fa';
 import { Pokemon } from '../../types/pokemon';
 

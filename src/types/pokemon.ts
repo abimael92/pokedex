@@ -17,14 +17,24 @@ export type PokemonType = {
   };
 };
 
-export type Ability = {
+interface AbilityEffectEntry {
+  short_effect: string;
+  language: {
+    name: string;
+    url: string;
+  };
+}
+
+interface Ability {
   ability: {
     name: string;
     url: string;
   };
   is_hidden: boolean;
   slot: number;
-};
+  effect_entries?: AbilityEffectEntry[]; // Add effect_entries as an optional property
+}
+
 
 export interface Pokemon {
   id: number;
