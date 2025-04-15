@@ -109,8 +109,12 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
             <div className='divTableBody'>
               <div className='divTableRow'>
                 <div className='divTableCell'>Type</div>
+<div className='divTableCellData'>
+
                 {pokemon.types.map((types) => (
-                  <div
+
+
+<div
                     className='divTableCellType'
                     key={types.type.name}
                     style={{
@@ -118,18 +122,21 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
                     }}
                   >
                     {types.type.name}
-                  </div>
+</div>
+
                 ))}
               </div>
+              </div>
+
               <div className='divTableRow'>
                 <div className='divTableCell'>Height</div>
-                <div className='divTableCell'>
+                <div className='divTableCellData'>
                   {Math.round(pokemon.height * 3.9)}"
                 </div>
               </div>
               <div className='divTableRow'>
                 <div className='divTableCell'>Weight</div>
-                <div className='divTableCell'>
+                <div className='divTableCellData'>
                   {Math.round(pokemon.weight / 4.3)} lbs
                 </div>
               </div>

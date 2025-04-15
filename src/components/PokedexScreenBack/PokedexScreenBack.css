@@ -41,14 +41,15 @@
 }
 .pokemon-stats {
 	grid-area: stats;
-	padding-top: 1em;
-	/* padding: 1em; */
+	flex-direction: column;
+	gap: 0.25rem;
+	padding-left: 1rem;
 }
 .pokemon-stat {
-	font-size: 0.9rem;
+	font-size: 1rem;
 }
 .pokedex-no-screen {
-	width: 100%;
+	width: 80;
 	height: 100%;
 }
 .stat-name {
