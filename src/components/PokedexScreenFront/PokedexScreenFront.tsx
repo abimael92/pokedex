@@ -48,6 +48,19 @@ const colours: TypeColors = {
   fairy: '#D685AD',
 };
 
+const darkenColor = (color: string, amount: number) => {
+  let colorHex = color.startsWith('#') ? color.slice(1) : color;
+  let r = parseInt(colorHex.slice(0, 2), 16);
+  let g = parseInt(colorHex.slice(2, 4), 16);
+  let b = parseInt(colorHex.slice(4, 6), 16);
+
+  r = Math.max(0, r - amount);
+  g = Math.max(0, g - amount);
+  b = Math.max(0, b - amount);
+
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+};
+
 interface PokedexScreenProps {
   pokemon: Pokemon | null;
   loading: boolean;
@@ -154,13 +167,24 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
               key={index}
               className={`ability-item ${ability.is_hidden ? 'hidden' : ''}`}
               title={ability.ability.name}
+              style={{
+                backgroundColor: ability.is_hidden
+                  ? darkenColor(colours[pokemon.types[0].type.name.toLowerCase()] || 'white', 50) // Darken if hidden
+                  : colours[pokemon.types[0].type.name.toLowerCase()] || 'white',
+              }}
             >
               <div className='ability-name'>{ability.ability.name}</div>
-              {ability.is_hidden && <span className='hidden-tag'>Hidden</span>}
-              <div className='ability-tooltip'>
+
                 {/* Display the EN effect text if available */}
-                {abilityEffects[ability.ability.name] || 'Loading...'}
-              </div>
+                <div
+                  className='ability-tooltip'
+                  dangerouslySetInnerHTML={{
+                    __html: ability.is_hidden
+                      ? `<strong>Hidden Ability:</strong> ${abilityEffects[ability.ability.name] || 'Loading...'}`
+                      : abilityEffects[ability.ability.name] || 'Loading...'
+                  }}
+                />
+
             </div>
           ))}
         </div>
