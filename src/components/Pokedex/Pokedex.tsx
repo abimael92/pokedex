@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { FaVolumeUp } from 'react-icons/fa';
+import { usePokemon } from '../../hooks/usePokemon';
+import { usePokemonAudio } from '../../hooks/usePokemonAudio';
+import useFlipCard from '../../hooks/useFlipCard';
+import PokedexShell from '../PokedexShell/PokedexShell';
+import StatusLights from '../StatusLights/StatusLights';
+import GenerationSelect from '../GenerationSelect/GenerationSelect';
 import FrontScreen from '../PokedexScreenFront/PokedexScreenFront';
 import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
-import { usePokemon } from '../../hooks/usePokemon';
-import GenerationSelect from '../GenerationSelect/GenerationSelect';
 import PokemonNavigation from '../PokemonNavigation/PokemonNavigation';
-import StatusLights from '../StatusLights/StatusLights';
 import CryButtons from '../CryButtons/CryButtons';
-import { usePokemonAudio } from '../../hooks/usePokemonAudio';
-import useFlipCard from '../../hooks/useFlipCard';
 import './Pokedex.css';
 
 const Pokedex: React.FC = () => {
@@ -24,7 +24,7 @@ const Pokedex: React.FC = () => {
         setGeneration,
     } = usePokemon();
 
-    const { audioError, playCry, playMonologue } = usePokemonAudio();
+    const { playCry, playMonologue } = usePokemonAudio();
     const { flipCard } = useFlipCard();
 
     const handlePokedexClick = (): void => {
@@ -32,11 +32,11 @@ const Pokedex: React.FC = () => {
     };
 
     return (
-        <div
-            className={`pokedex ${isActive ? 'is-active' : ''}`}
+        <PokedexShell 
+            isActive={isActive}
             onClick={handlePokedexClick}
-            role="button"
-            tabIndex={0}
+            onClose={() => flipCard(pokemonID, true)}
+            pokemonID={pokemonID}
         >
             <div className='pokedex-left'>
                 <div className='pokedex-left-top-row'>
@@ -51,15 +51,15 @@ const Pokedex: React.FC = () => {
                 </div>
 
                 <div
-					className='pokedex-screen-container'
-					id={pokemonID?.toString()}
-					onClick={(e) => {
-						e.stopPropagation();
-						flipCard(pokemonID);
-					}}
-					role="button"
-					aria-label="Flip Pokemon card"
-				>
+                    className='pokedex-screen-container'
+                    id={pokemonID?.toString()}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        flipCard(pokemonID);
+                    }}
+                    role="button"
+                    aria-label="Flip Pokemon card"
+                >
                     <FrontScreen pokemon={pokemon} loading={loading} error={error} />
                     <BackScreen
                         pokemon={pokemon}
@@ -80,28 +80,14 @@ const Pokedex: React.FC = () => {
                         onFlip={() => flipCard(pokemonID)}
                     />
 
-				<CryButtons 
-					pokemon={pokemon}
-					onPlayCry={playCry}
-					onPlayMonologue={playMonologue}
-				/>
+                    <CryButtons 
+                        pokemon={pokemon}
+                        onPlayCry={playCry}
+                        onPlayMonologue={playMonologue}
+                    />
                 </div>
             </div>
-				<div className='pokedex-right-front' >
-				</div>
-			<div
-				className='pokedex-right-back'
-				onClick={(e) => {
-					e.stopPropagation();
-					flipCard(pokemonID, true);
-				}}
-				role="button"
-				aria-label="Close Pokemon card"
-				tabIndex={0}
-			/>
-					<div className="close-icon"> this is a test</div>
-
-        </div>
+        </PokedexShell>
     );
 };
 
