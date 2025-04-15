@@ -7,8 +7,8 @@ import { usePokemon } from '../../hooks/usePokemon';
 import GenerationSelect from '../GenerationSelect/GenerationSelect';
 import PokemonNavigation from '../PokemonNavigation/PokemonNavigation';
 import StatusLights from '../StatusLights/StatusLights';
-
 import { usePokemonAudio } from '../../hooks/usePokemonAudio';
+import useFlipCard from '../../hooks/useFlipCard';
 import './Pokedex.css';
 
 const Pokedex: React.FC = () => {
@@ -23,19 +23,12 @@ const Pokedex: React.FC = () => {
         setGeneration,
     } = usePokemon();
 
-	const { audioError, playCry, playMonologue } = usePokemonAudio();
-
-    const flipCard = (cardID: number | null): void => {
-        if (!cardID) return;
-        const card = document.getElementById(cardID.toString());
-        if (card) card.classList.toggle('flipped');
-    };
+    const { audioError, playCry, playMonologue } = usePokemonAudio();
+    const { flipCard } = useFlipCard();
 
     const handlePokedexClick = (): void => {
         setIsActive(true);
     };
-
-
 
     return (
         <div
@@ -46,49 +39,50 @@ const Pokedex: React.FC = () => {
         >
             <div className='pokedex-left'>
                 <div className='pokedex-left-top-row'>
-				<StatusLights loading={loading} />
-
-					{isActive && (
-						<GenerationSelect 
-							generation={generation} 
-							setGeneration={setGeneration} 
-						/>
-					)}
+                    <StatusLights loading={loading} />
+                    
+                    {isActive && (
+                        <GenerationSelect 
+                            generation={generation} 
+                            setGeneration={setGeneration} 
+                        />
+                    )}
                 </div>
 
                 <div
-                    className='pokedex-screen-container'
-                    id={pokemonID?.toString()}
-                    onClick={() => flipCard(pokemonID)}
-                    role="button"
-                    aria-label="Flip Pokemon card"
-                >
+					className='pokedex-screen-container'
+					id={pokemonID?.toString()}
+					onClick={(e) => {
+						e.stopPropagation();
+						flipCard(pokemonID);
+					}}
+					role="button"
+					aria-label="Flip Pokemon card"
+				>
                     <FrontScreen pokemon={pokemon} loading={loading} error={error} />
                     <BackScreen
                         pokemon={pokemon}
                         loading={loading}
                         error={error}
-						stats={pokemon?.stats || []} 
+                        stats={pokemon?.stats || []} 
                     />
                 </div>
-                
+
                 <div className='pokedex-left-bottom'>
                     <PokemonForm setPokemonId={setPokemonId} generation={generation} />
                 </div>
 
                 <div className='pokedex-bottom'>
-                    <div className='controller-wrapper'>
-<PokemonNavigation
-    onNext={() => setPokemonId((prevId: number | null) => (prevId || 0) + 1)}
-    onPrevious={() => setPokemonId((prevId) => (prevId || 1) - 1)}
-    onFlip={() => flipCard(pokemonID)}
-/>
-                    </div>
+                    <PokemonNavigation
+                        onNext={() => setPokemonId((prevId: number | null) => (prevId || 0) + 1)}
+                        onPrevious={() => setPokemonId((prevId) => (prevId || 1) - 1)}
+                        onFlip={() => flipCard(pokemonID)}
+                    />
 
                     <div className='cry-button-container'>
                         <button 
                             className='cry-button' 
-							onClick={() => playCry(pokemon)}
+                            onClick={() => playCry(pokemon)}
                             aria-label="Play Pokemon cry"
                             disabled={!pokemon?.cries?.latest}
                         >
@@ -98,7 +92,7 @@ const Pokedex: React.FC = () => {
                         {(pokemon?.id === 150 || pokemon?.name?.toLowerCase() === 'mewtwo') && (
                             <button 
                                 className='cry-button2' 
-								onClick={() => playMonologue(pokemon)}
+                                onClick={() => playMonologue(pokemon)}
                                 aria-label="Play Mewtwo monologue"
                             >
                                 <FaVolumeUp color='black' />
@@ -107,8 +101,20 @@ const Pokedex: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className='pokedex-right-front' />
-            <div className='pokedex-right-back' />
+				<div className='pokedex-right-front' >
+				</div>
+			<div
+				className='pokedex-right-back'
+				onClick={(e) => {
+					e.stopPropagation();
+					flipCard(pokemonID, true);
+				}}
+				role="button"
+				aria-label="Close Pokemon card"
+				tabIndex={0}
+			/>
+					<div className="close-icon"> this is a test</div>
+
         </div>
     );
 };
