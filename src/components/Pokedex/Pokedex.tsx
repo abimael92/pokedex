@@ -5,6 +5,7 @@ import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
 import { usePokemon } from '../../hooks/usePokemon';
 import GenerationSelect from '../GenerationSelect/GenerationSelect';
+import PokemonNavigation from '../PokemonNavigation/PokemonNavigation';
 import { usePokemonAudio } from '../../hooks/usePokemonAudio';
 import './Pokedex.css';
 
@@ -87,37 +88,11 @@ const Pokedex: React.FC = () => {
 
                 <div className='pokedex-bottom'>
                     <div className='controller-wrapper'>
-                        <div className='d-pad'>
-                            <button
-                                className='d-pad-button up'
-								onClick={() => setPokemonId((prevId: number | null) => (prevId || 0) + 1)}
-                                aria-label="Next Pokemon"
-                            >
-                                ▲
-                            </button>
-                            <button
-                                className='d-pad-button left'
-                                onClick={() => flipCard(pokemonID)}
-                                aria-label="Flip card left"
-                            >
-                                ◄
-                            </button>
-                            <button className='d-pad-button center' aria-hidden="true" />
-                            <button
-                                className='d-pad-button right'
-                                onClick={() => flipCard(pokemonID)}
-                                aria-label="Flip card right"
-                            >
-                                ►
-                            </button>
-                            <button
-                                className='d-pad-button down'
-                                onClick={() => setPokemonId((prevId) => (prevId || 1) - 1)}
-                                aria-label="Previous Pokemon"
-                            >
-                                ▼
-                            </button>
-                        </div>
+<PokemonNavigation
+    onNext={() => setPokemonId((prevId: number | null) => (prevId || 0) + 1)}
+    onPrevious={() => setPokemonId((prevId) => (prevId || 1) - 1)}
+    onFlip={() => flipCard(pokemonID)}
+/>
                     </div>
 
                     <div className='cry-button-container'>
