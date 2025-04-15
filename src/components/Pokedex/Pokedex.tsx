@@ -4,7 +4,7 @@ import FrontScreen from '../PokedexScreenFront/PokedexScreenFront';
 import BackScreen from '../PokedexScreenBack/PokedexScreenBack';
 import PokemonForm from '../PokemonForm/PokemonForm';
 import { usePokemon } from '../../hooks/usePokemon';
-import {  Generation } from '../../types/pokemon';
+import GenerationSelect from '../GenerationSelect/GenerationSelect';
 import { usePokemonAudio } from '../../hooks/usePokemonAudio';
 import './Pokedex.css';
 
@@ -55,25 +55,14 @@ const Pokedex: React.FC = () => {
                         <div className='light is-green' />
                     </div>
 
-                    {isActive && (
-                        <div className='generation-select-wrapper'>
-                        <select
-							id='generation'
-							value={generation}
-							onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-								setGeneration(e.target.value as Generation);
-							}}
-							className='generation-select'
-							aria-label="Select Pokemon generation"
-						>
-							{[1, 2, 3, 4, 5, 6, 7, 8].map((gen) => (
-								<option key={gen} value={gen.toString()}>
-									Gen {gen}
-								</option>
-							))}
-						</select>
-                        </div>
-                    )}
+
+					{isActive && (
+						<GenerationSelect 
+							generation={generation} 
+							setGeneration={setGeneration} 
+						/>
+					)}
+
                 </div>
 
                 <div
