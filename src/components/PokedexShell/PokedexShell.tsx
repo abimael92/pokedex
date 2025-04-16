@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import './PokedexShell.css';
 import PokedexDataScreen from '../PokedexDataScreen/PokedexDataScreen';
 import { usePokemon } from '../../hooks/usePokemon';
+import { Pokemon } from '../../types/pokemon';
 
 
 interface PokedexShellProps {
@@ -10,6 +11,7 @@ interface PokedexShellProps {
     onClose: () => void;
     children: ReactNode;
     pokemonID: number | null;
+    pokemon: Pokemon | null;
 }
 
 const PokedexShell: React.FC<PokedexShellProps> = ({
@@ -17,15 +19,11 @@ const PokedexShell: React.FC<PokedexShellProps> = ({
     onClick,
     onClose,
     children,
-    pokemonID
+    pokemonID,
+    pokemon
 }) => {
 
-    const {
-        pokemon,
-        loading,
-        error,
 
-    } = usePokemon();
     return (
         <div
             className={`pokedex ${isActive ? 'is-active' : ''}`}
