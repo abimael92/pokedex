@@ -37,6 +37,7 @@ const Pokedex: React.FC = () => {
             onClick={handlePokedexClick}
             onClose={() => flipCard(pokemonID, true)}
             pokemonID={pokemonID}
+            pokemon={pokemon} 
         >
             <div className='pokedex-left'>
                 <div className='pokedex-left-top-row'>
@@ -87,7 +88,7 @@ const Pokedex: React.FC = () => {
                     />
                 </div>
             </div>
-        </PokedexShell>
+       </PokedexShell>
     );
 };
 
