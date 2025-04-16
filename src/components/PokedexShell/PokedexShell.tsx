@@ -1,5 +1,8 @@
 import React, { ReactNode } from 'react';
 import './PokedexShell.css';
+import PokedexDataScreen from '../PokedexDataScreen/PokedexDataScreen';
+import { usePokemon } from '../../hooks/usePokemon';
+
 
 interface PokedexShellProps {
     isActive: boolean;
@@ -16,6 +19,13 @@ const PokedexShell: React.FC<PokedexShellProps> = ({
     children,
     pokemonID
 }) => {
+
+    const {
+        pokemon,
+        loading,
+        error,
+
+    } = usePokemon();
     return (
         <div
             className={`pokedex ${isActive ? 'is-active' : ''}`}
@@ -27,19 +37,29 @@ const PokedexShell: React.FC<PokedexShellProps> = ({
             
             {/* Right side panels */}
             <div className='pokedex-right-front' />
-            <div
-                className='pokedex-right-back'
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onClose();
-                }}
-                role="button"
-                aria-label="Close Pokemon card"
-                tabIndex={0}
-            >
-                <div className="close-icon">×</div>
+                <div className='pokedex-right-back' >
+                    <div className='pokedex-right-layout' >
+
+                <div
+                    className='pokedex-screen-container'
+                    id={pokemonID?.toString()}
+                  
+                >
+                    <div
+                    className='pokedex-screen-data'
+                    id={pokemonID?.toString()}
+                   
+                    role="button"
+                    aria-label="Flip Pokemon card"
+                >
+                    <PokedexDataScreen pokemon={pokemon} />
+                </div>
+                </div>
+
+                </div>
+
             </div>
-        </div>
+            </div>
     );
 };
 

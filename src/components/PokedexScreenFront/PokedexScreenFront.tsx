@@ -110,6 +110,9 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
     );
   }
 
+  console.log("this is hte pokemin: ",pokemon);
+  
+
 
   return (
     <div className='pokedex-screen'>
