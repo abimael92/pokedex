@@ -112,7 +112,10 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
 
   return (
     <div className='pokedex-screen'>
+      <div className='pokemon-screen-top'>    
       <h2 className='pokemon-name'>{pokemon.name}</h2>
+      </div>
+  
       <div className='pokemon-info'>
       <div className="pokemon-img-wrapper">
         <img
