@@ -110,19 +110,18 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
     );
   }
 
-  console.log("this is hte pokemin: ",pokemon);
-  
-
-
   return (
     <div className='pokedex-screen'>
       <h2 className='pokemon-name'>{pokemon.name}</h2>
       <div className='pokemon-info'>
+      <div className="pokemon-img-wrapper">
         <img
-          className='pokemon-img'
+          className="pokemon-img"
           src={pokemon.sprites.front_default}
           alt={pokemon.name}
         />
+      </div>
+
 
         <ul className='pokemon-stats'>
           <div className='divTable'>

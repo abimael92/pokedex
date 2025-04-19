@@ -42,11 +42,13 @@ const PokedexScreenBack: React.FC<PokedexScreenProps> = ({
         <div>
         <h2 className="pokemon-name">{pokemon.name}</h2>
       <div className="pokemon-info">
+      <div className="pokemon-img-wrapper">
         <img
           className="pokemon-img"
           src={pokemon.sprites.front_default}
           alt={pokemon.name}
         />
+      </div>
 
         <ul className="pokemon-stats"> 
         {pokemon.stats.map(item => <Stat key={item.stat.name} item={item}/>)}
