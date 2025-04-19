@@ -15,9 +15,13 @@ export const usePokemon = (initialGeneration: Generation = '1') => {
 
     // Initialize with random Pokemon from selected generation
     useEffect(() => {
+        if (pokemonID === null) {
+            const randomId = getRandomPokemonId(generation);
+            setPokemonId(randomId);
+        }
         const randomId = getRandomPokemonId(generation);
         setPokemonId(randomId);
-    }, [generation]);
+    }, [generation,pokemonID]);
 
     // Fetch Pokemon by ID
     useEffect(() => {
