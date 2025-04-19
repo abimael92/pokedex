@@ -33,12 +33,22 @@
 	/* grid-area: title; */
 	font-weight: 700;
 }
-.pokemon-img {
-	width: 100%;
-	transform: scale(1.5);
-	align-self: center;
+
+.pokemon-img-wrapper {
 	grid-area: img;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
 }
+
+.pokemon-img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+
 .pokemon-stats {
 	grid-area: stats;
 	flex-direction: column;

@@ -83,7 +83,10 @@
     box-sizing: border-box;
     display: flex;
     cursor: pointer;
+
+
 }
+
 
 .pokedex-right-back:before {
     width: calc(100% - 9rem);
@@ -124,6 +127,7 @@
     height: calc(100% - 5rem);
     backface-visibility: hidden;
     display: flex;
+
 }
 
 .pokedex-shell.is-active .pokedex-right {
@@ -132,7 +136,6 @@
 
 
 .pokedex-screen-data {
-    .pokedex-screen {
         background-color: whitesmoke;
         border: 2px solid black;
         border-radius: 10px;
@@ -140,14 +143,12 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        opacity: 0.9;
         backface-visibility: hidden;
-    }
+        
   }
 
 
   .pokedex-right-layout {
-
 	width: inherit;
 	border-radius: 10px 0 0 10px;
 	box-sizing: border-box;
