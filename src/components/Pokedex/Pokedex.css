@@ -170,9 +170,36 @@
   .pokedex-bottom {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
 	padding: 10px;
-	position: relative;
-	gap: 3rem;
+	gap: 1rem;
   }
   
+
+  .shiny-toggle-button {
+	margin: 10px;
+	background-color: #ff5e01;
+	color: #333;
+	border: 2px solid #ffcc00;
+	border-radius: 8px;
+	padding: 5px 12px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: transform 0.2s ease, background-color 0.3s ease;
+
+	display: flex;
+	align-items: center;
+	gap: 6px;
+  }
+  
+  .shiny-toggle-button:hover {
+	background-color: #ff5e01;
+
+	transform: scale(1.05);
+  }
+  
+  .pokedex-controls-column {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+  }
