@@ -14,9 +14,9 @@ const PokemonForm: React.FC<PokemonFormProps> = ({ setPokemonId, generation }) =
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-		if (pokemonName.trim() !== '') {
-		setPokemonId(pokemonName.toLowerCase());
-    } else {
+      if (pokemonName.trim() !== '') {
+        setPokemonId(pokemonName.toLowerCase());
+      } else {
         const randomId = getRandomPokemonId(generation);
         setPokemonId(randomId);
       }
@@ -37,7 +37,7 @@ const PokemonForm: React.FC<PokemonFormProps> = ({ setPokemonId, generation }) =
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPokemonName(e.target.value)}
         autoComplete='off'
       />
-      <input type='submit' className='pokemon-btn' value='' />
+     <button type='submit' className='pokemon-btn'  ></button>
     </form>
   );
 };
