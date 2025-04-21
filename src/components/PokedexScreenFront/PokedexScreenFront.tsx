@@ -65,14 +65,18 @@ interface PokedexScreenProps {
   pokemon: Pokemon | null;
   loading: boolean;
   error: boolean;
+  isShiny: boolean;
 }
 
 const PokedexScreenFront: React.FC<PokedexScreenProps> = ({ 
   pokemon, 
   loading, 
-  error 
+  error,
+  isShiny
 }) => {
   const abilityEffects = useAbilityEffects(pokemon?.abilities || []);
+
+
 
   if (error) {
     return (
@@ -120,7 +124,8 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
       <div className="pokemon-img-wrapper">
         <img
           className="pokemon-img"
-          src={pokemon.sprites.front_default}
+      src={isShiny ? pokemon.sprites.front_shiny : pokemon.sprites.front_default}
+
           alt={pokemon.name}
         />
       </div>

@@ -15,7 +15,6 @@ const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
   const { description, loading: formsLoading, error: formsError } = usePokemonForms(pokemon?.id || 0);
   const { evolutionInfo, loading: evoLoading, error: evoError } = usePokemonEvolution(pokemon?.species?.url);
 
-  console.log('Pokemon Evolution Info:', evolutionInfo);
 
   if (formsError) {
     return (

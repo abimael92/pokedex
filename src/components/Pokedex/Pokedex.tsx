@@ -14,6 +14,8 @@ import './Pokedex.css';
 
 const Pokedex: React.FC = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
+    const [isShiny, setIsShiny] = useState<boolean>(false);
+
     const {
         pokemon,
         loading,
@@ -61,12 +63,14 @@ const Pokedex: React.FC = () => {
                     role="button"
                     aria-label="Flip Pokemon card"
                 >
-                    <FrontScreen pokemon={pokemon} loading={loading} error={error} />
+<FrontScreen pokemon={pokemon} loading={loading} error={error} isShiny={isShiny} />
+
                     <BackScreen
                         pokemon={pokemon}
                         loading={loading}
                         error={error}
                         stats={pokemon?.stats || []} 
+                        isShiny={isShiny}
                     />
                 </div>
 
@@ -81,11 +85,22 @@ const Pokedex: React.FC = () => {
                         onFlip={() => flipCard(pokemonID)}
                     />
 
-                    <CryButtons 
+                    <div className="pokedex-controls-column">
+                        <CryButtons 
                         pokemon={pokemon}
                         onPlayCry={playCry}
                         onPlayMonologue={playMonologue}
-                    />
+                        />
+
+                        <button
+                        className="shiny-toggle-button"
+                        onClick={() => setIsShiny((prev: any) => !prev)}
+                        title="Toggle Shiny"
+                        >
+                        <span role="img" aria-label="shiny">✨</span> Shiny
+                        </button>
+                    </div>
+
                 </div>
             </div>
        </PokedexShell>
