@@ -43,7 +43,7 @@ const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
 
   return (
     <div className='pokedex-description-screen'>
-      <h2 className='pokemon-description-title'>Description:</h2>
+      <h3 className='pokemon-description-title'>Description:</h3>
       <p className='pokemon-description-text'>
         {description || 'No description available.'}
       </p>
@@ -52,9 +52,9 @@ const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
       {evoLoading && <p>Loading evolution data...</p>}
       {evoError && <p>Failed to load evolution info.</p>}
   
-      {!evoLoading && evolutionInfo?.evolutionChain && (
+      {!evoLoading && evolutionInfo?.evolutionChain && evolutionInfo?.evolutionChain.length < 0 && (
         <>
-          <h2 className='pokemon-description-title'>Evolution Chart:</h2>
+          <h3 className='pokemon-description-title'>Evolution Chart:</h3>
           <div className='evolution-chain'>
             {evolutionInfo.evolutionChain.map((step, index, array) => (
               <div key={index} className="evolution-step">

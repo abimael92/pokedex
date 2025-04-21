@@ -3,11 +3,8 @@
 /*----------------------*/
 
 .pokedex-screen-container {
-	border: 1px solid black;
-	border-radius: 10px 10px 0 0;
-	margin: 20px 0;
 	padding: 0.8rem;
-	height: 50%;
+	height: 80%;
 	transform-style: preserve-3d;
 	transition: transform 0.6s ease;
 }
@@ -30,10 +27,27 @@
 	top: 0;
 	left: 0;
 	
-	z-index: 2;
 } 
 
 
+.pokemon-description-title {
+	/* font-size: calc(1rem + 0.2vw); */
+	 margin: calc(0.25rem + 2px);
+	 margin-top: -2.5rem;
+	/* font-weight: 500; */
+	text-transform: capitalize;
+	text-align: center;
+  }
+
+
+  .pokemon-description-text {
+
+	/* font-size: calc(1rem + 0.2vw); */
+	margin: 0;
+	padding:  0 calc(1rem  - 10px); 
+	/* font-weight: 500; */
+	text-align: left;
+  }
 
 
 .flipped {

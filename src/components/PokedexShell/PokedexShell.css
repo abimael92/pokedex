@@ -144,6 +144,8 @@
         flex-direction: column;
         justify-content: center;
         backface-visibility: hidden;
+
+
         
   }
 
@@ -152,4 +154,7 @@
 	width: inherit;
 	border-radius: 10px 0 0 10px;
 	box-sizing: border-box;
+
+    margin: 15px 0px;
+
   }
