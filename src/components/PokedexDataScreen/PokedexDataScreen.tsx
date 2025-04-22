@@ -11,10 +11,9 @@ interface PokedexScreenProps {
 }
 
 const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
-  // console.log('Pokemon is:', pokemon);
+    // console.log('Pokemon is:', pokemon);
   const { description, loading: formsLoading, error: formsError } = usePokemonForms(pokemon?.id || 0);
   const { evolutionInfo, loading: evoLoading, error: evoError } = usePokemonEvolution(pokemon?.species?.url);
-
 
   if (formsError) {
     return (
@@ -51,37 +50,49 @@ const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
       {evoLoading && <p>Loading evolution data...</p>}
       {evoError && <p>Failed to load evolution info.</p>}
   
-      {!evoLoading && evolutionInfo?.evolutionChain && evolutionInfo?.evolutionChain.length < 0 && (
+      {!evoLoading && evolutionInfo?.evolutionChain && evolutionInfo.evolutionChain.length > 0 && (
         <>
           <h3 className='pokemon-description-title'>Evolution Chart:</h3>
-          <div className='evolution-chain'>
-            {evolutionInfo.evolutionChain.map((step, index, array) => (
-              <div key={index} className="evolution-step">
-                <div className="evolution-stage">
-                  <h4 className="evolution-species">{step.species}</h4>
-                  {step.minLevel && (
-                    <span className="evolution-detail">(Level: {step.minLevel})</span>
-                  )}
-                  {!step.minLevel && step.trigger && (
-                    <span className="evolution-detail">
-                      {step.trigger === 'use-item'
-                        ? `(Use ${step.item ?? 'item'})`
-                        : step.trigger === 'trade'
-                        ? `(Trade${step.heldItem ? ` holding ${step.heldItem}` : ''})`
-                        : `(${step.trigger})`}
-                    </span>
+          <div className='evolution-container'>
+            {evolutionInfo.evolutionChain.reduce((rows: JSX.Element[][], step, index, array) => {
+              // Start new row every 3 steps
+              if (index % 3 === 0) rows.push([]);
+              
+              // Add current step to last row
+              rows[rows.length - 1].push(
+                <div key={index} className="evolution-step">
+                  <div className="evolution-stage">
+                    <h4 className="evolution-species">{step.species}</h4>
+                    {step.minLevel && (
+                      <span className="evolution-detail">(Level: {step.minLevel})</span>
+                    )}
+                    {!step.minLevel && step.trigger && (
+                      <span className="evolution-detail">
+                        {step.trigger === 'use-item'
+                          ? `(Use ${step.item ?? 'item'})`
+                          : step.trigger === 'trade'
+                          ? `(Trade${step.heldItem ? ` holding ${step.heldItem}` : ''})`
+                          : `(${step.trigger})`}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Only show arrow if not last in row AND not last in chain */}
+                  {index % 3 !== 2 && index < array.length - 1 && (
+                    <div className="evolution-arrow">
+                      <img 
+                        src="/images/arrow.png" 
+                        alt="evolves to" 
+                        className="arrow-icon"
+                      />
+                    </div>
                   )}
                 </div>
-  
-                {index < array.length - 1 && (
-                  <div className="evolution-arrow">
-                    <img 
-                      src="/images/arrow.png" 
-                      alt="evolves to" 
-                      className="arrow-icon"
-                    />
-                  </div>
-                )}
+              );
+              return rows;
+            }, []).map((row, rowIndex) => (
+              <div key={`row-${rowIndex}`} className="evolution-row">
+                {row}
               </div>
             ))}
           </div>
@@ -89,7 +100,6 @@ const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
       )}
     </div>
   );
-  
 };
 
 export default PokedexDataScreen;
