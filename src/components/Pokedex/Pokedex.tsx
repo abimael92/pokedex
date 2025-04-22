@@ -17,6 +17,8 @@ const Pokedex: React.FC = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isShiny, setIsShiny] = useState<boolean>(false);
     const [isFemale, setIsFemale] = useState<boolean>(false);
+    const [previousPokemonId, setPreviousPokemonId] = useState<number | null>(null);  
+    const [previousForm, setPreviousForm] = useState<string | null>(null); 
 
     const {
         pokemon,
@@ -52,6 +54,19 @@ const Pokedex: React.FC = () => {
 
     const handlePokedexClick = () => setIsActive(true);
     const handleToggleGender = () => setIsFemale((prev) => !prev);
+
+    const handleSelectForm = (formUrl: string, formName: string) => {
+        setPreviousForm(formName);  // Save the current form name
+        setPreviousPokemonId(pokemonID);  // Save the current Pokemon ID
+        setPokemonId(Number(formUrl.split('/').at(-2)));  // Update the Pokemon ID
+    };
+
+    const handleRevertForm = () => {
+        if (previousPokemonId && previousForm) {
+            setPokemonId(previousPokemonId);
+            setPreviousForm(null);  // Revert to previous Pokemon ID
+        }
+    };
 
     return (
         <PokedexShell 
@@ -111,13 +126,13 @@ const Pokedex: React.FC = () => {
                         onFlip={() => flipCard(pokemonID)}
                     />
 
-                    {forms.length > 0 && (
+                    {forms.length > 0 && !previousForm && (
                     <div className="form-buttons-container">
                         {forms.map((form: { name: string; url: string }, index: React.Key) => (
                         <div key={index} className="form-button-container">
                             <label className='forms-label'> {form.name.split('-').pop()}</label> 
                             <button
-                            onClick={() => setPokemonId(Number(form.url.split('/').at(-2)))}
+                            onClick={() => handleSelectForm(form.url, form.name)}
                             className="form-button"
                             aria-label={`Select ${form.name}`}
                             style={{
@@ -132,6 +147,16 @@ const Pokedex: React.FC = () => {
                         ))}
                     </div>
                     )}
+
+                 { previousForm && (
+                    <button onClick={handleRevertForm} className="form-button"  style={{
+                        backgroundColor: getRandomColor(),
+                        borderColor: getRandomColor()
+                    }}>
+                    Revert Form
+                </button>
+
+                 )  }
 
                     </div>
 
