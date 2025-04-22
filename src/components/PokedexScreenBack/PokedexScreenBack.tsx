@@ -11,6 +11,8 @@ interface PokedexScreenProps {
   error: boolean;
   stats: Pokemon['stats'];
   isShiny: boolean;
+  isFemale: boolean;
+  onToggleGender: () => void;
 }
 
 const PokedexScreenBack: React.FC<PokedexScreenProps> = ({ 
@@ -18,7 +20,8 @@ const PokedexScreenBack: React.FC<PokedexScreenProps> = ({
   loading, 
   error, 
   stats,
-  isShiny
+  isShiny,
+  isFemale
 }) => {
 
     if(error){

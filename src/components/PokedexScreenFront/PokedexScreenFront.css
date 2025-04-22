@@ -279,3 +279,79 @@ margin: 1rem;
 	}
   }
   
+
+
+  .gender-toggle-switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 30px;
+	margin-left: 10px;
+	cursor: pointer;
+	border: none;
+	background: transparent;
+	padding: 0;
+	outline: none;
+  }
+  
+  .gender-toggle-switch .gender-icon {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 1.2rem;
+	transition: all 0.3s ease;
+  }
+  
+  .gender-toggle-switch.male .gender-icon {
+	left: 8px;
+	color: #0059ff;
+
+  }
+  
+  .gender-toggle-switch.female .gender-icon {
+	right: 8px;
+	color: #f5007a;
+  }
+
+  .gender-icon {
+	opacity: 1 !important;
+	visibility: visible !important;
+	z-index: 5;
+  }
+  
+  .gender-toggle-switch .gender-slider {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(100, 149, 237, 0.2);
+	border-radius: 15px;
+	transition: all 0.3s ease;
+  }
+  
+  .gender-toggle-switch .gender-slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 2px;
+	bottom: 2px;
+	background-color: #6495ed;
+	border-radius: 50%;
+	transition: all 0.3s ease;
+  }
+  
+  .gender-toggle-switch.female .gender-slider {
+	background-color: rgba(255, 105, 180, 0.2);
+  }
+  
+  .gender-toggle-switch.female .gender-slider:before {
+	transform: translateX(30px);
+	background-color: #ff69b4;
+  }
+  
+  /* Prevent any parent elements from being clicked when interacting with the switch */
+  .gender-toggle-switch * {
+	pointer-events: none;
+  }
