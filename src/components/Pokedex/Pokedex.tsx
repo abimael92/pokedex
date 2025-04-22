@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { usePokemon } from '../../hooks/usePokemon';
 import { usePokemonAudio } from '../../hooks/usePokemonAudio';
+import { useAlternateForms } from '../../hooks/useAlternateForms';  
 import useFlipCard from '../../hooks/useFlipCard';
 import PokedexShell from '../PokedexShell/PokedexShell';
 import StatusLights from '../StatusLights/StatusLights';
@@ -30,13 +31,27 @@ const Pokedex: React.FC = () => {
     const { playCry, playMonologue } = usePokemonAudio();
     const { flipCard } = useFlipCard();
 
-    const handlePokedexClick = (): void => {
-        setIsActive(true);
-    };
+    const { forms, loading: formsLoading, error: formsError } = useAlternateForms(pokemonID ?? null);
 
-    const handleToggleGender = () => {
-        setIsFemale(prev => !prev);
-    };
+
+    useEffect(() => {
+        if (pokemonID) {
+            console.log('Forms:', forms);
+        }
+    }, [forms, pokemonID]);
+
+    const getRandomColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      };
+
+
+    const handlePokedexClick = () => setIsActive(true);
+    const handleToggleGender = () => setIsFemale((prev) => !prev);
 
     return (
         <PokedexShell 
@@ -87,11 +102,38 @@ const Pokedex: React.FC = () => {
                 </div>
 
                 <div className='pokedex-bottom'>
+
+                <div className='pokedex-bottom'>
+
                     <PokemonNavigation
                         onNext={() => setPokemonId((prevId: number | null) => (prevId || 0) + 1)}
                         onPrevious={() => setPokemonId((prevId) => (prevId || 1) - 1)}
                         onFlip={() => flipCard(pokemonID)}
                     />
+
+                    {forms.length > 0 && (
+                    <div className="form-buttons-container">
+                        {forms.map((form: { name: string; url: string }, index: React.Key) => (
+                        <div key={index} className="form-button-container">
+                            <label className='forms-label'> {form.name.split('-').pop()}</label> 
+                            <button
+                            onClick={() => setPokemonId(Number(form.url.split('/').at(-2)))}
+                            className="form-button"
+                            aria-label={`Select ${form.name}`}
+                            style={{
+                                backgroundColor: getRandomColor(),
+                                borderColor: getRandomColor()
+                            }}
+                            />
+
+                            {/* <label className="form-tooltip"> ${form.name}</label> */}
+
+                            </div>
+                        ))}
+                    </div>
+                    )}
+
+                    </div>
 
                 <div className="pokedex-controls-column">
                 <CryButtons 

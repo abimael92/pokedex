@@ -231,5 +231,120 @@
   
   .shiny-toggle-button.inactive {
 	opacity:1;
+  }
 
+
+  .form-buttons-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	align-items: center;
+	margin: auto 1rem ;
+
+  }
+  
+  .form-button-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 100%;
+	flex-direction: column;
+
+	position: relative;
+  }
+
+  .form-tooltip {
+	display: none;
+	background-color: #999;
+	color: #000;
+	padding: 0.5rem;
+	border-radius: 5px;
+	position: absolute;
+	bottom: 100%;
+	left: 50%; /* Adjusted to center horizontally */
+	transform: translateX(-50%); /* Fixed horizontal centering */
+	white-space: normal;
+	font-size: 0.85em;
+	width: 300px; /* Increased width to accommodate longer descriptions */
+	word-wrap: break-word; /* Wraps long words onto the next line */
+	box-sizing: border-box;
+	z-index: 10;
+  }
+  
+
+
+  .forms-label {
+	color: #ffffff;
+	font-family: 'Orbitron', sans-serif;
+
+	font-size: 12px; /* Extra-small font size */
+	padding: 4px;
+	margin: 2px;
+	text-transform: uppercase;
+  }
+  
+  .form-button {
+	color: #ffffff; /* White text */
+	font-size: 10px; /* Extra-small font size */
+	padding: 0.35rem 0.7rem ;
+	border: 2px solid transparent; /* Transparent border by default */
+	border-radius: 3px;
+	cursor: pointer;
+	text-transform: uppercase;
+	text-align: center;
+	transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+	display: inline-block;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	animation: glitch 1.5s infinite;
+  }
+  
+  .form-button:hover {
+	transform: scale(1.1);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+	animation: glitch 1.5s infinite, glowing 1s ease-in-out infinite alternate;
+  }
+
+    /* Show Tooltip on Hover */
+	.form-button:hover .form-tooltip {
+		display: block;
+	  }
+  
+  .form-button:active {
+	transform: scale(0.95);
+  }
+  
+  @keyframes glitch {
+	0% {
+	  text-shadow: 2px 0 red, -2px 0 blue, 0 2px green;
+	}
+	25% {
+	  text-shadow: -2px 0 red, 2px 0 blue, 0 2px green;
+	}
+	50% {
+	  text-shadow: 2px 0 blue, -2px 0 green, 0 -2px red;
+	}
+	75% {
+	  text-shadow: -2px 0 blue, 2px 0 green, 0 -2px red;
+	}
+	100% {
+	  text-shadow: 2px 0 green, -2px 0 red, 0 2px blue;
+	}
+  }
+  
+  /* Glowing effect for hover */
+  @keyframes glowing {
+	0% {
+	  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.5);
+	  color: #ff0000;
+	}
+	50% {
+	  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5), 0 0 25px rgba(0, 255, 0, 0.5);
+	  color: #00ff00;
+	}
+	100% {
+	  box-shadow: 0 0 20px rgba(0, 0, 255, 0.5), 0 0 30px rgba(0, 0, 255, 0.5);
+	  color: #0000ff;
+	}
   }
