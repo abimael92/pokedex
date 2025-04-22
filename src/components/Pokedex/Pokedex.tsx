@@ -14,6 +14,9 @@ import './Pokedex.css';
 
 const Pokedex: React.FC = () => {
     const [isActive, setIsActive] = useState<boolean>(false);
+    const [isShiny, setIsShiny] = useState<boolean>(false);
+    const [isFemale, setIsFemale] = useState<boolean>(false);
+
     const {
         pokemon,
         loading,
@@ -29,6 +32,10 @@ const Pokedex: React.FC = () => {
 
     const handlePokedexClick = (): void => {
         setIsActive(true);
+    };
+
+    const handleToggleGender = () => {
+        setIsFemale(prev => !prev);
     };
 
     return (
@@ -61,13 +68,18 @@ const Pokedex: React.FC = () => {
                     role="button"
                     aria-label="Flip Pokemon card"
                 >
-                    <FrontScreen pokemon={pokemon} loading={loading} error={error} />
+                <FrontScreen pokemon={pokemon} loading={loading} error={error} isShiny={isShiny} isFemale={isFemale}
+                onToggleGender={handleToggleGender}/>
+
                     <BackScreen
                         pokemon={pokemon}
                         loading={loading}
                         error={error}
                         stats={pokemon?.stats || []} 
-                    />
+                        isShiny={isShiny}
+                        isFemale={isFemale}
+                        onToggleGender={handleToggleGender}
+                        />
                 </div>
 
                 <div className='pokedex-left-bottom'>
@@ -81,11 +93,31 @@ const Pokedex: React.FC = () => {
                         onFlip={() => flipCard(pokemonID)}
                     />
 
-                    <CryButtons 
-                        pokemon={pokemon}
-                        onPlayCry={playCry}
-                        onPlayMonologue={playMonologue}
-                    />
+                <div className="pokedex-controls-column">
+                <CryButtons 
+                    pokemon={pokemon}
+                    onPlayCry={playCry}
+                    onPlayMonologue={playMonologue}
+                />
+
+                <button
+                    className={`shiny-toggle-button ${isShiny ? 'active' : 'inactive'}`}
+                    onClick={() => setIsShiny(prev => !prev)}
+                    title={isShiny ? "Disable Shiny" : "Enable Shiny"}
+                >
+                     <span 
+                        role="img" 
+                        aria-label={isShiny ? "shiny" : "not-shiny"}
+                        className="shiny-icon"
+                        >
+                        ✨
+                        {isShiny && <span className="cancel-line"></span>}
+                        </span>
+                    
+                    {!isShiny ? "Shiny" : "Normal"}
+                </button>
+                </div>
+
                 </div>
             </div>
        </PokedexShell>

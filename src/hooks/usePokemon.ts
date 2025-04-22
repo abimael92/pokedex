@@ -19,9 +19,7 @@ export const usePokemon = (initialGeneration: Generation = '1') => {
             const randomId = getRandomPokemonId(generation);
             setPokemonId(randomId);
         }
-        const randomId = getRandomPokemonId(generation);
-        setPokemonId(randomId);
-    }, [generation,pokemonID]);
+    }, []);
 
     // Fetch Pokemon by ID
     useEffect(() => {
@@ -32,6 +30,7 @@ export const usePokemon = (initialGeneration: Generation = '1') => {
                 setLoading(true);
                 setError(false);
                 const data = await fetchPokemonById(pokemonID);
+                console.log('Fetched by ID:', data);
                 setPokemon(data);
                 setLoading(false);
             } catch (err) {
@@ -46,40 +45,22 @@ export const usePokemon = (initialGeneration: Generation = '1') => {
         return () => clearTimeout(timer);
     }, [pokemonID]);
 
-    // Fetch Pokemon from generation list
+  // Update when generation changes
     useEffect(() => {
-        const fetchPokemonData = async () => {
-            if (!genPokemonList.length || pokemonID !== null) return;
-
-            try {
-                setLoading(true);
-                const name = genPokemonList[genIndex];
-                const data = await fetchPokemonByName(name);
-                setPokemon(data);
-                setPokemonId(data.id);
-                setError(false);
-            } catch (err) {
-                console.error(err);
-                setError(true);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchPokemonData();
-    }, [genIndex, genPokemonList, pokemonID]);
+        setGenPokemonList(getGenerationPokemonList(generation));
+        setGenIndex(0);
+    }, [generation]);
 
 
 
     const setPokemonIdentifier = ( identifier: string | number | null | ((prev: number | null) => number | null)) => {
-        if (typeof identifier === 'function') {
-            setPokemonId(identifier);
-        } else if (identifier === null) {
+        if (identifier === null || identifier === '') {
             const randomId = getRandomPokemonId(generation);
             setPokemonId(randomId);
         } else if (typeof identifier === 'string') {
             fetchPokemonByName(identifier)
-            .then(data => setPokemonId(data.id))
-            .catch(err => console.error('Failed to fetch Pokemon:', err));
+                .then(data => setPokemonId(data.id))
+                .catch(err => console.error('Failed to fetch Pokémon:', err));
         } else {
             setPokemonId(identifier);
         }
@@ -87,8 +68,8 @@ export const usePokemon = (initialGeneration: Generation = '1') => {
 
     const handleGenerationChange = (selectedGen: Generation) => {
         setGeneration(selectedGen);
-        setGenPokemonList(getGenerationPokemonList(selectedGen));
-        setGenIndex(0);
+        const randomId = getRandomPokemonId(selectedGen); // Get random ID from new gen
+        setPokemonId(randomId); // Force a new random Pokémon
     };
 
     return {

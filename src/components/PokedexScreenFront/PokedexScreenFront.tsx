@@ -65,14 +65,38 @@ interface PokedexScreenProps {
   pokemon: Pokemon | null;
   loading: boolean;
   error: boolean;
+  isShiny: boolean;
+  isFemale: boolean;
+  onToggleGender: () => void;
 }
 
 const PokedexScreenFront: React.FC<PokedexScreenProps> = ({ 
   pokemon, 
   loading, 
-  error 
+  error,
+  isShiny,
+  isFemale,
+  onToggleGender
 }) => {
   const abilityEffects = useAbilityEffects(pokemon?.abilities || []);
+ 
+  const hasFemaleSprite = pokemon?.sprites.front_female !== null;
+
+  const getSpriteUrl = () => {
+    if (!pokemon) return '';
+    
+    if (isShiny) {
+      return isFemale 
+        ? pokemon.sprites.front_shiny_female || pokemon.sprites.front_shiny 
+        : pokemon.sprites.front_shiny;
+    }
+    
+    return isFemale 
+      ? pokemon.sprites.front_female || pokemon.sprites.front_default 
+      : pokemon.sprites.front_default;
+  };
+
+
 
   if (error) {
     return (
@@ -120,8 +144,17 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
       <div className="pokemon-img-wrapper">
         <img
           className="pokemon-img"
-          src={pokemon.sprites.front_default}
+          src={getSpriteUrl()}
+
           alt={pokemon.name}
+          onError={(e) => {
+            // Fallback to default sprite if gender-specific sprite fails to load
+            if (isFemale) {
+              e.currentTarget.src = isShiny 
+                ? pokemon.sprites.front_shiny 
+                : pokemon.sprites.front_default;
+            }
+          }}
         />
       </div>
 
@@ -161,6 +194,21 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
             </div>
           </div>
         </ul>
+
+        {hasFemaleSprite && (
+  <button 
+    className={`gender-toggle-switch ${isFemale ? 'female' : 'male'}`}
+    onClick={(e) => {
+      e.stopPropagation(); // Prevent event bubbling
+      e.preventDefault(); // Prevent default behavior
+      onToggleGender();
+    }}
+    title={`Switch to ${isFemale ? 'male' : 'female'}`}
+  >
+    <span className="gender-icon">{isFemale ? '♀' : '♂'}</span>
+    <span className="gender-slider"></span>
+  </button>
+)}
       </div>
 
       {/* Abilities Section - Displayed below with gap */}

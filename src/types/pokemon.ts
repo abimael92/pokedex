@@ -35,6 +35,24 @@ interface Ability {
   effect_entries?: AbilityEffectEntry[]; // Add effect_entries as an optional property
 }
 
+interface PokemonSprites {
+  front_default: string;
+  front_shiny: string;
+  front_female?: string | null;
+  front_shiny_female?: string | null;
+  other: {
+    'official-artwork': {
+      front_default: string;
+      front_shiny?: string;
+    };
+    dream_world?: {
+      front_default: string;
+    };
+  };
+}
+
+
+
 
 export interface Pokemon {
   id: number;
@@ -42,19 +60,7 @@ export interface Pokemon {
   base_experience: number;
   height: number;
   weight: number;
-  sprites: {
-    front_default: string;
-    front_shiny: string;
-    other: {
-      'official-artwork': {
-        front_default: string;
-        front_shiny?: string;
-      };
-      dream_world?: {
-        front_default: string;
-      };
-    };
-  };
+  sprites: PokemonSprites
   cries: {
     latest: string;
     legacy?: string;

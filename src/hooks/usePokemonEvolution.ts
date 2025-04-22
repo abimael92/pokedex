@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { useState, useEffect } from 'react';
 
 interface EvolutionDetail {
@@ -47,10 +48,15 @@ export const usePokemonEvolution = (speciesUrl: string | undefined) => {
 
         const speciesRes = await fetch(speciesUrl);
         const speciesData = await speciesRes.json();
+        console.log("speciesData", speciesData);
         const evolvesFrom = speciesData.evolves_from_species?.name;
+        console.log("evolvesFrom", evolvesFrom);
 
         const chainRes = await fetch(speciesData.evolution_chain.url);
         const chainData = await chainRes.json();
+
+        console.log("chainData", chainData);
+        
 
         const extractChain = (chain: EvolutionChainStep): EvolutionStep[] => {
           const details = chain.evolution_details?.[0];
