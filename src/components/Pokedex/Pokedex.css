@@ -282,8 +282,8 @@
   }
   
   .form-button {
-	color: #ffffff; /* White text */
-	font-size: 10px; /* Extra-small font size */
+	color: #ffffff;
+	font-size: 10px;
 	padding: 0.35rem 0.7rem ;
 	border: 2px solid transparent; /* Transparent border by default */
 	border-radius: 3px;
