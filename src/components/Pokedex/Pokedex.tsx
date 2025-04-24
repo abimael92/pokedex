@@ -56,15 +56,15 @@ const Pokedex: React.FC = () => {
     const handleToggleGender = () => setIsFemale((prev) => !prev);
 
     const handleSelectForm = (formUrl: string, formName: string) => {
-        setPreviousForm(formName);  // Save the current form name
-        setPreviousPokemonId(pokemonID);  // Save the current Pokemon ID
-        setPokemonId(Number(formUrl.split('/').at(-2)));  // Update the Pokemon ID
+        setPreviousForm(formName);
+        setPreviousPokemonId(pokemonID);
+        setPokemonId(Number(formUrl.split('/').at(-2)));
     };
 
     const handleRevertForm = () => {
         if (previousPokemonId && previousForm) {
             setPokemonId(previousPokemonId);
-            setPreviousForm(null);  // Revert to previous Pokemon ID
+            setPreviousForm(null);
         }
     };
 
