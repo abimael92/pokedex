@@ -225,14 +225,11 @@
 	border: 2px solid black;
 	opacity: 0.7;
 	color: black;
-
-
   }
   
   .shiny-toggle-button.inactive {
 	opacity:1;
   }
-
 
   .form-buttons-container {
 	display: flex;
@@ -241,7 +238,6 @@
 	align-items: center;
 	align-items: center;
 	margin: auto 1rem ;
-
   }
   
   .form-button-container {
@@ -263,7 +259,7 @@
 	border-radius: 5px;
 	position: absolute;
 	bottom: 100%;
-	left: 50%; /* Adjusted to center horizontally */
+	left: 50%;
 	transform: translateX(-50%); /* Fixed horizontal centering */
 	white-space: normal;
 	font-size: 0.85em;
