@@ -36,13 +36,15 @@ const Pokedex: React.FC = () => {
     const { forms, fetchForms } = useAlternateForms();
 
     useEffect(() => {
-        if (pokemonID){
-        fetchForms(pokemonID);
-            
+        if (pokemonID && generation) {
+            const generationNumber = Number(generation);  // Convert generation to a number
+            if (!isNaN(generationNumber)) {
+                fetchForms(pokemonID, generationNumber); // Pass the numeric generation
+            } else {
+                console.warn('Invalid generation value');
+            }
         }
-    
-    }, [pokemonID, fetchForms]);
-    
+    }, [pokemonID, generation, fetchForms]);
 
 
     // useEffect(() => {
