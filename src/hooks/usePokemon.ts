@@ -3,23 +3,22 @@ import { fetchPokemonById, fetchPokemonByName } from '../services/pokemonApi';
 import { getRandomPokemonId, getGenerationPokemonList } from '../utils/pokemonGenerations';
 import { Pokemon, Generation } from '../types/pokemon';
 
-
 export const usePokemon = (initialGeneration: Generation = '1') => {
-    const [error, setError] = useState < boolean > (false);
-    const [loading, setLoading] = useState < boolean > (true);
-    const [pokemon, setPokemon] = useState < Pokemon | null > (null);
-    const [pokemonID, setPokemonId] = useState < number | null > (null);
+    const [error, setError] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [pokemon, setPokemon] = useState<Pokemon | null>(null);
+    const [pokemonID, setPokemonId] = useState<number | null>(null);
     const [generation, setGeneration] = useState<Generation>(initialGeneration);
-    const [genPokemonList, setGenPokemonList] = useState < string[] > (getGenerationPokemonList(initialGeneration));
-    const [genIndex, setGenIndex] = useState < number > (0);
+    const [genPokemonList, setGenPokemonList] = useState<string[]>(getGenerationPokemonList(initialGeneration));
+    const [genIndex, setGenIndex] = useState<number>(0);
 
     // Initialize with random Pokemon from selected generation
     useEffect(() => {
         if (pokemonID === null) {
-            const randomId = getRandomPokemonId(generation);
+            const randomId = getRandomPokemonId(Number(generation)); // Cast generation to number here
             setPokemonId(randomId);
         }
-    }, []);
+    }, [pokemonID, generation]);
 
     // Fetch Pokemon by ID
     useEffect(() => {
@@ -45,17 +44,15 @@ export const usePokemon = (initialGeneration: Generation = '1') => {
         return () => clearTimeout(timer);
     }, [pokemonID]);
 
-  // Update when generation changes
+    // Update when generation changes
     useEffect(() => {
-        setGenPokemonList(getGenerationPokemonList(generation));
+        setGenPokemonList(getGenerationPokemonList(Number(generation))); // Cast to number
         setGenIndex(0);
     }, [generation]);
 
-
-
-    const setPokemonIdentifier = ( identifier: string | number | null | ((prev: number | null) => number | null)) => {
+    const setPokemonIdentifier = (identifier: string | number | null | ((prev: number | null) => number | null)) => {
         if (identifier === null || identifier === '') {
-            const randomId = getRandomPokemonId(generation);
+            const randomId = getRandomPokemonId(Number(generation)); // Cast generation to number here as well
             setPokemonId(randomId);
         } else if (typeof identifier === 'string') {
             fetchPokemonByName(identifier)
@@ -68,7 +65,7 @@ export const usePokemon = (initialGeneration: Generation = '1') => {
 
     const handleGenerationChange = (selectedGen: Generation) => {
         setGeneration(selectedGen);
-        const randomId = getRandomPokemonId(selectedGen); // Get random ID from new gen
+        const randomId = getRandomPokemonId(Number(selectedGen)); // Cast selectedGen to number here
         setPokemonId(randomId); // Force a new random Pokémon
     };
 
