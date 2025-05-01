@@ -159,7 +159,7 @@ const Pokedex: React.FC = () => {
                     <div className="form-buttons-container">
                         {forms.map((form: { name: string; url: string }, index: React.Key) => (
                         <div key={index} className="form-button-container">
-                            <label className='forms-label'> {form.name.split('-').pop()}</label> 
+                            <label className='forms-label'> {form.name.split('-').slice(1).join('-')}</label>
                             <button
                             onClick={() => handleSelectForm(form.url, form.name)}
                             className="form-button"
