@@ -33,14 +33,33 @@ const Pokedex: React.FC = () => {
     const { playCry, playMonologue } = usePokemonAudio();
     const { flipCard } = useFlipCard();
 
-    const { forms, loading: formsLoading, error: formsError } = useAlternateForms(pokemonID ?? null);
-
+    const { forms, fetchForms } = useAlternateForms();
 
     useEffect(() => {
-        if (pokemonID) {
-            console.log('Forms:', forms);
+        if (pokemonID && generation) {
+            const generationNumber = Number(generation);  // Convert generation to a number
+            if (!isNaN(generationNumber)) {
+                fetchForms(pokemonID, generationNumber); // Pass the numeric generation
+            } else {
+                console.warn('Invalid generation value');
+            }
         }
-    }, [forms, pokemonID]);
+    }, [pokemonID, generation, fetchForms]);
+
+
+    // useEffect(() => {
+    //     if (pokemonID) {
+    //         console.log('Fetching forms for Pokémon ID:', pokemonID);
+
+    //     }
+    //     if (pokemonID === previousPokemonId ){
+    //         setPreviousForm(null);
+    //         setPreviousPokemonId(null);
+    //     }
+
+    
+    // }, [forms,pokemonID]);
+    
 
     const getRandomColor = () => {
         const letters = '0123456789ABCDEF';
@@ -56,16 +75,18 @@ const Pokedex: React.FC = () => {
     const handleToggleGender = () => setIsFemale((prev) => !prev);
 
     const handleSelectForm = (formUrl: string, formName: string) => {
-        setPreviousForm(formName);
-        setPreviousPokemonId(pokemonID);
-        setPokemonId(Number(formUrl.split('/').at(-2)));
+        if (previousForm === null && previousPokemonId === null) {
+            setPreviousForm(formName);
+            setPreviousPokemonId(pokemonID);
+            setPokemonId(Number(formUrl.split('/').at(-2)));
+        }
+
     };
 
     const handleRevertForm = () => {
-        if (previousPokemonId && previousForm) {
             setPokemonId(previousPokemonId);
             setPreviousForm(null);
-        }
+            setPreviousPokemonId(null);
     };
 
     return (
@@ -79,7 +100,7 @@ const Pokedex: React.FC = () => {
             <div className='pokedex-left'>
                 <div className='pokedex-left-top-row'>
                     <StatusLights loading={loading} />
-                    
+
                     {isActive && (
                         <GenerationSelect 
                             generation={generation} 
@@ -121,8 +142,16 @@ const Pokedex: React.FC = () => {
                 <div className='pokedex-bottom'>
 
                     <PokemonNavigation
-                        onNext={() => setPokemonId((prevId: number | null) => (prevId || 0) + 1)}
-                        onPrevious={() => setPokemonId((prevId) => (prevId || 1) - 1)}
+                         onNext={() => {
+                            setPreviousForm(null);
+                            setPreviousPokemonId(null);
+                            setPokemonId((prevId: number | null) => (prevId || 0) + 1);
+                          }}
+                          onPrevious={() => {
+                            setPreviousForm(null);
+                            setPreviousPokemonId(null);
+                            setPokemonId((prevId: number | null) => (prevId || 1) - 1);
+                          }}
                         onFlip={() => flipCard(pokemonID)}
                     />
 
@@ -130,7 +159,7 @@ const Pokedex: React.FC = () => {
                     <div className="form-buttons-container">
                         {forms.map((form: { name: string; url: string }, index: React.Key) => (
                         <div key={index} className="form-button-container">
-                            <label className='forms-label'> {form.name.split('-').pop()}</label> 
+                            <label className='forms-label'> {form.name.split('-').slice(1).join('-')}</label>
                             <button
                             onClick={() => handleSelectForm(form.url, form.name)}
                             className="form-button"
@@ -147,6 +176,25 @@ const Pokedex: React.FC = () => {
                         ))}
                     </div>
                     )}
+{/* 
+if (pokemonID !== previousPokemonId && previousPokemonId !== null && forms.length > 0) {
+            setPreviousForm(null);
+            setPreviousPokemonId(null);
+          } */}
+
+{(() => {
+
+  console.log('--- Buttons Check ---');
+  console.log('pokemonID:', pokemonID);
+
+  console.log('forms.length:', forms.length);
+  console.log('previousForm:', previousForm);
+  console.log('previousPokemonId:', previousPokemonId);
+
+
+  return null;
+})()}
+
 
                  { previousForm && (
                     <button onClick={handleRevertForm} className="form-button"  style={{

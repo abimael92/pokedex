@@ -17,7 +17,8 @@ const PokemonForm: React.FC<PokemonFormProps> = ({ setPokemonId, generation }) =
       if (pokemonName.trim() !== '') {
         setPokemonId(pokemonName.toLowerCase());
       } else {
-        const randomId = getRandomPokemonId(generation);
+        const randomId = getRandomPokemonId(Number(generation));
+
         setPokemonId(randomId);
       }
       setPokemonName('');

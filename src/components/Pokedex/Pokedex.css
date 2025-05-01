@@ -171,7 +171,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-	padding: 10px;
+	padding: 0.25rem;
 	gap: 1rem;
   }
   
@@ -233,11 +233,11 @@
 
   .form-buttons-container {
 	display: flex;
-	flex-direction: column;
+	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 	align-items: center;
-	margin: auto 1rem ;
+	margin: auto 0.2rem ;
   }
   
   .form-button-container {
@@ -245,7 +245,8 @@
 	justify-content: center;
 	align-items: center;
 
-	width: 100%;
+	width: calc(50% - 2px); /* Ensures two items per row */
+    box-sizing: border-box; 
 	flex-direction: column;
 
 	position: relative;
@@ -275,9 +276,9 @@
 	color: #ffffff;
 	font-family: 'Orbitron', sans-serif;
 
-	font-size: 12px;
-	padding: 4px;
-	margin: 2px;
+	font-size: 10px;
+	padding: 2px;
+	margin: 1px;
 	text-transform: uppercase;
   }
   
