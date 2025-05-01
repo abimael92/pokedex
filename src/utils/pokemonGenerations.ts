@@ -1,4 +1,4 @@
-export const generationRanges = {
+export const generationRanges: { [key: number]: { start: number; end: number } } = {
     1: { start: 1, end: 151 },
     2: { start: 152, end: 251 },
     3: { start: 252, end: 386 },
@@ -9,13 +9,14 @@ export const generationRanges = {
     8: { start: 810, end: 905 },
 };
 
-export const getRandomPokemonId = (generation) => {
+export const getRandomPokemonId = (generation: number) => {
     const range = generationRanges[generation] || generationRanges[1];
     return Math.floor(Math.random() * (range.end - range.start + 1)) + range.start;
 };
 
-export const getGenerationPokemonList = (generation) => {
-    const range = generationRanges[generation] || generationRanges[1];
+export const getGenerationPokemonList = (generation: string | number) => {
+    const genNum = typeof generation === "string" ? parseInt(generation, 10) : generation;
+    const range = generationRanges[genNum] || generationRanges[1];
     return Array.from(
         { length: range.end - range.start + 1 },
         (_, i) => (i + range.start).toString()
