@@ -69,3 +69,73 @@
 .stat-name {
 	text-transform: capitalize;
 }
+
+
+/* Weaknesses and Strengths Container */
+.effectiveness-container {
+	display: block;
+	width: 45%;
+	box-sizing: border-box;
+	margin-bottom: 1.2rem;
+}
+
+/* List Container for Weaknesses or Strengths */
+.effectiveness-area {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1rem;
+}
+/* Title for Weaknesses and Strengths */
+.effectiveness-title {
+	font-size: calc(1rem + 0.2vw);
+	margin-bottom: calc(0.25rem + 5px);
+	font-weight: 500;
+	text-transform: capitalize;
+	text-align: center;
+}
+
+/* List Container for Weaknesses or Strengths */
+.effectiveness-list {
+	display: flex;
+	flex-wrap: wrap;
+
+	padding: 0;
+	box-sizing: border-box;
+
+	border: 1px solid #ccc;
+	gap: 0.5rem;
+	justify-content: space-around;
+
+}
+
+/* Individual Type Item */
+.effectiveness-item {
+	flex: 0 1 ;
+	min-width: 45px;
+	text-align: center;
+	padding: 0.35rem;
+	border: 1px solid black;
+	border-radius: 999px;
+	font-weight: 600;
+	background: #ccc;
+	color: white;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
+		-1px 1px 0 #000, 1px 1px 0 #000;
+	transition: background-color 0.3s ease, transform 0.3s ease;
+	text-transform: capitalize;
+	margin: 0.23rem;
+	font-size: 10.5px;
+}
+
+/* Responsive: Stack pills on small screens */
+@media (max-width: 768px) {
+	.effectiveness-item {
+		width: 100%;
+	}
+}
+
+/* One item: center it */
+.effectiveness-list:has(.effectiveness-item:nth-child(1):nth-last-child(1)) {
+	justify-content: center;
+}

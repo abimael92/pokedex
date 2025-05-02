@@ -83,8 +83,6 @@
     box-sizing: border-box;
     display: flex;
     cursor: pointer;
-
-
 }
 
 
@@ -113,9 +111,6 @@
     filter: drop-shadow(0 -1px 0 black);
 }
 
-
-
-/* Right side interactions */
 .pokedex-right {
     transform-style: preserve-3d;
     transition: all 1.8s ease;
@@ -127,13 +122,11 @@
     height: calc(100% - 5rem);
     backface-visibility: hidden;
     display: flex;
-
 }
 
 .pokedex-shell.is-active .pokedex-right {
     transform: rotateY(180deg);
 }
-
 
 .pokedex-screen-data {
         background-color: whitesmoke;
@@ -144,17 +137,27 @@
         flex-direction: column;
         justify-content: center;
         backface-visibility: hidden;
-
-
-        
   }
-
 
   .pokedex-right-layout {
 	width: inherit;
 	border-radius: 10px 0 0 10px;
 	box-sizing: border-box;
-
     margin: 15px 0px;
-
   }
+
+  .pokedex {
+    transition: transform 2.5s ease;
+    -webkit-transition: transform 2.5s ease;
+    -moz-transition: transform 2.5s ease;
+    -ms-transition: transform 2.5s ease;
+    -o-transition: transform 2.5s ease;
+}
+
+  .pokedex.is-active {
+    transform: translateX(-140px);
+    -webkit-transform: translateX(-140px);
+    -moz-transform: translateX(-140px);
+    -ms-transform: translateX(-140px);
+    -o-transform: translateX(-140px);
+}
