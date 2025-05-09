@@ -1,4 +1,3 @@
-// PokemonNavigation.tsx
 import React from 'react';
 import './PokemonNavigation.css';
 
