@@ -11,7 +11,6 @@ interface PokedexScreenProps {
 }
 
 const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
-    // console.log('Pokemon is:', pokemon);
   const { description, loading: formsLoading, error: formsError } = usePokemonForms(pokemon?.id || 0);
   const { evolutionInfo, loading: evoLoading, error: evoError } = usePokemonEvolution(pokemon?.species?.url);
 
