@@ -4,6 +4,7 @@ import dragon from './dragon.svg';
 import electric from './electric.svg';
 import fire from './fire.svg';
 import flying from './flying.svg';
+import fighting from './fighting.svg'
 import ghost from './ghost.svg';
 import grass from './grass.svg';
 import ground from './ground.svg';
@@ -23,6 +24,7 @@ const Icons = {
   electric,
   fire,
   flying,
+  fighting,
   ghost,
   grass,
   ground,

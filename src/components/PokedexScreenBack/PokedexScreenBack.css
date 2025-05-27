@@ -85,6 +85,7 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 1rem;
+
 }
 /* Title for Weaknesses and Strengths */
 .effectiveness-title {
@@ -107,14 +108,33 @@
 	gap: 0.5rem;
 	justify-content: space-around;
 
+	max-height: 78px;
+	height: 78px;
+
+	align-items: center;
+
+	overflow-y: auto;
+
+	&::-webkit-scrollbar {
+		width: 6px;
+	  }
+	  &::-webkit-scrollbar-thumb {
+		background-color: var(--red);;
+		border-radius: 3px;
+	  }
+
 }
 
 /* Individual Type Item */
 .effectiveness-item {
-	flex: 0 1 ;
+	flex: 0 0 auto;
 	min-width: 45px;
+
+	height: 30px;          /* fixed height */
+	line-height: 30px;  
+
 	text-align: center;
-	padding: 0.35rem;
+	/* padding: 0.35rem; */
 	border: 1px solid black;
 	border-radius: 999px;
 	font-weight: 600;
@@ -124,7 +144,7 @@
 		-1px 1px 0 #000, 1px 1px 0 #000;
 	transition: background-color 0.3s ease, transform 0.3s ease;
 	text-transform: capitalize;
-	margin: 0.23rem;
+	/* margin: 0.23rem; */
 	font-size: 10.5px;
 }
 
