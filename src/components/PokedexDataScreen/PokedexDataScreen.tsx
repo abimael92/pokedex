@@ -41,9 +41,12 @@ const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
   return (
     <div className='pokedex-description-screen'>
       <h3 className='pokemon-description-title'>Description:</h3>
+      <div className="pokemon-description-text-container">
       <p className='pokemon-description-text'>
         {description || 'No description available.'}
       </p>
+    </div>
+
   
       {/* Evolution Section */}
       {evoLoading && <p>Loading evolution data...</p>}
