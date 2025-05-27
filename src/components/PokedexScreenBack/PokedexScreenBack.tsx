@@ -1,34 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ErrorPokemon from '../../img/error.gif';
 import LoadingPokemon from '../../img/loading.gif';
 import Stat from '../Stat/Stat';
+import Icons from '../../img/icons';
+
 import './PokedexScreenBack.css';
 import { Pokemon } from '../../types/pokemon';
 import { usePokemonTypeEffectiveness } from '../../hooks/usePokemonTypeEffectiveness';
 
-interface TypeColors {
-  [key: string]: string;
-  normal: string;
-  fire: string;
-  water: string;
-  electric: string;
-  grass: string;
-  ice: string;
-  fighting: string;
-  poison: string;
-  ground: string;
-  flying: string;
-  psychic: string;
-  bug: string;
-  rock: string;
-  ghost: string;
-  dragon: string;
-  dark: string;
-  steel: string;
-  fairy: string;
-}
-
-const colours: TypeColors = {
+const colours: Record<string, string> = {
   normal: '#A8A77A',
   fire: '#EE8130',
   water: '#6390F0',
@@ -49,6 +29,54 @@ const colours: TypeColors = {
   fairy: '#D685AD',
 };
 
+const EffectivenessItem: React.FC<{ type: string; color: string; icon: string }> = ({ type, color, icon }) => {
+  const [showText, setShowText] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowText(prev => !prev);
+    }, 1000); // swap every 1 second
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="effectiveness-item" style={{ backgroundColor: color, position: 'relative' }}>
+      <span
+        className="effectiveness-text"
+        style={{
+          opacity: showText ? 1 : 0,
+          transition: 'opacity 0.5s ease',
+          position: showText ? 'static' : 'absolute',
+          left: 0,
+          right: 0,
+          margin: 'auto',
+        }}
+      >
+        {type}
+      </span>
+      <img
+        className="effectiveness-icon"
+        src={icon}
+        alt={`${type} icon`}
+        style={{
+          width: 10,
+          height: 10,
+          marginLeft: '0.5rem',
+          opacity: showText ? 0 : 1,
+          transition: 'opacity 0.5s ease',
+          position: showText ? 'absolute' : 'static',
+          left: 0,
+          right: 0,
+          margin: 'auto',
+        }}
+      />
+    </div>
+  );
+};
+
+
+
 interface PokedexScreenProps {
   pokemon: Pokemon | null;
   loading: boolean;
@@ -59,20 +87,19 @@ interface PokedexScreenProps {
   onToggleGender: () => void;
 }
 
-const PokedexScreenBack: React.FC<PokedexScreenProps> = ({ 
-  pokemon, 
-  loading, 
-  error, 
+const PokedexScreenBack: React.FC<PokedexScreenProps> = ({
+  pokemon,
+  loading,
+  error,
   stats,
   isShiny,
-  isFemale
+  isFemale,
 }) => {
-
   const {
     strengths,
     weaknesses,
     loading: typeLoading,
-    error: typeError
+    error: typeError,
   } = usePokemonTypeEffectiveness(pokemon?.name || '');
 
   if (error) {
@@ -106,7 +133,6 @@ const PokedexScreenBack: React.FC<PokedexScreenProps> = ({
                 alt={pokemon.name}
               />
             </div>
-
             <ul className="pokemon-stats">
               {pokemon.stats.map(item => (
                 <Stat key={item.stat.name} item={item} />
@@ -116,38 +142,49 @@ const PokedexScreenBack: React.FC<PokedexScreenProps> = ({
 
           <div className="effectiveness-area">
             <div className="effectiveness-container">
-            <h3 className="effectiveness-title">Strengths</h3>
+              <h3 className="effectiveness-title">Strengths</h3>
               <div className="effectiveness-list">
-              {typeLoading ? <p>Loading weaknesses...</p> : (
-                <>
-                {weaknesses.map(type => (
-                  <div key={type} className="effectiveness-item" style={{
-                    backgroundColor: colours[type.toLowerCase()] || 'white'
-                  }}>{type}</div>
-                ))}
-                </>
-              )}
+                {typeLoading ? (
+                  <p>Loading strengths...</p>
+                ) : (
+                  strengths.map((type) => {
+                    const key = type.toLowerCase() as keyof typeof Icons;
+
+                    return (
+                      <EffectivenessItem
+                        key={type}
+                        type={type}
+                        color={colours[key] || 'white'}
+                        icon={Icons[key] || ''}
+                      />
+                    );
+                  })
+                )}
               </div>
             </div>
 
             <div className="effectiveness-container">
               <h3 className="effectiveness-title">Weaknesses</h3>
               <div className="effectiveness-list">
-              {typeLoading ? <p>Loading strengths...</p> : (
-                <>
-                {strengths.map(type => (
-                  <div key={type} className="effectiveness-item" style={{
-                    backgroundColor: colours[type.toLowerCase()] || 'white'
-                  }}>{type}</div>
-                ))}
-                </>
-              )}
+                {typeLoading ? (
+                  <p>Loading weaknesses...</p>
+                ) : (
+                  weaknesses.map((type) => {
+                    const key = type.toLowerCase() as keyof typeof Icons;
+
+                    return (
+                      <EffectivenessItem
+                        key={type}
+                        type={type}
+                        color={colours[key] || 'white'}
+                        icon={Icons[key] || ''}
+                      />
+                    );
+                  })
+                )}
               </div>
             </div>
-
-        </div>
-
-
+          </div>
         </div>
       )}
     </div>
