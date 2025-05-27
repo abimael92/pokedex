@@ -256,16 +256,20 @@ margin: 1rem;
 	padding: 0.5rem;
 	border-radius: 5px;
 	position: absolute;
-	bottom: -150%;
+	bottom: 0%;
 	left: -50%;
-	transform: translateY(-50%);
+	transform: translateY(-100%);
 	white-space: normal;
 	font-size: 0.85em;
-	width: 300px; /* Increased width to accommodate longer descriptions */
-	word-wrap: break-word; /* Wraps long words onto the next line */
-	box-sizing: border-box;
-	z-index: 10;
-  }
+	width: 300px;
+	/*Increasedwidthtoaccommodatelongerdescriptions*/word-wrap: break-word;
+	/*Wrapslongwordsontothenextline*/box-sizing: border-box;
+	z-index: 99;
+	-webkit-transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	-o-transform: translateY(-100%);
+}
   
   /* Show Tooltip on Hover */
   .ability-item:hover .ability-tooltip {

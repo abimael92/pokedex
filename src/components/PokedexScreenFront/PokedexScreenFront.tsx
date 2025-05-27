@@ -224,6 +224,7 @@ const PokedexScreenFront: React.FC<PokedexScreenProps> = ({
                 backgroundColor: ability.is_hidden
                   ? darkenColor(colours[pokemon.types[0].type.name.toLowerCase()] || 'white', 50) // Darken if hidden
                   : colours[pokemon.types[0].type.name.toLowerCase()] || 'white',
+                  position: 'relative'
               }}
             >
               <div className='ability-name'>{ability.ability.name}</div>
