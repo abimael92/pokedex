@@ -16,11 +16,12 @@
 		"baseUrl": "src",
 		"paths": {
 			"@assets/*": ["assets/*"],
+			"@components/*": ["components/*"],
 			"@hooks/*": ["hooks/*"],
 			"@utils/*": ["utils/*"],
 			"@services/*": ["services/*"]
 		}
 	},
-	"include": ["src"],
+	"include": ["src", "src/types"],
 	"exclude": ["node_modules"]
 }
