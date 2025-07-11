@@ -344,3 +344,35 @@
 	  color: #0000ff;
 	}
   }
+
+
+  @media (max-width: 768px) {
+	.pokedex {
+	  width: 100vw;
+	  box-shadow: none;
+	}
+
+
+	.pokedex-left {
+	  width: 100vw;
+	  border-radius: 0;
+	  border-right: none;
+	}
+
+
+	.pokedex-screen,
+	.pokedex-screen-back {
+	  transform-style: preserve-3d;
+	  backface-visibility: hidden;
+
+	}
+
+	.pokedex-screen > * {
+		margin-bottom: 0.8rem; 
+	  }
+	  .pokedex-screen > *:last-child {
+		margin-bottom: 0;
+	  }
+	  }
+	  
+  
