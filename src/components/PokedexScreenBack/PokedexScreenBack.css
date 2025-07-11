@@ -148,12 +148,7 @@
 	font-size: 10.5px;
 }
 
-/* Responsive: Stack pills on small screens */
-@media (max-width: 768px) {
-	.effectiveness-item {
-		width: 100%;
-	}
-}
+
 
 /* One item: center it */
 .effectiveness-list:has(.effectiveness-item:nth-child(1):nth-last-child(1)) {
@@ -170,5 +165,36 @@
 	0% { transform: scale(1); }
 	50% { transform: scale(1.2); }
 	100% { transform: scale(1); }
+  }
+
+  @media (max-width: 768px) {
+
+  
+	.effectiveness-container {
+	  width: 100%;          /* Full width on mobile */
+	  margin-bottom: 0;  /* Some spacing below */
+	}
+  
+	.effectiveness-area {
+	  flex-direction: column; /* Stack vertically */
+	  gap: 0.125rem;
+	}
+  
+	.effectiveness-list {
+	  max-height: none;     /* Remove height limit for scroll */
+	  height: 40px;
+	  justify-content: center;
+	  flex-wrap: nowrap;
+	  overflow-x: auto;     /* Horizontal scroll if needed */
+	  padding: 0 0.25rem;
+	}
+  
+	.effectiveness-item {
+		flex: initial;
+		margin: 0.125rem;
+	  width: auto;
+	  min-width: 60px;      /* Slightly wider pills */
+	  font-size: 12px;
+	}
   }
   
