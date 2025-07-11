@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Pokedex from "./components/Pokedex/Pokedex";
+import ReactDOM from 'react-dom/client';
+import App from './App';
 import './index.css';
 
-ReactDOM.render(
-    <div className="overlay">
-        <Pokedex />
-    </div>,
-    document.getElementById('root')
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
