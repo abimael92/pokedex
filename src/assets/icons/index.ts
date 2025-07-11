@@ -4,7 +4,7 @@ import dragon from './dragon.svg';
 import electric from './electric.svg';
 import fire from './fire.svg';
 import flying from './flying.svg';
-import fighting from './fighting.svg'
+import fighting from './fighting.svg';
 import ghost from './ghost.svg';
 import grass from './grass.svg';
 import ground from './ground.svg';
@@ -18,25 +18,26 @@ import water from './water.svg';
 import fairy from './fairy.svg';
 
 const Icons = {
-  bug,
-  dark,
-  dragon,
-  electric,
-  fire,
-  flying,
-  fighting,
-  ghost,
-  grass,
-  ground,
-  ice,
-  normal,
-  poison,
-  psychic,
-  rock,
-  steel,
-  water,
-  fairy,
+	bug,
+	dark,
+	dragon,
+	electric,
+	fire,
+	flying,
+	fighting,
+	ghost,
+	grass,
+	ground,
+	ice,
+	normal,
+	poison,
+	psychic,
+	rock,
+	steel,
+	water,
+	fairy,
 } as const;
 
-export default Icons;
 export type IconType = keyof typeof Icons;
+// Add this line at the bottom of your icons/index.ts file
+export default Icons; // Keep all your existing code, just add this
