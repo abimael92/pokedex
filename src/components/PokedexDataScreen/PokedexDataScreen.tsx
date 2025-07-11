@@ -1,10 +1,12 @@
 import React from 'react';
-import ErrorPokemon from '../../img/error.gif';
-import LoadingPokemon from '../../img/loading.gif';
 import './PokedexDataScreen.css';
+
 import { Pokemon } from '../../types/pokemon';
 import { usePokemonForms } from '../../hooks/usePokemonForms';
 import { usePokemonEvolution } from '../../hooks/usePokemonEvolution';
+
+const ErrorPokemon = '/images/status/error.gif';
+const LoadingPokemon = '/images/status/loading.gif';
 
 interface PokedexScreenProps {
   pokemon: Pokemon | null;
@@ -38,61 +40,56 @@ const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
     );
   }
 
+  const evolutionRows = evolutionInfo?.evolutionChain?.reduce((rows: JSX.Element[][], step, index, array) => {
+    if (index % 3 === 0) rows.push([]);
+    rows[rows.length - 1].push(
+      <div key={index} className="evolution-step">
+        <div className="evolution-stage">
+          <h4 className="evolution-species">{step.species}</h4>
+          {step.minLevel && (
+            <span className="evolution-detail">(Level: {step.minLevel})</span>
+          )}
+          {!step.minLevel && step.trigger && (
+            <span className="evolution-detail">
+              {step.trigger === 'use-item'
+                ? `(Use ${step.item ?? 'item'})`
+                : step.trigger === 'trade'
+                ? `(Trade${step.heldItem ? ` holding ${step.heldItem}` : ''})`
+                : `(${step.trigger})`}
+            </span>
+          )}
+        </div>
+        {index % 3 !== 2 && index < array.length - 1 && (
+          <div className="evolution-arrow">
+            <img 
+              src="/images/arrow.png" 
+              alt="evolves to" 
+              className="arrow-icon"
+            />
+          </div>
+        )}
+      </div>
+    );
+    return rows;
+  }, []);
+
   return (
     <div className='pokedex-description-screen'>
       <h3 className='pokemon-description-title'>Description:</h3>
       <div className="pokemon-description-text-container">
-      <p className='pokemon-description-text'>
-        {description || 'No description available.'}
-      </p>
-    </div>
+        <p className='pokemon-description-text'>
+          {description || 'No description available.'}
+        </p>
+      </div>
 
-  
-      {/* Evolution Section */}
       {evoLoading && <p>Loading evolution data...</p>}
       {evoError && <p>Failed to load evolution info.</p>}
-  
-      {!evoLoading && evolutionInfo?.evolutionChain && evolutionInfo.evolutionChain.length > 0 && (
+
+      {!evoLoading && evolutionRows && evolutionRows.length > 0 && (
         <>
           <h3 className='pokemon-description-title'>Evolution Chart:</h3>
           <div className='evolution-container'>
-            {evolutionInfo.evolutionChain.reduce((rows: JSX.Element[][], step, index, array) => {
-              // Start new row every 3 steps
-              if (index % 3 === 0) rows.push([]);
-              
-              // Add current step to last row
-              rows[rows.length - 1].push(
-                <div key={index} className="evolution-step">
-                  <div className="evolution-stage">
-                    <h4 className="evolution-species">{step.species}</h4>
-                    {step.minLevel && (
-                      <span className="evolution-detail">(Level: {step.minLevel})</span>
-                    )}
-                    {!step.minLevel && step.trigger && (
-                      <span className="evolution-detail">
-                        {step.trigger === 'use-item'
-                          ? `(Use ${step.item ?? 'item'})`
-                          : step.trigger === 'trade'
-                          ? `(Trade${step.heldItem ? ` holding ${step.heldItem}` : ''})`
-                          : `(${step.trigger})`}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Only show arrow if not last in row AND not last in chain */}
-                  {index % 3 !== 2 && index < array.length - 1 && (
-                    <div className="evolution-arrow">
-                      <img 
-                        src="/images/arrow.png" 
-                        alt="evolves to" 
-                        className="arrow-icon"
-                      />
-                    </div>
-                  )}
-                </div>
-              );
-              return rows;
-            }, []).map((row, rowIndex) => (
+            {evolutionRows.map((row, rowIndex) => (
               <div key={`row-${rowIndex}`} className="evolution-row">
                 {row}
               </div>

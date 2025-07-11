@@ -161,3 +161,27 @@
     -ms-transform: translateX(-140px);
     -o-transform: translateX(-140px);
 }
+
+
+@media (max-width: 768px) {
+    .pokedex {
+      transform: none !important;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .pokedex-shell {
+      width: 100vw;
+      height: auto;
+      box-shadow: none;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+  
+    .pokedex-right,
+    .pokedex-right-front,
+    .pokedex-right-back {
+      display: none !important;
+    }
+  }
+  
