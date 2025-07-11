@@ -36,31 +36,31 @@ The Pokedex App is a Single Page Application (SPA) that allows users to enter an
 
 ## 🚀 Installation and Setup
 
-    1. Clone the repository:
+### 1. Clone the repository:
 
-```bash
+```
 git clone https://github.com/your-username/pokedex-app.git
 ```
 
-    2. Navigate to the project directory:
+### 2. Navigate to the project directory:
 
 ```bash
 cd pokedex
 ```
 
-    3. Install the dependencies:
+### 3. Install the dependencies:
 
 ```bash
 npm install
 ```
 
-    4. Run the app:
+### 4. Run the app:
 
 ```bash
 npm run dev
 ```
 
-    5. Open in browser:
+### 5. Open in browser:
 
 ```bash
 http://localhost:5173/
