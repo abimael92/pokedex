@@ -1,6 +1,5 @@
 :root {
 	--red: #dd082f;
-	/* --mRed: repeating-linear-gradient(rgba(59, 2, 13, 1), rgba(221, 8, 47, 1)); */
 	--mRed: repeating-linear-gradient(to right, maroon, crimson, maroon);
 
 	--dark-red: #3b020d;
@@ -32,7 +31,7 @@ body {
 	padding: 0;
 	height: 100vh;
 	width: 100vw;
-	background-image: url('/public/images/Gengar_vs_Nidorino.jpg');
+	background-image: url('/images/Gengar_vs_Nidorino.jpg');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;

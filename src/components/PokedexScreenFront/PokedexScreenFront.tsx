@@ -1,9 +1,11 @@
 import React from 'react';
-import ErrorPokemon from '../../img/error.gif';
-import LoadingPokemon from '../../img/loading.gif';
+
 import './PokedexScreenFront.css';
 import { Pokemon } from '../../types/pokemon';
-import useAbilityEffects from '../../hooks/useAbilityEffects';  
+import useAbilityEffects from '../../hooks/useAbilityEffects';
+
+const ErrorPokemon = '/images/status/error.gif';
+const LoadingPokemon = '/images/status/loading.gif';
 
 interface TypeColors {
   [key: string]: string;

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import ErrorPokemon from '../../img/error.gif';
-import LoadingPokemon from '../../img/loading.gif';
 import Stat from '../Stat/Stat';
-import Icons from '../../img/icons';
+
+import Icons from '@assets/icons';  // Change back from named import // Changed from import * as Icons
 
 import './PokedexScreenBack.css';
+
 import { Pokemon } from '../../types/pokemon';
 import { usePokemonTypeEffectiveness } from '../../hooks/usePokemonTypeEffectiveness';
+
+const ErrorPokemon = '/images/status/error.gif';
+const LoadingPokemon = '/images/status/loading.gif';
 
 const colours: Record<string, string> = {
   normal: '#A8A77A',
@@ -35,8 +38,7 @@ const EffectivenessItem: React.FC<{ type: string; color: string; icon: string }>
   useEffect(() => {
     const interval = setInterval(() => {
       setShowText(prev => !prev);
-    }, 1000); // swap every 1 second
-
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -75,8 +77,6 @@ const EffectivenessItem: React.FC<{ type: string; color: string; icon: string }>
   );
 };
 
-
-
 interface PokedexScreenProps {
   pokemon: Pokemon | null;
   loading: boolean;
@@ -93,7 +93,6 @@ const PokedexScreenBack: React.FC<PokedexScreenProps> = ({
   error,
   stats,
   isShiny,
-  isFemale,
 }) => {
   const {
     strengths,
@@ -114,79 +113,66 @@ const PokedexScreenBack: React.FC<PokedexScreenProps> = ({
     );
   }
 
-  return (
-    <div className="pokedex-screen-back">
-      {!pokemon || loading ? (
+  if (!pokemon || loading) {
+    return (
+      <div className="pokedex-screen-back">
         <img
           src={LoadingPokemon}
           alt="Aun no hay ningun pokemon"
           className="pokedex-no-screen"
         />
-      ) : (
-        <div>
-          <h2 className="pokemon-name">{pokemon.name}</h2>
-          <div className="pokemon-info">
-            <div className="pokemon-img-wrapper">
-              <img
-                className="pokemon-img"
-                src={isShiny ? pokemon.sprites.front_shiny : pokemon.sprites.front_default}
-                alt={pokemon.name}
+      </div>
+    );
+  }
+
+  const renderEffectivenessList = (
+    types: string[],
+    label: string
+  ) => (
+    <div className="effectiveness-container">
+      <h3 className="effectiveness-title">{label}</h3>
+      <div className="effectiveness-list">
+        {typeLoading ? (
+          <p>Loading {label.toLowerCase()}...</p>
+        ) : (
+          types.map(type => {
+            const key = type.toLowerCase() as keyof typeof Icons;
+            return (
+              <EffectivenessItem
+                key={type}
+                type={type}
+                color={colours[key] || 'white'}
+                icon={Icons[key] as string}
               />
-            </div>
-            <ul className="pokemon-stats">
-              {pokemon.stats.map(item => (
-                <Stat key={item.stat.name} item={item} />
-              ))}
-            </ul>
-          </div>
+            );
+          })
+        )}
+      </div>
+    </div>
+  );
 
-          <div className="effectiveness-area">
-            <div className="effectiveness-container">
-              <h3 className="effectiveness-title">Strengths</h3>
-              <div className="effectiveness-list">
-                {typeLoading ? (
-                  <p>Loading strengths...</p>
-                ) : (
-                  strengths.map((type) => {
-                    const key = type.toLowerCase() as keyof typeof Icons;
-
-                    return (
-                      <EffectivenessItem
-                        key={type}
-                        type={type}
-                        color={colours[key] || 'white'}
-                        icon={Icons[key] || ''}
-                      />
-                    );
-                  })
-                )}
-              </div>
-            </div>
-
-            <div className="effectiveness-container">
-              <h3 className="effectiveness-title">Weaknesses</h3>
-              <div className="effectiveness-list">
-                {typeLoading ? (
-                  <p>Loading weaknesses...</p>
-                ) : (
-                  weaknesses.map((type) => {
-                    const key = type.toLowerCase() as keyof typeof Icons;
-
-                    return (
-                      <EffectivenessItem
-                        key={type}
-                        type={type}
-                        color={colours[key] || 'white'}
-                        icon={Icons[key] || ''}
-                      />
-                    );
-                  })
-                )}
-              </div>
-            </div>
-          </div>
+  return (
+    <div className="pokedex-screen-back">
+      <h2 className="pokemon-name">{pokemon.name}</h2>
+      <div className="pokemon-info">
+        <div className="pokemon-img-wrapper">
+          <img
+            className="pokemon-img"
+            src={isShiny ? pokemon.sprites.front_shiny : pokemon.sprites.front_default}
+            alt={pokemon.name}
+          />
         </div>
-      )}
+        <ul className="pokemon-stats">
+          {stats.map(item => (
+            <Stat key={item.stat.name} item={item} />
+          ))}
+        </ul>
+      </div>
+
+      <div className="effectiveness-area">
+        {renderEffectivenessList(strengths, 'Strengths')}
+        {renderEffectivenessList(weaknesses, 'Weaknesses')}
+      </div>
     </div>
   );
 };

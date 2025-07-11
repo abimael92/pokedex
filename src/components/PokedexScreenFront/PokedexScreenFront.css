@@ -359,3 +359,60 @@ margin: 1rem;
   .gender-toggle-switch * {
 	pointer-events: none;
   }
+
+  @media (max-width: 768px) {
+	.pokedex-screen-container {
+	  padding: 0.25rem;
+	}
+
+  
+	.pokemon-name {
+	  font-size: 2.25rem;
+	  margin-bottom: 0.25rem;
+	}
+  
+	.pokemon-img-wrapper {
+	  max-height: 100px;
+
+	}
+  
+
+  
+	.divTable {
+	  overflow-x: auto;
+	  margin-bottom: 1rem;
+	  padding: 1rem;
+	}
+  
+
+
+  
+	.divTableCellRow {
+	  display: flex;
+	  flex-wrap: wrap;
+	  gap: 0.5rem;
+	}
+  
+	.divTableCellType {
+	  font-size: 0.85rem;
+	  min-width: 60px;
+	  padding: 0.25rem 0.5rem;
+	}
+  
+	.abilities-list {
+	  padding: 0 0.5rem;
+	}
+
+  }
+  
+
+
+  @media (max-width: 768px) {
+	.pokemon-info {
+		padding: 0.1rem;
+		min-height: 30px;
+		max-height: 200px;
+		margin: 0, 0, 3em, 0;
+	}
+}
+	
