@@ -1,5 +1,5 @@
 import React from 'react';
-import Pokedex from 'components/Pokedex/Pokedex';
+import Pokedex from '@components/Pokedex/Pokedex';
 
 const App = () => <Pokedex />;
 
