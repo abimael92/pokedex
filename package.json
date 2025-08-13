@@ -21,10 +21,8 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "vitest run"
-    ]
+    "*.{ts,tsx}": "eslint --fix",
+    "*.{test,spec}.{ts,tsx}": "vitest run"
   },
   "eslintConfig": {
     "extends": [
