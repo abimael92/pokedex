@@ -23,6 +23,6 @@
 		},
 		"types": ["vitest/globals", "@testing-library/jest-dom"]
 	},
-	"include": ["src", "src/types"],
+	"include": ["src", "src/types", "setupTests.ts"],
 	"exclude": ["node_modules"]
 }
