@@ -21,7 +21,7 @@
 			"@utils/*": ["utils/*"],
 			"@services/*": ["services/*"]
 		},
-		"types": ["vitest/globals", "@testing-library/jest-dom"]
+		"types": ["vitest/globals", "@testing-library/jest-dom", "jest"]
 	},
 	"include": ["src", "src/types", "setupTests.ts"],
 	"exclude": ["node_modules"]
