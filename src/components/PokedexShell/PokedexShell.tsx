@@ -30,34 +30,35 @@ const PokedexShell: React.FC<PokedexShellProps> = ({
             onClick={onClick}
             role="button"
             tabIndex={0}
+            data-testid="pokedex-container"
         >
             {children}
-            
+
             {/* Right side panels */}
             <div className='pokedex-right-front' />
-                <div className='pokedex-right-back' >
-                    <div className='pokedex-right-layout' >
+            <div className='pokedex-right-back' >
+                <div className='pokedex-right-layout' >
 
-                <div
-                    className='pokedex-screen-container'
-                    id={pokemonID?.toString()}
-                  
-                >
                     <div
-                    className='pokedex-screen-data'
-                    id={pokemonID?.toString()}
-                   
-                    role="button"
-                    aria-label="Flip Pokemon card"
-                >
-                    <PokedexDataScreen pokemon={pokemon} />
-                </div>
-                </div>
+                        className='pokedex-screen-container'
+                        id={pokemonID?.toString()}
+
+                    >
+                        <div
+                            className='pokedex-screen-data'
+                            id={pokemonID?.toString()}
+
+                            role="button"
+                            aria-label="Flip Pokemon card"
+                        >
+                            <PokedexDataScreen pokemon={pokemon} />
+                        </div>
+                    </div>
 
                 </div>
 
             </div>
-            </div>
+        </div>
     );
 };
 
