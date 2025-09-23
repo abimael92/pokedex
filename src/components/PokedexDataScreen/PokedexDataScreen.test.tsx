@@ -3,6 +3,9 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PokedexDataScreen from './PokedexDataScreen';
 import { vi } from 'vitest';
+import { usePokemonForms } from '../../hooks/usePokemonForms';
+import { usePokemonEvolution } from '../../hooks/usePokemonEvolution';
+import type { Pokemon } from '../../types/pokemon';
 
 // ✅ Mock hooks using Vitest's vi.fn
 vi.mock('../../hooks/usePokemonForms', () => ({
@@ -11,9 +14,6 @@ vi.mock('../../hooks/usePokemonForms', () => ({
 vi.mock('../../hooks/usePokemonEvolution', () => ({
   usePokemonEvolution: vi.fn(),
 }));
-
-import { usePokemonForms } from '../../hooks/usePokemonForms';
-import { usePokemonEvolution } from '../../hooks/usePokemonEvolution';
 
 const mockPokemon: Pokemon = {
   id: 25,
