@@ -4,9 +4,9 @@ import './PokemonForm.css';
 import { Generation } from '../../types/pokemon';
 
 interface PokemonFormProps {
-	setPokemonId: (identifier: string | number | null | ((prev: number | null) => number | null)) => void;
-	generation: Generation;
-  }
+  setPokemonId: (identifier: string | number | null | ((prev: number | null) => number | null)) => void;
+  generation: Generation;
+}
 
 const PokemonForm: React.FC<PokemonFormProps> = ({ setPokemonId, generation }) => {
   const [pokemonName, setPokemonName] = useState<string>('');
@@ -28,7 +28,7 @@ const PokemonForm: React.FC<PokemonFormProps> = ({ setPokemonId, generation }) =
   };
 
   return (
-    <form className='pokemon-form' onSubmit={handleSubmit}>
+    <form className='pokemon-form' onSubmit={handleSubmit} data-testid="pokemon-form">
       <input
         className='pokemon-input'
         type='text'
@@ -38,7 +38,7 @@ const PokemonForm: React.FC<PokemonFormProps> = ({ setPokemonId, generation }) =
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPokemonName(e.target.value)}
         autoComplete='off'
       />
-     <button type='submit' className='pokemon-btn'  ></button>
+      <button type='submit' className='pokemon-btn' aria-label="Search" ></button>
     </form>
   );
 };
