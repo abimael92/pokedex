@@ -248,4 +248,36 @@ describe('CryButtons', () => {
         });
 
     });
+
+    describe('Accessibility', () => {
+        it('has proper aria-labels for both buttons', () => {
+            render(
+                <CryButtons
+                    pokemon={mockPokemon}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            expect(screen.getByLabelText('Play Pokemon cry')).toBeInTheDocument();
+            expect(screen.getByLabelText('Play Mewtwo monologue')).toBeInTheDocument();
+        });
+
+        it('maintains proper button semantics', () => {
+            render(
+                <CryButtons
+                    pokemon={mockPokemon}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const buttons = screen.getAllByRole('button');
+            expect(buttons).toHaveLength(2);
+
+            buttons.forEach(button => {
+                expect(button).toBeInTheDocument();
+            });
+        });
+    });
 });
