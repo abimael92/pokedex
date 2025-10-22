@@ -280,4 +280,42 @@ describe('CryButtons', () => {
             });
         });
     });
+
+    describe('Edge Cases', () => {
+        it('handles pokemon with undefined cries', () => {
+            const pokemonUndefinedCries = {
+                id: 1,
+                name: 'bulbasaur'
+            } as Pokemon;
+
+            render(
+                <CryButtons
+                    pokemon={pokemonUndefinedCries}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const cryButton = screen.getByLabelText('Play Pokemon cry');
+            expect(cryButton).toBeDisabled();
+        });
+
+        it('handles pokemon with null cries', () => {
+            const pokemonNullCries = {
+                id: 1,
+                name: 'bulbasaur',
+                cries: null
+            } as any;
+            render(
+                <CryButtons
+                    pokemon={pokemonNullCries}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const cryButton = screen.getByLabelText('Play Pokemon cry');
+            expect(cryButton).toBeDisabled();
+        });
+    });
 });
