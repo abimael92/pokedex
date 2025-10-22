@@ -38,6 +38,30 @@ describe('CryButtons', () => {
         cries: { latest: '/audio/mewtwo.mp3', legacy: '/audio/mewtwo.ogg' },
     };
 
+    const mockPokemonWithoutCry: Pokemon = {
+        id: 151,
+        name: 'mew',
+        base_experience: 300,
+        height: 4,
+        weight: 40,
+        species: { name: 'mew', url: '/api/v2/pokemon-species/151/' },
+        sprites: {
+            front_default: '/mock/mew.png',
+            front_shiny: '/mock/mew-shiny.png',
+            other: { 'official-artwork': { front_default: '/mock/mew.png', front_shiny: '/mock/mew-shiny.png' } },
+        },
+        stats: [
+            { base_stat: 100, stat: { name: 'hp', url: '' } },
+            { base_stat: 100, stat: { name: 'attack', url: '' } },
+        ],
+        types: [{ slot: 1, type: { name: 'psychic', url: '' } }],
+        abilities: [
+            { ability: { name: 'synchronize', url: '' }, is_hidden: false, slot: 1 },
+        ],
+        moves: [],
+        cries: { latest: '', legacy: '' },
+    };
+
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -54,5 +78,24 @@ describe('CryButtons', () => {
         const cryButton = screen.getByLabelText('Play Pokemon cry');
         expect(cryButton).toBeInTheDocument();
         expect(cryButton).toBeEnabled();
+    });
+
+    describe('Interactions', () => {
+        it('calls onPlayCry when main cry button is clicked', () => {
+            render(
+                <CryButtons
+                    pokemon={mockPokemon}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const cryButton = screen.getByLabelText('Play Pokemon cry');
+            fireEvent.click(cryButton);
+
+            expect(mockOnPlayCry).toHaveBeenCalledTimes(1);
+            expect(mockOnPlayCry).toHaveBeenCalledWith(mockPokemon);
+        });
+
     });
 });
