@@ -122,6 +122,44 @@ describe('CryButtons', () => {
             expect(monologueButton).toBeInTheDocument();
             expect(monologueButton).toBeEnabled();
         });
+
+        it('renders monologue button for Mewtwo by name (case insensitive)', () => {
+            const mewtwoByName: Pokemon = {
+                id: 25, // Different ID but correct name
+                name: 'mewtwo',
+                base_experience: 340,
+                height: 20,
+                weight: 1220,
+                species: { name: 'mewtwo', url: '/api/v2/pokemon-species/150/' },
+                sprites: {
+                    front_default: '/mock/mewtwo.png',
+                    front_shiny: '/mock/mewtwo-shiny.png',
+                    other: { 'official-artwork': { front_default: '/mock/mewtwo.png', front_shiny: '/mock/mewtwo-shiny.png' } },
+                },
+                stats: [
+                    { base_stat: 106, stat: { name: 'hp', url: '' } },
+                    { base_stat: 110, stat: { name: 'attack', url: '' } },
+                ],
+                types: [{ slot: 1, type: { name: 'psychic', url: '' } }],
+                abilities: [
+                    { ability: { name: 'pressure', url: '' }, is_hidden: false, slot: 1 },
+                    { ability: { name: 'unnerve', url: '' }, is_hidden: true, slot: 3 },
+                ],
+                moves: [],
+                cries: { latest: '/audio/mewtwo.mp3', legacy: '/audio/mewtwo.ogg' },
+            };
+
+            render(
+                <CryButtons
+                    pokemon={mewtwoByName}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const monologueButton = screen.getByLabelText('Play Mewtwo monologue');
+            expect(monologueButton).toBeInTheDocument();
+        });
     });
 
     describe('Interactions', () => {
