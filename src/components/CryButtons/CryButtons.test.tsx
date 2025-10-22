@@ -232,5 +232,20 @@ describe('CryButtons', () => {
             expect(mockOnPlayMonologue).toHaveBeenCalledWith(mockPokemon);
         });
 
+        it('does not call onPlayCry when disabled button is clicked', () => {
+            render(
+                <CryButtons
+                    pokemon={mockPokemonWithoutCry}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const cryButton = screen.getByLabelText('Play Pokemon cry');
+            fireEvent.click(cryButton);
+
+            expect(mockOnPlayCry).not.toHaveBeenCalled();
+        });
+
     });
 });
