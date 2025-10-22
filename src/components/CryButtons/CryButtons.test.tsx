@@ -108,6 +108,20 @@ describe('CryButtons', () => {
             expect(cryButton).toBeInTheDocument();
             expect(cryButton).toBeDisabled();
         });
+
+        it('renders monologue button for Mewtwo by ID', () => {
+            render(
+                <CryButtons
+                    pokemon={mockPokemon}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const monologueButton = screen.getByLabelText('Play Mewtwo monologue');
+            expect(monologueButton).toBeInTheDocument();
+            expect(monologueButton).toBeEnabled();
+        });
     });
 
     describe('Interactions', () => {
