@@ -4,6 +4,10 @@ import '@testing-library/jest-dom';
 import CryButtons from './CryButtons';
 import { Pokemon } from '../../types/pokemon';
 
+global.fetch = jest.fn(() =>
+    Promise.resolve({ json: () => Promise.resolve({}) })
+) as any;
+
 // Mock the react-icons component
 jest.mock('react-icons/fa', () => ({
     FaVolumeUp: () => <span data-testid="volume-icon">VolumeIcon</span>
