@@ -216,5 +216,21 @@ describe('CryButtons', () => {
             expect(mockOnPlayCry).toHaveBeenCalledWith(mockPokemon);
         });
 
+        it('calls onPlayMonologue when monologue button is clicked for Mewtwo', () => {
+            render(
+                <CryButtons
+                    pokemon={mockPokemon}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const monologueButton = screen.getByLabelText('Play Mewtwo monologue');
+            fireEvent.click(monologueButton);
+
+            expect(mockOnPlayMonologue).toHaveBeenCalledTimes(1);
+            expect(mockOnPlayMonologue).toHaveBeenCalledWith(mockPokemon);
+        });
+
     });
 });
