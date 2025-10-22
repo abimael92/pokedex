@@ -66,18 +66,33 @@ describe('CryButtons', () => {
         jest.clearAllMocks();
     });
 
-    it('renders main cry button when pokemon has cry', () => {
-        render(
-            <CryButtons
-                pokemon={mockPokemon}
-                onPlayCry={mockOnPlayCry}
-                onPlayMonologue={mockOnPlayMonologue}
-            />
-        );
+    describe('Rendering', () => {
+        it('renders nothing when pokemon is null', () => {
+            render(
+                <CryButtons
+                    pokemon={null}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
 
-        const cryButton = screen.getByLabelText('Play Pokemon cry');
-        expect(cryButton).toBeInTheDocument();
-        expect(cryButton).toBeEnabled();
+            const cryButton = screen.getByLabelText('Play Pokemon cry');
+            expect(cryButton).toBeInTheDocument();
+            expect(cryButton).toBeDisabled();
+        });
+        it('renders main cry button when pokemon has cry', () => {
+            render(
+                <CryButtons
+                    pokemon={mockPokemon}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const cryButton = screen.getByLabelText('Play Pokemon cry');
+            expect(cryButton).toBeInTheDocument();
+            expect(cryButton).toBeEnabled();
+        });
     });
 
     describe('Interactions', () => {
