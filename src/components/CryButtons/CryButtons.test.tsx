@@ -80,6 +80,7 @@ describe('CryButtons', () => {
             expect(cryButton).toBeInTheDocument();
             expect(cryButton).toBeDisabled();
         });
+
         it('renders main cry button when pokemon has cry', () => {
             render(
                 <CryButtons
@@ -92,6 +93,20 @@ describe('CryButtons', () => {
             const cryButton = screen.getByLabelText('Play Pokemon cry');
             expect(cryButton).toBeInTheDocument();
             expect(cryButton).toBeEnabled();
+        });
+
+        it('renders disabled main cry button when pokemon has no cry', () => {
+            render(
+                <CryButtons
+                    pokemon={mockPokemonWithoutCry}
+                    onPlayCry={mockOnPlayCry}
+                    onPlayMonologue={mockOnPlayMonologue}
+                />
+            );
+
+            const cryButton = screen.getByLabelText('Play Pokemon cry');
+            expect(cryButton).toBeInTheDocument();
+            expect(cryButton).toBeDisabled();
         });
     });
 
