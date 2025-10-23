@@ -13,9 +13,12 @@ const PokemonForm: React.FC<PokemonFormProps> = ({ setPokemonId, generation }) =
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const trimmedName = pokemonName.trim();
+
     try {
-      if (pokemonName.trim() !== '') {
-        setPokemonId(pokemonName.toLowerCase());
+      if (trimmedName !== '') {
+        setPokemonId(trimmedName.toLowerCase());
       } else {
         const randomId = getRandomPokemonId(Number(generation));
 
