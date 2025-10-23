@@ -46,7 +46,6 @@ describe('PokemonForm Component', () => {
         });
     });
 
-
     describe('Interactions', () => {
         it('updates input value on change', () => {
             render(<PokemonForm {...defaultProps} />);
@@ -84,6 +83,24 @@ describe('PokemonForm Component', () => {
         //     await waitFor(() => expect(mockSetPokemonId).toHaveBeenCalledWith(150));
 
         // });
+    });
+
+    describe('Accessibility', () => {
+        it('has proper aria-label on search button', () => {
+            render(<PokemonForm {...defaultProps} />);
+
+            const button = screen.getByRole('button', { name: /search/i });
+            expect(button).toBeInTheDocument();
+        });
+
+        it('has proper input attributes', () => {
+            render(<PokemonForm {...defaultProps} />);
+
+            const input = screen.getByPlaceholderText(/search/i);
+            expect(input).toHaveAttribute('autocomplete', 'off');
+            expect(input).toHaveAttribute('name', 'pokemon');
+            expect(input).toHaveAttribute('type', 'text');
+        });
     });
 
     it('resets input value after successful submission', async () => {
