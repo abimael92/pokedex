@@ -2,17 +2,19 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PokemonForm from './PokemonForm';
-import { getRandomPokemonId } from '../../utils/pokemonGenerations';
 import { Generation } from '../../types/pokemon';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+import * as pokemonGenerations from '../../utils/pokemonGenerations';
 
-// Mock the module manually so TS/Jest agree
-const mockGetRandomPokemonId = jest.fn();
-jest.mock('../../utils/pokemonGenerations', () => ({
-    getRandomPokemonId: mockGetRandomPokemonId,
+// Mock the module using Vitest
+vi.mock('../../utils/pokemonGenerations', () => ({
+    getRandomPokemonId: vi.fn()
 }));
 
+const mockGetRandomPokemonId = vi.mocked(pokemonGenerations.getRandomPokemonId);
+
 describe('PokemonForm Component', () => {
-    const mockSetPokemonId = jest.fn();
+    const mockSetPokemonId = vi.fn();
 
     const defaultProps = {
         setPokemonId: mockSetPokemonId,
@@ -20,7 +22,7 @@ describe('PokemonForm Component', () => {
     };
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
         mockGetRandomPokemonId.mockReturnValue(25); // Pikachu ID
     });
 
@@ -70,19 +72,46 @@ describe('PokemonForm Component', () => {
             });
         });
 
-        // it('calls setPokemonId with random ID when form is submitted with empty input', async () => {
-        //     // jest.spyOn(pokemonUtils, 'getRandomPokemonId').mockReturnValue(150);
-        //     mockGetRandomPokemonId.mockReturnValue(150);
+        it('calls setPokemonId with random ID when form is submitted with empty input', async () => {
+            mockGetRandomPokemonId.mockReturnValue(150);
 
-        //     render(<PokemonForm {...defaultProps} />);
+            render(<PokemonForm {...defaultProps} />);
 
-        //     const form = screen.getByTestId('pokemon-form');
-        //     fireEvent.submit(form);
+            const form = screen.getByTestId('pokemon-form');
+            fireEvent.submit(form);
 
-        //     // await waitFor(() => expect(mockGetRandomPokemonId).toHaveBeenCalledWith(1));
-        //     await waitFor(() => expect(mockSetPokemonId).toHaveBeenCalledWith(150));
+            await waitFor(() => {
+                expect(mockSetPokemonId).toHaveBeenCalledWith(150);
+            });
+        });
 
-        // });
+        it('resets input value after successful submission', async () => {
+            render(<PokemonForm {...defaultProps} />);
+
+            const input = screen.getByPlaceholderText(/search/i) as HTMLInputElement;
+            const form = screen.getByTestId('pokemon-form');
+
+            fireEvent.change(input, { target: { value: 'Bulbasaur' } });
+            fireEvent.submit(form);
+
+            await waitFor(() => {
+                expect(input.value).toBe('');
+            });
+        });
+
+        it('trims whitespace from input before submission', async () => {
+            render(<PokemonForm {...defaultProps} />);
+
+            const input = screen.getByPlaceholderText(/search/i);
+            const form = screen.getByTestId('pokemon-form');
+
+            fireEvent.change(input, { target: { value: '  Squirtle  ' } });
+            fireEvent.submit(form);
+
+            await waitFor(() => {
+                expect(mockSetPokemonId).toHaveBeenCalledWith('squirtle');
+            });
+        });
     });
 
     describe('Accessibility', () => {
@@ -103,33 +132,91 @@ describe('PokemonForm Component', () => {
         });
     });
 
-    it('resets input value after successful submission', async () => {
-        render(<PokemonForm {...defaultProps} />);
+    describe('Edge Cases', () => {
+        it('calls getRandomPokemonId with correct generation when form is submitted with empty input', async () => {
+            mockGetRandomPokemonId.mockReturnValue(33); // Match what the actual function returns
 
-        const input = screen.getByPlaceholderText(/search/i) as HTMLInputElement;
-        const form = screen.getByTestId('pokemon-form');
+            render(<PokemonForm setPokemonId={mockSetPokemonId} generation="3" />);
 
-        fireEvent.change(input, { target: { value: 'Bulbasaur' } });
-        fireEvent.submit(form);
+            const form = screen.getByTestId('pokemon-form');
+            fireEvent.submit(form);
 
-        await waitFor(() => {
-            expect(input.value).toBe('');
+            await waitFor(() => {
+                expect(mockGetRandomPokemonId).toHaveBeenCalledWith(3);
+            });
+        });
+
+        it('handles special characters in input', async () => {
+            render(<PokemonForm {...defaultProps} />);
+
+            const input = screen.getByPlaceholderText(/search/i);
+            const form = screen.getByTestId('pokemon-form');
+
+            fireEvent.change(input, { target: { value: "Nidoran♂" } });
+            fireEvent.submit(form);
+
+            await waitFor(() => {
+                expect(mockSetPokemonId).toHaveBeenCalledWith("nidoran♂");
+            });
+        });
+
+        it('handles numeric input', async () => {
+            render(<PokemonForm {...defaultProps} />);
+
+            const input = screen.getByPlaceholderText(/search/i);
+            const form = screen.getByTestId('pokemon-form');
+
+            fireEvent.change(input, { target: { value: "25" } });
+            fireEvent.submit(form);
+
+            await waitFor(() => {
+                expect(mockSetPokemonId).toHaveBeenCalledWith("25");
+            });
+        });
+
+        it('handles generation prop changes correctly', async () => {
+            const { rerender } = render(<PokemonForm setPokemonId={mockSetPokemonId} generation="1" />);
+
+            let form = screen.getByTestId('pokemon-form');
+            fireEvent.submit(form);
+
+            await waitFor(() => {
+                expect(mockGetRandomPokemonId).toHaveBeenCalledWith(1);
+            });
+
+            // Clear mocks and test with different generation
+            mockGetRandomPokemonId.mockClear();
+            rerender(<PokemonForm setPokemonId={mockSetPokemonId} generation="4" />);
+
+            form = screen.getByTestId('pokemon-form');
+            fireEvent.submit(form);
+
+            await waitFor(() => {
+                expect(mockGetRandomPokemonId).toHaveBeenCalledWith(4);
+            });
         });
     });
 
-    it('trims whitespace from input before submission', async () => {
-        render(<PokemonForm {...defaultProps} />);
+    describe('Error Handling', () => {
+        it('handles form submission errors gracefully', async () => {
+            const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+            mockSetPokemonId.mockImplementation(() => {
+                throw new Error('Test error');
+            });
 
-        const input = screen.getByPlaceholderText(/search/i);
-        const form = screen.getByTestId('pokemon-form');
+            render(<PokemonForm {...defaultProps} />);
 
-        fireEvent.change(input, { target: { value: '  Squirtle  ' } });
-        fireEvent.submit(form);
+            const input = screen.getByPlaceholderText(/search/i);
+            const form = screen.getByTestId('pokemon-form');
 
-        // expect(mockSetPokemonId).toHaveBeenCalledWith('  squirtle  ');
+            fireEvent.change(input, { target: { value: 'Pikachu' } });
+            fireEvent.submit(form);
 
-        await waitFor(() => {
-            expect(mockSetPokemonId).toHaveBeenCalledWith('squirtle');
+            await waitFor(() => {
+                expect(consoleSpy).toHaveBeenCalledWith('Form submission error:', expect.any(Error));
+            });
+
+            consoleSpy.mockRestore();
         });
     });
 });
