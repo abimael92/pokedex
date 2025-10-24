@@ -26,6 +26,19 @@ describe('GenerationSelect', () => {
             expect(selectElement).toHaveClass('generation-select');
         });
 
+        it('renders all generation options from 1 to 8', () => {
+            render(<GenerationSelect {...defaultProps} />);
+
+            const options = screen.getAllByRole('option');
+            expect(options).toHaveLength(8);
+
+            for (let i = 1; i <= 8; i++) {
+                const option = screen.getByText(`Gen ${i}`);
+                expect(option).toBeInTheDocument();
+                expect(option).toHaveValue(i.toString());
+            }
+        });
+
     });
 
 });
