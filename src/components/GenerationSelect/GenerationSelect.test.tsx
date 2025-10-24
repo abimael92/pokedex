@@ -39,6 +39,20 @@ describe('GenerationSelect', () => {
             }
         });
 
+        it('selects the correct generation based on prop', () => {
+            render(<GenerationSelect {...defaultProps} generation="3" />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('3');
+        });
+
+        it('renders with default generation when provided', () => {
+            render(<GenerationSelect {...defaultProps} generation="5" />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('5');
+        });
+
     });
 
 });
