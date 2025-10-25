@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import GenerationSelect from './GenerationSelect';
 import { Generation } from '../../types/pokemon';
@@ -53,6 +53,18 @@ describe('GenerationSelect', () => {
             expect(selectElement).toHaveValue('5');
         });
 
+    });
+
+    describe('Interactions', () => {
+        it('calls setGeneration with correct value when selection changes', () => {
+            render(<GenerationSelect {...defaultProps} />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            fireEvent.change(selectElement, { target: { value: '4' } });
+
+            expect(mockSetGeneration).toHaveBeenCalledTimes(1);
+            expect(mockSetGeneration).toHaveBeenCalledWith('4');
+        });
     });
 
 });
