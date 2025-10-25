@@ -65,6 +65,19 @@ describe('GenerationSelect', () => {
             expect(mockSetGeneration).toHaveBeenCalledTimes(1);
             expect(mockSetGeneration).toHaveBeenCalledWith('4');
         });
+
+        it('handles change to each generation option', () => {
+            render(<GenerationSelect {...defaultProps} />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+
+            for (let i = 1; i <= 8; i++) {
+                fireEvent.change(selectElement, { target: { value: i.toString() } });
+                expect(mockSetGeneration).toHaveBeenCalledWith(i.toString());
+            }
+
+            expect(mockSetGeneration).toHaveBeenCalledTimes(8);
+        });
     });
 
 });
