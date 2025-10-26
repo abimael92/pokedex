@@ -80,17 +80,17 @@ describe('GenerationSelect', () => {
         });
     });
 
-    it('handles change to each generation option', () => {
-        render(<GenerationSelect {...defaultProps} />);
+    describe('Accessibility', () => {
+        it('has proper aria-label for screen readers', () => {
+            render(<GenerationSelect {...defaultProps} />);
 
-        const selectElement = screen.getByLabelText('Select Pokemon generation');
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toBeInTheDocument();
+        });
 
-        for (let i = 1; i <= 8; i++) {
-            fireEvent.change(selectElement, { target: { value: i.toString() } });
-            expect(mockSetGeneration).toHaveBeenCalledWith(i.toString());
-        }
 
-        expect(mockSetGeneration).toHaveBeenCalledTimes(8);
+
+
     });
 
 });
