@@ -93,4 +93,16 @@ describe('GenerationSelect', () => {
 
     });
 
+    it('updates selected value when generation prop changes', () => {
+        const { rerender } = render(<GenerationSelect {...defaultProps} />);
+
+        let selectElement = screen.getByLabelText('Select Pokemon generation');
+        expect(selectElement).toHaveValue('1');
+
+        rerender(<GenerationSelect generation="7" setGeneration={mockSetGeneration} />);
+
+        selectElement = screen.getByLabelText('Select Pokemon generation');
+        expect(selectElement).toHaveValue('7');
+    });
+
 });
