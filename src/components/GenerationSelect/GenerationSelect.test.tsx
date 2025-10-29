@@ -52,7 +52,6 @@ describe('GenerationSelect', () => {
             const selectElement = screen.getByLabelText('Select Pokemon generation');
             expect(selectElement).toHaveValue('5');
         });
-
     });
 
     describe('Interactions', () => {
@@ -78,6 +77,18 @@ describe('GenerationSelect', () => {
 
             expect(mockSetGeneration).toHaveBeenCalledTimes(8);
         });
+
+        it('updates selected value when generation prop changes', () => {
+            const { rerender } = render(<GenerationSelect {...defaultProps} />);
+
+            let selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('1');
+
+            rerender(<GenerationSelect generation="7" setGeneration={mockSetGeneration} />);
+
+            selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('7');
+        });
     });
 
     describe('Accessibility', () => {
@@ -88,21 +99,11 @@ describe('GenerationSelect', () => {
             expect(selectElement).toBeInTheDocument();
         });
 
+        it('has proper select element semantics', () => {
+            render(<GenerationSelect {...defaultProps} />);
 
-
-
+            const selectElement = screen.getByRole('combobox');
+            expect(selectElement).toBeInTheDocument();
+        });
     });
-
-    it('updates selected value when generation prop changes', () => {
-        const { rerender } = render(<GenerationSelect {...defaultProps} />);
-
-        let selectElement = screen.getByLabelText('Select Pokemon generation');
-        expect(selectElement).toHaveValue('1');
-
-        rerender(<GenerationSelect generation="7" setGeneration={mockSetGeneration} />);
-
-        selectElement = screen.getByLabelText('Select Pokemon generation');
-        expect(selectElement).toHaveValue('7');
-    });
-
 });
