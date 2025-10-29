@@ -91,5 +91,19 @@ describe('GenerationSelect', () => {
         });
     });
 
+    describe('Accessibility', () => {
+        it('has proper aria-label for screen readers', () => {
+            render(<GenerationSelect {...defaultProps} />);
 
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toBeInTheDocument();
+        });
+
+        it('has proper select element semantics', () => {
+            render(<GenerationSelect {...defaultProps} />);
+
+            const selectElement = screen.getByRole('combobox');
+            expect(selectElement).toBeInTheDocument();
+        });
+    });
 });
