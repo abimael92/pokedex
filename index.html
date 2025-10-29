@@ -2,23 +2,51 @@
 <html lang="en">
 
 <head>
+    <!-- Character Encoding & Basic Meta -->
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- Favicon & App Icons -->
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico?v=3" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/logo192.png?v=3" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Theme & Styling -->
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Pokemon Pokedex - Explore all Pokemon" />
 
+    <!-- SEO & Social Meta Tags -->
+    <meta name="description"
+        content="Pokemon Pokedex - Explore all Pokemon, their stats, abilities, and evolution chains in one comprehensive database." />
+
+    <!-- PWA & App Manifest -->
     <link rel="manifest" href="/manifest.json?v=3" />
-    <title>Pokemon Pokedex</title>
+
+    <title>Pokemon Pokedex - Complete Pokemon Database</title>
 </head>
 
 <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <!-- No JavaScript Fallback -->
+    <noscript>
+        <div style="text-align: center; padding: 2rem; font-family: Arial, sans-serif;">
+            <h1>JavaScript Required</h1>
+            <p>This Pokemon Pokedex application requires JavaScript to function properly.</p>
+            <p>Please enable JavaScript in your browser settings to continue.</p>
+            <!-- Consider adding basic HTML fallback content -->
+            <!-- <a href="/static-pokedex.html">View basic Pokedex</a> -->
+        </div>
+    </noscript>
+
+    <!-- This is where your React app will be mounted -->
+    <div id="root">
+        <!-- Loading state can be shown here before React hydrates -->
+        <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+            <div style="text-align: center;">
+                <p>Loading Pokemon Pokedex...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- type="module" enables ES6 modules support -->
     <script type="module" src="/src/index.tsx"></script>
 </body>
 
