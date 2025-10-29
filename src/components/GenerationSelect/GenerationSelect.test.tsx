@@ -52,7 +52,6 @@ describe('GenerationSelect', () => {
             const selectElement = screen.getByLabelText('Select Pokemon generation');
             expect(selectElement).toHaveValue('5');
         });
-
     });
 
     describe('Interactions', () => {
@@ -78,19 +77,19 @@ describe('GenerationSelect', () => {
 
             expect(mockSetGeneration).toHaveBeenCalledTimes(8);
         });
+
+        it('updates selected value when generation prop changes', () => {
+            const { rerender } = render(<GenerationSelect {...defaultProps} />);
+
+            let selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('1');
+
+            rerender(<GenerationSelect generation="7" setGeneration={mockSetGeneration} />);
+
+            selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('7');
+        });
     });
 
-    it('handles change to each generation option', () => {
-        render(<GenerationSelect {...defaultProps} />);
-
-        const selectElement = screen.getByLabelText('Select Pokemon generation');
-
-        for (let i = 1; i <= 8; i++) {
-            fireEvent.change(selectElement, { target: { value: i.toString() } });
-            expect(mockSetGeneration).toHaveBeenCalledWith(i.toString());
-        }
-
-        expect(mockSetGeneration).toHaveBeenCalledTimes(8);
-    });
 
 });
