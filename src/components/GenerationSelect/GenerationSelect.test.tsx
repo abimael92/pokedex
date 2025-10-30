@@ -105,5 +105,12 @@ describe('GenerationSelect', () => {
             const selectElement = screen.getByRole('combobox');
             expect(selectElement).toBeInTheDocument();
         });
+
+        it('has properly associated label', () => {
+            render(<GenerationSelect {...defaultProps} />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveAttribute('id', 'generation');
+        });
     });
 });
