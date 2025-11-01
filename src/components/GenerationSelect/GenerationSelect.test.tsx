@@ -113,4 +113,15 @@ describe('GenerationSelect', () => {
             expect(selectElement).toHaveAttribute('id', 'generation');
         });
     });
+
+    describe('Styling and Structure', () => {
+
+
+        it('applies correct className to select element', () => {
+            render(<GenerationSelect {...defaultProps} />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveClass('generation-select');
+        });
+    });
 });
