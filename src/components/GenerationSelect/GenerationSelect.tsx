@@ -9,7 +9,10 @@ interface GenerationSelectProps {
 
 const GenerationSelect: React.FC<GenerationSelectProps> = ({ generation, setGeneration }) => {
     return (
-        <div className='generation-select-wrapper'>
+        <div
+            className='generation-select-wrapper'
+            data-testid="generation-select-wrapper" // Add this line
+        >
             <select
                 id='generation'
                 value={generation}
@@ -17,6 +20,7 @@ const GenerationSelect: React.FC<GenerationSelectProps> = ({ generation, setGene
                     setGeneration(e.target.value as Generation);
                 }}
                 className='generation-select'
+                data-testid="generation-select"
                 aria-label="Select Pokemon generation"
             >
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((gen) => (

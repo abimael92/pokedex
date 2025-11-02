@@ -115,7 +115,13 @@ describe('GenerationSelect', () => {
     });
 
     describe('Styling and Structure', () => {
+        // In your test:
+        test('renders within the wrapper div with correct class', () => {
+            render(<GenerationSelect generation="1" setGeneration={jest.fn()} />);
 
+            const wrapper = screen.getByTestId('generation-select-wrapper');
+            expect(wrapper).toHaveClass("generation-select-wrapper");
+        });
 
         it('applies correct className to select element', () => {
             render(<GenerationSelect {...defaultProps} />);
