@@ -124,4 +124,30 @@ describe('GenerationSelect', () => {
             expect(selectElement).toHaveClass('generation-select');
         });
     });
+
+    describe('Edge Cases', () => {
+        it('handles minimum generation value (1)', () => {
+            render(<GenerationSelect {...defaultProps} generation="1" />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('1');
+        });
+
+        it('handles maximum generation value (8)', () => {
+            render(<GenerationSelect {...defaultProps} generation="8" />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('8');
+        });
+
+        it('maintains selection when re-rendered with same prop', () => {
+            const { rerender } = render(<GenerationSelect {...defaultProps} generation="2" />);
+
+            const selectElement = screen.getByLabelText('Select Pokemon generation');
+            expect(selectElement).toHaveValue('2');
+
+            rerender(<GenerationSelect generation="2" setGeneration={mockSetGeneration} />);
+            expect(selectElement).toHaveValue('2');
+        });
+    });
 });
