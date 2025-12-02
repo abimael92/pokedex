@@ -21,8 +21,8 @@
 			"@utils/*": ["utils/*"],
 			"@services/*": ["services/*"]
 		},
-		"types": ["vitest/globals", "@testing-library/jest-dom", "jest"],
-		"ignoreDeprecations": "6.0"
+		"ignoreDeprecations": "6.0",
+		"typeRoots": ["./node_modules/@types", "./src/types"]
 	},
 	"include": ["src", "src/types", "setupTests.ts"],
 	"exclude": ["node_modules"]
