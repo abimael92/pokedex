@@ -166,6 +166,29 @@ describe('PokemonNavigation', () => {
             expect(mockOnFlip).not.toHaveBeenCalled();
         });
 
+        it('handles multiple clicks correctly', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const upButton = screen.getByLabelText('Next Pokemon');
+            const leftButton = screen.getByLabelText('Flip card left');
+
+            // Multiple clicks on different buttons
+            fireEvent.click(upButton);
+            fireEvent.click(upButton);
+            fireEvent.click(leftButton);
+            fireEvent.click(upButton);
+
+            expect(mockOnNext).toHaveBeenCalledTimes(3);
+            expect(mockOnFlip).toHaveBeenCalledTimes(1);
+            expect(mockOnPrevious).not.toHaveBeenCalled();
+        });
+
     });
 
 });
