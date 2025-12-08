@@ -76,4 +76,24 @@ describe('PokemonNavigation', () => {
         });
     });
 
+    describe('Interactions', () => {
+        it('calls onNext when up button is clicked', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const upButton = screen.getByLabelText('Next Pokemon');
+            fireEvent.click(upButton);
+
+            expect(mockOnNext).toHaveBeenCalledTimes(1);
+            expect(mockOnPrevious).not.toHaveBeenCalled();
+            expect(mockOnFlip).not.toHaveBeenCalled();
+        });
+
+    });
+
 });
