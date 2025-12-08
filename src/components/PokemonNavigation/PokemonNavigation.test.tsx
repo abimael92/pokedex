@@ -128,6 +128,23 @@ describe('PokemonNavigation', () => {
             expect(mockOnPrevious).not.toHaveBeenCalled();
         });
 
+        it('calls onFlip when right button is clicked', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const rightButton = screen.getByLabelText('Flip card right');
+            fireEvent.click(rightButton);
+
+            expect(mockOnFlip).toHaveBeenCalledTimes(1);
+            expect(mockOnNext).not.toHaveBeenCalled();
+            expect(mockOnPrevious).not.toHaveBeenCalled();
+        });
+
     });
 
 });
