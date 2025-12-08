@@ -94,6 +94,101 @@ describe('PokemonNavigation', () => {
             expect(mockOnFlip).not.toHaveBeenCalled();
         });
 
+        it('calls onPrevious when down button is clicked', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const downButton = screen.getByLabelText('Previous Pokemon');
+            fireEvent.click(downButton);
+
+            expect(mockOnPrevious).toHaveBeenCalledTimes(1);
+            expect(mockOnNext).not.toHaveBeenCalled();
+            expect(mockOnFlip).not.toHaveBeenCalled();
+        });
+
+        it('calls onFlip when left button is clicked', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const leftButton = screen.getByLabelText('Flip card left');
+            fireEvent.click(leftButton);
+
+            expect(mockOnFlip).toHaveBeenCalledTimes(1);
+            expect(mockOnNext).not.toHaveBeenCalled();
+            expect(mockOnPrevious).not.toHaveBeenCalled();
+        });
+
+        it('calls onFlip when right button is clicked', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const rightButton = screen.getByLabelText('Flip card right');
+            fireEvent.click(rightButton);
+
+            expect(mockOnFlip).toHaveBeenCalledTimes(1);
+            expect(mockOnNext).not.toHaveBeenCalled();
+            expect(mockOnPrevious).not.toHaveBeenCalled();
+        });
+
+        it('does not call any function when center button is clicked (it should be inert)', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const buttons = screen.getAllByRole('button', { hidden: true });
+            const centerButton = buttons.find(btn => btn.classList.contains('center'));
+
+            expect(centerButton).toBeInTheDocument();
+
+            fireEvent.click(centerButton!);
+
+            expect(mockOnNext).not.toHaveBeenCalled();
+            expect(mockOnPrevious).not.toHaveBeenCalled();
+            expect(mockOnFlip).not.toHaveBeenCalled();
+        });
+
+        it('handles multiple clicks correctly', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const upButton = screen.getByLabelText('Next Pokemon');
+            const leftButton = screen.getByLabelText('Flip card left');
+
+            // Multiple clicks on different buttons
+            fireEvent.click(upButton);
+            fireEvent.click(upButton);
+            fireEvent.click(leftButton);
+            fireEvent.click(upButton);
+
+            expect(mockOnNext).toHaveBeenCalledTimes(3);
+            expect(mockOnFlip).toHaveBeenCalledTimes(1);
+            expect(mockOnPrevious).not.toHaveBeenCalled();
+        });
+
     });
 
 });
