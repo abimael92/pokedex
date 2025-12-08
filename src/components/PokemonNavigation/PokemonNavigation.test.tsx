@@ -145,6 +145,27 @@ describe('PokemonNavigation', () => {
             expect(mockOnPrevious).not.toHaveBeenCalled();
         });
 
+        it('does not call any function when center button is clicked (it should be inert)', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const buttons = screen.getAllByRole('button', { hidden: true });
+            const centerButton = buttons.find(btn => btn.classList.contains('center'));
+
+            expect(centerButton).toBeInTheDocument();
+
+            fireEvent.click(centerButton!);
+
+            expect(mockOnNext).not.toHaveBeenCalled();
+            expect(mockOnPrevious).not.toHaveBeenCalled();
+            expect(mockOnFlip).not.toHaveBeenCalled();
+        });
+
     });
 
 });
