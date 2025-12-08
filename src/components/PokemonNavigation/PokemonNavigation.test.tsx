@@ -94,6 +94,23 @@ describe('PokemonNavigation', () => {
             expect(mockOnFlip).not.toHaveBeenCalled();
         });
 
+        it('calls onPrevious when down button is clicked', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const downButton = screen.getByLabelText('Previous Pokemon');
+            fireEvent.click(downButton);
+
+            expect(mockOnPrevious).toHaveBeenCalledTimes(1);
+            expect(mockOnNext).not.toHaveBeenCalled();
+            expect(mockOnFlip).not.toHaveBeenCalled();
+        });
+
     });
 
 });
