@@ -207,7 +207,23 @@ describe('PokemonNavigation', () => {
             expect(screen.getByLabelText('Flip card right')).toBeInTheDocument();
         });
 
+        it('center button has aria-hidden to hide it from screen readers', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const buttons = screen.getAllByRole('button', { hidden: true });
+            const centerButton = buttons.find(btn => btn.classList.contains('center'));
+
+            expect(centerButton).toBeInTheDocument();
+            expect(centerButton).toHaveAttribute('aria-hidden', 'true');
+        });
+
+
 
     });
-
 });
