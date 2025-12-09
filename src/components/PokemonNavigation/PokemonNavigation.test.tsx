@@ -223,7 +223,19 @@ describe('PokemonNavigation', () => {
             expect(centerButton).toHaveAttribute('aria-hidden', 'true');
         });
 
+        it('all buttons have proper button roles', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
 
+            // Include hidden elements
+            const buttons = screen.getAllByRole('button', { hidden: true });
+            expect(buttons).toHaveLength(5);
+        });
 
     });
 });
