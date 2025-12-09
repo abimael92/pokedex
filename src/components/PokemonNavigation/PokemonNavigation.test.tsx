@@ -191,4 +191,23 @@ describe('PokemonNavigation', () => {
 
     });
 
+    describe('Accessibility', () => {
+        it('has proper aria-labels for all interactive buttons', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            expect(screen.getByLabelText('Next Pokemon')).toBeInTheDocument();
+            expect(screen.getByLabelText('Previous Pokemon')).toBeInTheDocument();
+            expect(screen.getByLabelText('Flip card left')).toBeInTheDocument();
+            expect(screen.getByLabelText('Flip card right')).toBeInTheDocument();
+        });
+
+
+    });
+
 });
