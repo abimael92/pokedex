@@ -232,7 +232,6 @@ describe('PokemonNavigation', () => {
                 />
             );
 
-            // Include hidden elements
             const buttons = screen.getAllByRole('button', { hidden: true });
             expect(buttons).toHaveLength(5);
         });
