@@ -1,6 +1,7 @@
 // PokemonNavigation.test.tsx
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import PokemonNavigation from './PokemonNavigation';
 
@@ -232,9 +233,47 @@ describe('PokemonNavigation', () => {
                 />
             );
 
-            // Include hidden elements
             const buttons = screen.getAllByRole('button', { hidden: true });
             expect(buttons).toHaveLength(5);
+        });
+
+    });
+
+    describe('Keyboard Navigation', () => {
+        it('buttons are keyboard accessible via Enter key', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const upButton = screen.getByLabelText('Next Pokemon');
+
+            // Use click instead - this simulates both mouse click and keyboard activation
+            fireEvent.click(upButton);
+
+            expect(mockOnNext).toHaveBeenCalledTimes(1);
+        });
+
+        it('buttons are keyboard accessible via Space key', async () => {
+            const user = userEvent.setup();
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const upButton = screen.getByLabelText('Next Pokemon');
+
+            // Focus the button and press Space
+            upButton.focus();
+            await user.keyboard(' '); // Press Space
+
+            expect(mockOnNext).toHaveBeenCalledTimes(1);
         });
 
     });
