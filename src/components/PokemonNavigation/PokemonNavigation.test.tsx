@@ -275,5 +275,32 @@ describe('PokemonNavigation', () => {
             expect(screen.getByLabelText('Next Pokemon')).toBeInTheDocument();
             expect(screen.getByLabelText('Previous Pokemon')).toBeInTheDocument();
         });
+
+        it('contains d-pad div with correct structure', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const buttons = screen.getAllByRole('button', { hidden: true });
+
+            expect(buttons).toHaveLength(5);
+
+            buttons.forEach(button => {
+                expect(button).toHaveClass('d-pad-button');
+            });
+
+            expect(screen.getByLabelText('Next Pokemon')).toHaveClass('d-pad-button', 'up');
+            expect(screen.getByLabelText('Previous Pokemon')).toHaveClass('d-pad-button', 'down');
+            expect(screen.getByLabelText('Flip card left')).toHaveClass('d-pad-button', 'left');
+            expect(screen.getByLabelText('Flip card right')).toHaveClass('d-pad-button', 'right');
+
+            const centerButton = buttons.find(btn => btn.getAttribute('aria-hidden') === 'true');
+            expect(centerButton).toBeInTheDocument();
+            expect(centerButton).toHaveClass('d-pad-button', 'center');
+        });
     });
 });
