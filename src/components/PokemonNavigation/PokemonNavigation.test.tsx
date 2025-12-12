@@ -257,6 +257,23 @@ describe('PokemonNavigation', () => {
             expect(mockOnNext).toHaveBeenCalledTimes(0);
         });
 
+    });
 
+    describe('Component Structure', () => {
+        it('wraps buttons in controller-wrapper div', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const buttons = screen.getAllByRole('button', { hidden: true });
+            expect(buttons).toHaveLength(5); // Check there are 5 buttons as expected
+
+            expect(screen.getByLabelText('Next Pokemon')).toBeInTheDocument();
+            expect(screen.getByLabelText('Previous Pokemon')).toBeInTheDocument();
+        });
     });
 });
