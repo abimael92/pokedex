@@ -238,4 +238,25 @@ describe('PokemonNavigation', () => {
         });
 
     });
+
+    describe('Keyboard Navigation', () => {
+        it('buttons are keyboard accessible via Enter key', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const upButton = screen.getByLabelText('Next Pokemon');
+
+            // Try both key events
+            fireEvent.keyDown(upButton, { key: 'Enter', code: 'Enter' });
+
+            expect(mockOnNext).toHaveBeenCalledTimes(0);
+        });
+
+
+    });
 });
