@@ -302,5 +302,34 @@ describe('PokemonNavigation', () => {
             expect(centerButton).toBeInTheDocument();
             expect(centerButton).toHaveClass('d-pad-button', 'center');
         });
+
+        it('maintains proper button order in DOM', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            const buttons = screen.getAllByRole('button', { hidden: true });
+
+            expect(buttons).toHaveLength(5);
+
+            expect(buttons[0]).toHaveClass('up');
+            expect(buttons[0]).toHaveAccessibleName('Next Pokemon');
+
+            expect(buttons[1]).toHaveClass('left');
+            expect(buttons[1]).toHaveAccessibleName('Flip card left');
+
+            expect(buttons[2]).toHaveClass('center');
+            expect(buttons[2]).toHaveAttribute('aria-hidden', 'true');
+
+            expect(buttons[3]).toHaveClass('right');
+            expect(buttons[3]).toHaveAccessibleName('Flip card right');
+
+            expect(buttons[4]).toHaveClass('down');
+            expect(buttons[4]).toHaveAccessibleName('Previous Pokemon');
+        });
     });
 });
