@@ -318,4 +318,21 @@ describe('PokemonNavigation', () => {
             expect(dPad?.children).toHaveLength(5);
         });
     });
+    
+    it('maintains proper button order in DOM', () => {
+        render(
+            <PokemonNavigation
+                onNext={mockOnNext}
+                onPrevious={mockOnPrevious}
+                onFlip={mockOnFlip}
+            />
+        );
+
+        const buttons = screen.getAllByRole('button');
+
+        expect(buttons[0]).toHaveAttribute('aria-label', 'Next Pokemon');
+        expect(buttons[1]).toHaveAttribute('aria-label', 'Flip card left');
+        expect(buttons[2]).toHaveAttribute('aria-label', 'Flip card right');
+        expect(buttons[3]).toHaveAttribute('aria-label', 'Previous Pokemon');
+    });
 });
