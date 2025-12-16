@@ -300,5 +300,22 @@ describe('PokemonNavigation', () => {
             expect(flipLeftButton).toBeInTheDocument();
             expect(flipRightButton).toBeInTheDocument();
         });
+        
+        it('contains d-pad div with correct structure', () => {
+            const { container } = render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+            const dPad = container.querySelector('.d-pad');
+            expect(dPad).toBeInTheDocument();
+
+            // eslint-disable-next-line testing-library/no-node-access
+            expect(dPad?.children).toHaveLength(5);
+        });
     });
 });
