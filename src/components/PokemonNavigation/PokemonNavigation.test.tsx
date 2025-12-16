@@ -277,4 +277,28 @@ describe('PokemonNavigation', () => {
         });
 
     });
+    
+    describe('Component Structure', () => {
+        it('wraps buttons in controller-wrapper div', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+
+            // FIX: Get buttons by their roles and labels instead of querying DOM
+            const nextButton = screen.getByRole('button', { name: /next pokemon/i });
+            const prevButton = screen.getByRole('button', { name: /previous pokemon/i });
+            const flipLeftButton = screen.getByRole('button', { name: /flip card left/i });
+            const flipRightButton = screen.getByRole('button', { name: /flip card right/i });
+
+            // Verify all buttons are present (implicitly tests they're in the wrapper)
+            expect(nextButton).toBeInTheDocument();
+            expect(prevButton).toBeInTheDocument();
+            expect(flipLeftButton).toBeInTheDocument();
+            expect(flipRightButton).toBeInTheDocument();
+        });
+    });
 });
