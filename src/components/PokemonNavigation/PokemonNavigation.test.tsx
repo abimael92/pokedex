@@ -345,11 +345,22 @@ describe('PokemonNavigation', () => {
                     onFlip={mockOnFlip}
                 />
             );
-            // Just check that something renders
+
             expect(screen.getByLabelText('Next Pokemon')).toBeInTheDocument();
         });
 
-       
+        it('handles empty function callbacks gracefully', () => {
+            const emptyFn = () => { };
+            expect(() => {
+                render(
+                    <PokemonNavigation
+                        onNext={emptyFn}
+                        onPrevious={emptyFn}
+                        onFlip={emptyFn}
+                    />
+                );
+            }).not.toThrow();
+        });
       
     });
 });
