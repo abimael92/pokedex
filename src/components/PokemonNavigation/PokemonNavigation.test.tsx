@@ -335,4 +335,21 @@ describe('PokemonNavigation', () => {
         expect(buttons[2]).toHaveAttribute('aria-label', 'Flip card right');
         expect(buttons[3]).toHaveAttribute('aria-label', 'Previous Pokemon');
     });
+    
+    describe('Edge Cases', () => {
+        it('renders without crashing when all callbacks are provided', () => {
+            render(
+                <PokemonNavigation
+                    onNext={mockOnNext}
+                    onPrevious={mockOnPrevious}
+                    onFlip={mockOnFlip}
+                />
+            );
+            // Just check that something renders
+            expect(screen.getByLabelText('Next Pokemon')).toBeInTheDocument();
+        });
+
+       
+      
+    });
 });
