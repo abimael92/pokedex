@@ -361,6 +361,20 @@ describe('PokemonNavigation', () => {
                 );
             }).not.toThrow();
         });
-      
+        it('buttons remain clickable when callbacks are empty functions', () => {
+            const emptyFn = () => { };
+            render(
+                <PokemonNavigation
+                    onNext={emptyFn}
+                    onPrevious={emptyFn}
+                    onFlip={emptyFn}
+                />
+            );
+
+            const upButton = screen.getByLabelText('Next Pokemon');
+            expect(() => {
+                fireEvent.click(upButton);
+            }).not.toThrow();
+        });
     });
 });
