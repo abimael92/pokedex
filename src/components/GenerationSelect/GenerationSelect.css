@@ -1,10 +1,12 @@
-/* components/GenerationSelect/GenerationSelect.css */
+/* GenerationSelect.css */
 .generation-select-wrapper {
-    width: 50%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     padding: 6px;
+    width: auto; /* Change from 50% to auto */
+    flex: 1; /* Allow it to grow/shrink */
+    min-width: 0; /* Prevent overflow */
 }
 
 .generation-select {
@@ -18,9 +20,36 @@
     outline: none;
     transition: all 0.3s ease;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+    max-width: 150px; /* Limit maximum width */
+    width: 100%; /* Take full width of wrapper */
+    font-size: clamp(12px, 3vw, 16px); /* Responsive font size */
 }
 
 .generation-select:hover {
     background: #f44336;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .generation-select-wrapper {
+        padding: 4px;
+        justify-content: center; /* Center on mobile */
+        width: 100%; /* Take full width on mobile */
+        order: 2; /* Reorder if needed in flex container */
+    }
+    
+    .generation-select {
+        padding: 8px 12px; /* Slightly larger for touch */
+        font-size: 14px;
+        max-width: 120px; /* Smaller max-width on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .generation-select {
+        padding: 6px 10px;
+        font-size: 13px;
+        max-width: 100px;
+    }
 }

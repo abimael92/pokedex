@@ -80,7 +80,9 @@ const Pokedex: React.FC = () => {
         {/* Top row */}
         <div className="pokedex-left-top-row">
           <StatusLights loading={loading} />
-          {isActive && <GenerationSelect generation={generation} setGeneration={setGeneration} />}
+          {(isActive || window.innerWidth <= 768) && (
+            <GenerationSelect generation={generation} setGeneration={setGeneration} />
+          )}
         </div>
 
         {/* Main screen */}

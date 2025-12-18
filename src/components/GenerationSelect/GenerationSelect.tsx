@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Generation } from '../../types/pokemon';
 import './GenerationSelect.css';
 
@@ -7,12 +7,19 @@ interface GenerationSelectProps {
     setGeneration: (generation: Generation) => void;
 }
 
+// Optional: Update GenerationSelect component for mobile
 const GenerationSelect: React.FC<GenerationSelectProps> = ({ generation, setGeneration }) => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     return (
-        <div
-            className='generation-select-wrapper'
-            data-testid="generation-select-wrapper" // Add this line
-        >
+        <div className='generation-select-wrapper' data-testid="generation-select-wrapper">
             <select
                 id='generation'
                 value={generation}
@@ -25,7 +32,7 @@ const GenerationSelect: React.FC<GenerationSelectProps> = ({ generation, setGene
             >
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((gen) => (
                     <option key={gen} value={gen.toString()}>
-                        Gen {gen}
+                        {isMobile ? `G${gen}` : `Gen ${gen}`}
                     </option>
                 ))}
             </select>
