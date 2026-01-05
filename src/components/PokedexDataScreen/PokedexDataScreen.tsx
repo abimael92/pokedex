@@ -45,6 +45,17 @@ const PokedexDataScreen: React.FC<PokedexScreenProps> = ({ pokemon }) => {
     rows[rows.length - 1].push(
       <div key={index} className="evolution-step">
         <div className="evolution-stage">
+          {/* Add sprite image */}
+          {step.sprite && (
+            <img
+              src={step.sprite}
+              alt={step.species}
+              className="evolution-sprite"
+              onError={(e) => {
+                e.currentTarget.src = '/images/default-sprite.png';
+              }}
+            />
+          )}
           <h4 className="evolution-species">{step.species}</h4>
           {step.minLevel && (
             <span className="evolution-detail">(Level: {step.minLevel})</span>
