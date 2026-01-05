@@ -24,6 +24,7 @@ interface EvolutionChainStep {
 
 interface EvolutionStep {
   species: string;
+  sprite?: string;
   minLevel?: number;
   trigger?: string;
   item?: string;
@@ -57,20 +58,39 @@ export const usePokemonEvolution = (speciesUrl: string | undefined) => {
 
         // console.log("chainData", chainData);
 
-        const extractChain = (chain: EvolutionChainStep): EvolutionStep[] => {
-          const details = chain.evolution_details?.[0];
-          const currentStep: EvolutionStep = {
-            species: chain.species.name,
-            minLevel: details?.min_level,
-            trigger: details?.trigger?.name,
-            item: details?.item?.name,
-            heldItem: details?.held_item?.name
-          };
-          const nextSteps = chain.evolves_to.flatMap(extractChain);
-          return [currentStep, ...nextSteps];
-        };
+        const extractChain = async (chain: EvolutionChainStep): Promise<EvolutionStep[]> => {
+					const details = chain.evolution_details?.[0];
 
-        const evolutionChain = extractChain(chainData.chain);
+					// Fetch sprite for the current species
+					const fetchSprite = async (speciesName: string) => {
+						try {
+							const response = await fetch(
+								`https://pokeapi.co/api/v2/pokemon/${speciesName}`
+							);
+							const data = await response.json();
+							return (
+								data.sprites?.front_default || '/images/default-sprite.png'
+							);
+						} catch (err) {
+							return '/images/default-sprite.png';
+						}
+					};
+
+					const currentStep: EvolutionStep = {
+						species: chain.species.name,
+						sprite: await fetchSprite(chain.species.name),
+						minLevel: details?.min_level,
+						trigger: details?.trigger?.name,
+						item: details?.item?.name,
+						heldItem: details?.held_item?.name,
+					};
+				const nextSteps = await Promise.all(
+					chain.evolves_to.map(extractChain)
+				);
+				return [currentStep, ...nextSteps.flat()];
+				};
+
+        const evolutionChain = await extractChain(chainData.chain);
 
         setEvolutionInfo({
           evolutionChain,
